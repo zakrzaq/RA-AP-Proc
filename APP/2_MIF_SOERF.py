@@ -1,4 +1,6 @@
+import os
 import pandas as pd
+from openpyxl import load_workbook
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -23,9 +25,7 @@ mif_soerf['sql'] = 'insert into AP_MM_SERVICE values(\'' + mif_soerf['target sor
 
 # OUTPUT TO SQL FILE
 output = mif_soerf['sql']
-
 output_str = ""
-
 for ind in output.index:
     output_str = output_str + output[ind] + "\n"
 
@@ -38,3 +38,42 @@ with open(r"C:\Users\jzakrzewski\Documents\dev\RA-SCRIPTS\SQL\AP PROC\AP_MIF_SEO
     
 print('Materials added to SQL query:')
 print(len(mif_soerf))
+
+# LOAD LOG
+log_file = 'W:\\AP MM Service Request Log.xlsm'
+log = load_workbook(filename=log_file, keep_vba=True)
+ws_active=log['Active Materials']
+
+#MATNRs PRICE NEEDED
+need_price = (selected_active_view['target sorg price'].isna()) & (~selected_active_view['SOERF Submitted'].isna()) & ((selected_active_view['status'].str.contains('cancel|complete|needs price;', case=False) == False) | (selected_active_view['status'].isnull()))
+
+selected_active_view.loc[need_price, 'status'] = selected_active_view['status'].astype(str) + "needs price;"
+
+price_requested = selected_active_view.loc[
+  (selected_active_view['status'].str.contains('needs price;') == True)
+]
+print('\nMaterials needing PRICE in log:')
+print(len(price_requested))
+
+# MATNRs PCE NEEDED
+need_pce = (((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) & ((selected_active_view['status'].str.contains('pending PCE review;') == False)) & (selected_active_view['Service Requested\n(from request form)'] == 'Product Certification Review'))  | ((selected_active_view['MTART/GenItemCat'].isin(['ZFG', 'ZTG'])) & (~selected_active_view['Regulatory Cert\n(Z62 Characteristic)'].isna()) & (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) & ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) & ((selected_active_view['status'].str.contains('pending PCE review;') == False)))
+
+selected_active_view.loc[need_pce, 'status'] = selected_active_view['status'].astype(str) + 'pending PCE review;'
+
+pce_requested = selected_active_view.loc[
+  (selected_active_view['status'].str.contains('pending PCE review;') == True)
+]
+print('\nMaterials needing PCE in log:')
+print(len(pce_requested))
+
+# save statuses
+status_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\ap_status.txt"
+status_output = selected_active_view['status']
+status_output_str = ''
+
+if os.path.exists(status_file): 
+  os.remove(status_file)
+for ind in status_output.index:
+    status_output_str = status_output_str + str(status_output[ind]) + "\n"
+with open(status_file, 'w') as file:
+    file.writelines(status_output_str)
