@@ -1,5 +1,6 @@
 **/*.xls
 **/*.xlsx
+**/*.xlsm
 
 .vscode/
 .gitignore
