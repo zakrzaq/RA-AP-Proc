@@ -5,3 +5,6 @@
 .vscode/
 .gitignore
 .stignore
+
+**/__pycache__/*
+__pycache__/*
