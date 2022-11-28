@@ -13,4 +13,15 @@ e.g. `EDM_DRIVE='Z:\\Request Logs\\Material Master Extension\\'`
 
 Python 3.10
 Pandas `pip install pandas`
-OpenP
+OpenPyXl
+
+## TODO
+
+- [] fix data issues on 0_SAP_DATA. date issues
+- [] MIF_SOERF: dates needing to be added to pce and price requests
+- [] front end menu
+- [] reuquest validate service requested
+
+## MVP:
+
+-

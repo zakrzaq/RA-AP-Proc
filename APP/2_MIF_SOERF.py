@@ -56,8 +56,8 @@ print('Press Y to generate AM material status updates')
 while True:
     if keyboard.is_pressed("y"):
         # LOAD LOG
-        log_file = os.environ['AP_LOG']
-        # log_file = r'C:\Users\JZakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\New AP Process\RESOURCES\AP_LOG_TEST.xlsm'
+        # log_file = os.environ['AP_LOG']
+        log_file = r'C:\Users\JZakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\New AP Process\RESOURCES\AP_LOG_TEST.xlsm'
         log = load_workbook(filename=log_file, keep_vba=True)
         ws_active = log['Active Materials']
 
@@ -75,8 +75,17 @@ while True:
         print('\nMaterials NEEDING PRICE in AP LOG: {}'.format(len(price_requested)))
 
         # MATNRs PCE NEEDED
-        need_pce = (((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) & ((selected_active_view['status'].str.contains('pending PCE review;') == False)) & (selected_active_view['Service Requested\n(from request form)'] == 'Product Certification Review')) | ((selected_active_view['MTART/GenItemCat'].isin(
-            ['ZFG', 'ZTG'])) & (~selected_active_view['Regulatory Cert\n(Z62 Characteristic)'].isna()) & (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) & ((selected_active_view['status'].str.contains('cancel|complete|on hold|pending PCE review;', case=False) == False)) & ((selected_active_view['status'].str.contains('pending PCE review;') == False)))
+        need_pce = (
+            ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) &
+            ((selected_active_view['status'].str.contains('pending PCE review;') == False)) &
+            (selected_active_view['Service Requested\n(from request form)']
+             == 'Product Certification Review')
+        ) | (
+            (selected_active_view['MTART/GenItemCat'].isin(['ZFG', 'ZTG'])) &
+            (~selected_active_view['Regulatory Cert\n(Z62 Characteristic)'].isna()) &
+            (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) &
+            ((selected_active_view['status'].str.contains('cancel|complete|on hold|pending PCE review;', case=False) == False)) &
+            ((selected_active_view['status'].str.contains('pending PCE review;') == False)))
 
         selected_active_view.loc[need_pce, 'status'] = selected_active_view['status'].astype(
             str) + 'pending PCE review;'
