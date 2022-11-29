@@ -1,0 +1,1 @@
+truncate table AP_MM_SERVICE

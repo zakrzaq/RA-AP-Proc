@@ -97,22 +97,22 @@ if not requests.empty:
         print('could not populate data ')
 
        # EXTEND FORMULAS By Col / Rows
-    try:
-        column_list = ['O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'X', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH',
-                       'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD', 'BE']
-        ws_active_lastrow -= 1
-        for x in column_list:
-            i = ws_active_firstrow - 1
-            # print(ws_active_firstrow, ws_active_lastrow, x, i)
-            while i < ws_active_lastrow:
-                i += 1
-                formula = ws_active['{}2'.format(x)].value
-                # print(formula)
-                ws_active['{}{}'.format(x, i)] = Translator(
-                    formula, origin="{}2".format(x)).translate_formula("{}{}".format(x, i))
-                # print("{}{}".format(x, i), ws_active['{}{}'.format(x, i)].value)
-    except:
-        print('could not extend formulas')
+    # try:
+    #     column_list = ['O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'X', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH',
+    #                    'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD', 'BE']
+    #     ws_active_lastrow -= 1
+    #     for x in column_list:
+    #         i = ws_active_firstrow - 1
+    #         # print(ws_active_firstrow, ws_active_lastrow, x, i)
+    #         while i < ws_active_lastrow:
+    #             i += 1
+    #             formula = ws_active['{}2'.format(x)].value
+    #             # print(formula)
+    #             ws_active['{}{}'.format(x, i)] = Translator(
+    #                 formula, origin="{}2".format(x)).translate_formula("{}{}".format(x, i))
+    #             # print("{}{}".format(x, i), ws_active['{}{}'.format(x, i)].value)
+    # except:
+    #     print('could not extend formulas')
 
         # CREATE SORT
     try:
