@@ -1,8 +1,15 @@
 import os
 import platform
 
-import utility.check_mif_soerf as mif_soerf
-import utility.check_daily_report as daily_report
+import scripts.requests as requests
+import scripts.mif_soerf as mif_soerf
+import scripts.am_emails as am_emails
+import scripts.pm_status as pm_status
+import scripts.pm_emails as pm_emails
+
+
+import utility.check_mif_soerf as mif_soerf_check
+import utility.check_daily_report as daily_report_check
 import utility.sap_data as sap_data
 
 
@@ -33,7 +40,7 @@ def get_menu_choice():
         print("11).   UTILITY: Check for MIF/SOERF submitted")
         print("12).   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print(85 * "-")
-        print("X). Close AP MM EXTENSION PROCESS")
+        print("X).    Close AP MM EXTENSION PROCESS")
         print(85 * "=")
 
     loop = True
@@ -44,45 +51,30 @@ def get_menu_choice():
         choice = input("Choose procedure to run: ")
 
         if choice == '1':
+            requests.requests()
             clear()
         elif choice == '2':
-            choice = ''
-            while len(choice) == 0:
-                choice = input("What is your name: ")
-            int_choice = 2
+            mif_soerf.mif_soerf()
             clear()
         elif choice == '3':
-            choice = ''
-            while len(choice) == 0:
-                choice = input("What is your age: ")
-            int_choice = 3
+            am_emails.am_emails()
             clear()
-            # loop = False
         elif choice == '4':
-            choice = ''
-            while len(choice) == 0:
-                choice = input("What is your sex: ")
-            int_choice = 4
+            pm_status.pm_status()
             clear()
-            # loop = False
         elif choice == '5':
-            int_choice = -1
-            print("Exiting..")
-            loop = False  # This will make the while loop to end
+            pm_emails.pm_emails()
+            clear()
         elif choice == '9':
             sap_data.sap_data()
             clear()
         elif choice == '11':
-            mif_soerf.check_mif_soerf()
+            mif_soerf_check.check_mif_soerf()
             clear()
         elif choice == '12':
-            daily_report.check_daily_report()
+            daily_report_check.check_daily_report()
             clear()
-        elif choice == 'x':
-            int_choice = -1
-            print("Exiting...")
-            loop = False
-        elif choice == 'X':
+        elif (choice == 'x' or choice == 'X'):
             int_choice = -1
             print("Exiting...")
             loop = False
