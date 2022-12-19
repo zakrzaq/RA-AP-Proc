@@ -27,21 +27,21 @@ clear()
 def get_menu_choice():
     def print_menu():       # Your menu design here
         print(30 * "-", "AP MM EXTENSION PROCESS", 30 * "-")
-        print("1).    Get current requests")
-        print("2).    Generate MIF / SOERF requests")
-        print("3).    Generate AM Price & PCE requests")
-        print("4).    Update Material Statuses post MM Extension")
-        print("5).    Generate PM CCC, Localization & GTS Requests")
-        print("6).    ")
-        print("7).    ")
-        print("8).    ")
+        print("1)    Get current requests")
+        print("2)    Generate MIF / SOERF requests")
+        print("3)    Generate AM Price & PCE requests")
+        print("4)    Update Material Statuses post MM Extension")
+        print("5)    Generate PM CCC, Localization & GTS Requests")
+        print("6)    ")
+        print("7)    ")
+        print("8)    ")
         print(85 * "-")
-        print("9).    UTILITY: Bring SAP Data")
-        print("10).   UTILITY: Clean DESKTOP folder")
-        print("11).   UTILITY: Check for MIF/SOERF submitted")
-        print("12).   UTILITY: Check for daily report uploaded to Sharepoint Repository")
+        print("9)    UTILITY: Bring SAP Data")
+        print("10)   UTILITY: Clean DESKTOP folder")
+        print("11)   UTILITY: Check for MIF/SOERF submitted")
+        print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print(85 * "-")
-        print("X).    Close AP MM EXTENSION PROCESS")
+        print("X)    Close AP MM EXTENSION PROCESS")
         print(85 * "=")
 
     loop = True
@@ -50,6 +50,7 @@ def get_menu_choice():
     while loop:          # While loop which will keep going until loop = False
         print_menu()    # Displays menu
         choice = input("Choose procedure to run: ")
+        print("\n")
 
         if choice == '1':
             requests.requests()

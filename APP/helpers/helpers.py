@@ -1,7 +1,7 @@
-def await_char(param, func="", msg=""):
+def await_char(char, msg="", func="", param=""):
     import keyboard
     if msg == "":
-        msg_out = 'Press {} to continue'.format(param.upper())
+        msg_out = 'Press {} to continue'.format(char.upper())
     else:
         msg_out = msg
     print(msg_out)
@@ -10,7 +10,10 @@ def await_char(param, func="", msg=""):
             break
         if keyboard.is_pressed("C"):
             break
-        if keyboard.is_pressed(param):
-            if func:
-                func()
+        if keyboard.is_pressed(char):
+            if func != "":
+                if param != "":
+                    func(param)
+                else:
+                    func()
             break
