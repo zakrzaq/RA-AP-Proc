@@ -1,0 +1,16 @@
+# systems and apps
+.vscode/
+.stignore
+.env
+
+# python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Project specific
+**/*.xls
+**/*.xlsx
+**/*.xlsm
+OUTPUTS/
+RESOURCES/

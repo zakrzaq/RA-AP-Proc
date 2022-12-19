@@ -5,9 +5,10 @@ dotenv_file = dotenv.find_dotenv()
 dotenv.load_dotenv(dotenv_file)
 
 
-log_file = os.environ['AP_LOG']
-
-log = load_workbook(filename=log_file, keep_vba=True)
+def load_log():
+    log_file = os.environ['AP_LOG']
+    log = load_workbook(filename=log_file, keep_vba=True)
+    return log
 
 
 def save_log(log):
