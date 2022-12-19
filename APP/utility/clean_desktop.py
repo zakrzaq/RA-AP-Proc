@@ -24,38 +24,38 @@ def clean_desktop():
         if os.path.isfile(f):
             # pce requests
             if ' ASSESSMENT REQUEST.xlsx' in f:
-                print(f)
+                print("\t" + filename)
                 shutil.move(f, dir_pce_requests)
             # pce feedback
             if ' ASSESSMENT REQUEST' in f:
-                print(f)
+                print("\t" + filename)
                 shutil.move(f, dir_pce_feedback)
             # pricing requests
             if 'AP pricing needed with active demand' in f:
-                print(f)
+                print("\t" + filename)
                 shutil.move(f, dir_pricing)
             # inhts requests
             if 'INHTS request ' in f:
-                print(f)
+                print("\t" + filename)
                 shutil.move(f, dir_inhts)
             # localization requests
             if 'India localization required' in f:
-                print(f)
+                print("\t" + filename)
                 shutil.move(f, dir_local)
             # AP requests - A
             if 'AP_Material_Master_Service_Request_Form' in f:
-                print(f)
+                print("\t" + filename)
                 os.remove(f)
             # AP requests - B
             if '_AP form ' in f:
-                print(f)
+                print("\t" + filename)
                 os.remove(f)
             # AP requests - C
             if 'AP form ' in f:
-                print(f)
+                print("\t" + filename)
                 os.remove(f)
             if 'ap form ' in f:
-                print(f)
+                print("\t" + filename)
                 os.remove(f)
 
     await_char("y")

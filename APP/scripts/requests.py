@@ -17,7 +17,7 @@ def requests():
     ready_to_save = False
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-    print("\n\tReading log file")
+    print("Reading log file")
     try:
         log = load_log()
         ws_active = log['Active Materials']
