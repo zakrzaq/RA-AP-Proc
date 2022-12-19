@@ -9,6 +9,7 @@ import scripts.pm_emails as pm_emails
 
 
 import utility.check_mif_soerf as mif_soerf_check
+import utility.clean_desktop as clean_desktop
 import utility.check_daily_report as daily_report_check
 import utility.sap_data as sap_data
 
@@ -36,7 +37,7 @@ def get_menu_choice():
         print("8).    ")
         print(85 * "-")
         print("9).    UTILITY: Bring SAP Data")
-        print("10).   UTILITY: ")
+        print("10).   UTILITY: Clean DESKTOP folder")
         print("11).   UTILITY: Check for MIF/SOERF submitted")
         print("12).   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print(85 * "-")
@@ -67,6 +68,9 @@ def get_menu_choice():
             clear()
         elif choice == '9':
             sap_data.sap_data()
+            clear()
+        elif choice == '10':
+            clean_desktop.clean_desktop()
             clear()
         elif choice == '11':
             mif_soerf_check.check_mif_soerf()

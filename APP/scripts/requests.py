@@ -4,7 +4,10 @@ def requests():
     import pandas as pd
     import warnings
     import os
-    import keyboard
+
+    from helpers.helpers import await_char
+    from helpers.log import save_log
+
     import dotenv
     dotenv_file = dotenv.find_dotenv()
     dotenv.load_dotenv(dotenv_file)
@@ -18,6 +21,7 @@ def requests():
 
     # ACTUAL
     # log_file = 'W:\\AP MM Service Request Log.xlsm'
+    print("Reading log file")
     log_file = os.environ['AP_LOG']
 
     # TESTING
@@ -45,6 +49,7 @@ def requests():
     # print(directory)
     requests = pd.DataFrame()
 
+    print("Reading request files")
     for filename in os.listdir(directory):
         if filename.endswith(".xlsm"):
             if 'AP_Material_Master_Service_Request_Form' in filename:
@@ -56,6 +61,7 @@ def requests():
                 requests = pd.concat([requests, df])
 
     # cleanup data
+    print("Cleaning the data")
     if not requests.empty:
         requests['Unnamed: 3'] = requests['Unnamed: 3'].str.strip()
         requests['Unnamed: 2'] = requests['Unnamed: 2'].str.replace(
@@ -68,6 +74,7 @@ def requests():
         print(requests.head(3))
 
         # POPULATE REQUEST TO LOG
+        print("Transferring to LOG")
         try:
             # last populated row
             for cell in ws_active['B']:
@@ -96,6 +103,7 @@ def requests():
             print('could not populate data ')
 
         # EXTEND FORMULAS By Col / Rows
+        print("Data formatting")
         try:
             column_list = ['O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'X', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH',
                            'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD', 'BE']
@@ -138,13 +146,9 @@ def requests():
                               'OUTPUTS', 'test_requests.xlsm'))
         print('mock saved')
         # ACTUAL
-        print('Press y tp save to actual AP LOG:')
-        while True:
-            if keyboard.is_pressed("y"):  # returns True if "y" is pressed
-                print('saving...')
-                log.save(os.environ['AP_LOG'])
-                print('LOG saved')
-                break  # break the while loop is "y" is pressed
+
+        await_char("y", save_log(log),
+                   "Press Y to save to live LOG file or C to cancel.")
 
     # MAKE LIST OF MATERIALS IN AP LOG
 
