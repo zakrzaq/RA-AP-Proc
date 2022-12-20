@@ -18,6 +18,6 @@ def save_log(log):
 
 def test_save(log, name='TEST_output'):
     print('saving to OUTPUT folder...')
-    log.save(os.path.join(os.environ['APP_DIR'],
-                          'OUTPUTS', '{}.xlsm'.format(name)))
+    log.save(os.path.join(os.environ['DIR_OUT'],
+                          '{}.xlsm'.format(name)))
     print('test file saved')

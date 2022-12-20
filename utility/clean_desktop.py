@@ -1,27 +1,24 @@
 def clean_desktop():
     import os
-    import platform
     import shutil
+
     from helpers.helpers import await_char
 
-    if platform.system() == 'Linux':
-        dir_temp = '/mnt/c/users/jzakrzewski/OneDrive - Rockwell Automation, Inc/Desktop'
-        report_directory = '/mnt/z/Request Logs/APMM'
-    else:
-        dir_temp = 'C:\\Users\\jzakrzewski\\OneDrive - Rockwell Automation, Inc\\Desktop'
-        report_directory = 'Z:\\Request Logs\\APMM'
+    report_directory = os.environ['EDM_APMM']
+    output_directory = os.environ['DIR_OUT']
 
     dir_pce_feedback = os.path.join(report_directory, 'PCE FEEDBACK')
     dir_pce_requests = os.path.join(report_directory, 'PCE REQUESTS')
     dir_pricing = os.path.join(report_directory, 'PRICING REQUESTS')
     dir_inhts = os.path.join(report_directory, 'CGT requests')
     dir_local = os.path.join(report_directory, 'india localization')
-    dir_ap_req_archive = os.path.join(dir_temp, 'AP Process', 'AP Requests')
+    dir_ap_req_archive = os.path.join(
+        output_directory, 'AP Process', 'AP Requests')
 
     # archive desktop folder to shared edm drive
     try:
-        for filename in os.listdir(dir_temp):
-            f = os.path.join(dir_temp, filename)
+        for filename in os.listdir(output_directory):
+            f = os.path.join(output_directory, filename)
             if os.path.isfile(f):
                 # pce requests
                 if ' ASSESSMENT REQUEST.xlsx' in f:

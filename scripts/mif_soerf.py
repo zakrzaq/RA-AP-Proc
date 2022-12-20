@@ -40,11 +40,10 @@ def mif_soerf():
         output_str = output_str + output[ind] + "\n"
 
     # print(output_str)
-    # TODO: MOVE THIS TO .ENV
-    with open(r"C:\Users\JZakrzewski\dev\RA-SCRIPTS\SQL\AP PROC\COMBINED MIF SOERF AP 11-08-2021 JZ.sql") as file:
+    with open(os.path.join(os.environ['DIR_APP'], 'sql', 'full_mif_soerf.sql')) as file:
         lines = file.readlines()
         lines[5] = output_str
-    with open(os.path.join(os.environ['HOME_DIR'], 'AP_MIF_SOERF.sql'), 'w') as file:
+    with open(os.path.join(os.environ['DESKTOP_DIR'], 'AP_MIF_SOERF.sql'), 'w') as file:
         file.writelines(lines)
 
     print('Materials added to SQL query:')
@@ -55,8 +54,7 @@ def mif_soerf():
     while True:
         if keyboard.is_pressed("y"):
             # LOAD LOG
-            # log_file = os.environ['AP_LOG']
-            log_file = r'C:\Users\JZakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\New AP Process\RESOURCES\AP_LOG_TEST.xlsm'
+            log_file = os.environ['AP_LOG']
             log = load_workbook(filename=log_file, keep_vba=True)
             ws_active = log['Active Materials']
 
@@ -96,8 +94,9 @@ def mif_soerf():
             ]
             print('\nMaterials needing PCE in log: {}'.format(len(pce_requested)))
 
-            # save statuses
-            status_file = os.path.join(os.environ['HOME_DIR'], 'AP status.txt')
+            # STATUS TO TXT
+            status_file = os.path.join(
+                os.environ['DIR_DESKTOP'], 'AP status.txt')
             status_output = selected_active_view['status']
             status_output_str = ''
 
@@ -112,13 +111,17 @@ def mif_soerf():
             with open(status_file, 'w') as file:
                 file.writelines(status_output_str)
 
+            # TEST SAVE LOG
+            populate_sheet_series(status_output, ws_active, 50, 2)
+            log.save(os.path.join(
+                os.environ['DIR_OUT'], 'TEST_am_status.xlsm'))
+
+            # ACTUAL SAVE LOG
             print('Press Y to save status updates to AP LOG')
             while True:
                 if keyboard.is_pressed("y"):
                     # INTERATE OVER STATUS LIENS AND UPDATE IN AP LOG
-                    populate_sheet_series(status_output, ws_active, 50, 2)
-                    log.save(os.path.join(
-                        os.environ['TMP_OUT_DIR'], 'test_am_status.xlsm'))
+
                     break
 
             break

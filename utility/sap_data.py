@@ -51,14 +51,14 @@ def sap_data():
     # DEFINE DATA FILES
     mara = marc = mvke = ausp = mlan = price = gts = text = pd.DataFrame()
 
-    fl_mara = os.path.join(os.environ['APP_DIR'], 'DATA', 'mara.XLSX')
-    fl_marc = os.path.join(os.environ['APP_DIR'], 'DATA', 'marc.XLSX')
-    fl_mvke = os.path.join(os.environ['APP_DIR'], 'DATA', 'mvke.XLSX')
-    fl_ausp = os.path.join(os.environ['APP_DIR'], 'DATA', 'ausp.XLSX')
-    fl_mlan = os.path.join(os.environ['APP_DIR'], 'DATA', 'mlan.XLSX')
-    fl_price = os.path.join(os.environ['APP_DIR'], 'DATA', 'price.XLSX')
-    fl_gts = os.path.join(os.environ['APP_DIR'], 'DATA', 'gts.XLSX')
-    fl_text = os.path.join(os.environ['APP_DIR'], 'DATA', 'sales_text.XLSX')
+    fl_mara = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'mara.XLSX')
+    fl_marc = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'marc.XLSX')
+    fl_mvke = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'mvke.XLSX')
+    fl_ausp = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'ausp.XLSX')
+    fl_mlan = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'mlan.XLSX')
+    fl_price = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'price.XLSX')
+    fl_gts = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'gts.XLSX')
+    fl_text = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'sales_text.XLSX')
 
     # load sap data to df
     print("Loading new SAP data")
@@ -104,7 +104,7 @@ def sap_data():
 
         # save test
         print("Save results")
-        log.save(os.path.join(os.environ['TMP_OUT_DIR'], 'test_sap_data.xlsm'))
+        log.save(os.path.join(os.environ['DIR_OUT'], 'TEST_sap_data.xlsm'))
         # log.save(os.environ['AP_LOG'])
         await_char("y")
 

@@ -24,7 +24,7 @@ def requests():
 
         # IMPORT REQUESTS FORM DESKTOP
         print("Reading request files")
-        directory = os.environ["HOME_DIR"]
+        directory = os.environ["DIR_IN"]
         requests = pd.DataFrame()
 
         for filename in os.listdir(directory):
@@ -123,7 +123,7 @@ def requests():
         # MAKE LIST OF MATERIALS IN AP LOG
 
         active_matnr_list_file = os.path.join(
-            os.environ['HOME_DIR'], 'AP materials.txt')
+            os.environ['DIR_DESKTOP'], 'AP materials.txt')
 
         if os.path.exists(active_matnr_list_file):
             os.remove(active_matnr_list_file)
