@@ -3,7 +3,7 @@ def am_emails():
     import pandas as pd
     from datetime import date
 
-    from helpers.helpers import use_dotenv, ignore_warnings
+    from helpers.helpers import use_dotenv, ignore_warnings, await_char
     from helpers.data_frames import get_active
 
     use_dotenv()
@@ -36,12 +36,11 @@ def am_emails():
         need_price['pricing request'] = need_price['pricing request'].dt.strftime(
             '%m/%d/%Y')
 
-    print('Needing price: ')
-    print(len(need_price))
-    # PRICE REQUEST FILE
-    need_price_list_file = os.path.join(
-        os.environ["DIR_OUT"], "AP pricing needed with active demand {0}.xlsx".format(today))
-    need_price.to_excel(need_price_list_file,  index=False)
+        print(f'Needing price: {len(need_price)}')
+        # PRICE REQUEST FILE
+        need_price_list_file = os.path.join(
+            os.environ["DIR_OUT"], "AP pricing needed with active demand {0}.xlsx".format(today))
+        need_price.to_excel(need_price_list_file,  index=False)
 
     # MATNRs PCE NEEDED
 
@@ -69,9 +68,10 @@ def am_emails():
         need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
             '%m/%d/%Y')
 
-    print('PCE requests:')
-    print(len(active_wt_pce_req))
-    # PCE REQUEST FILE - AM
-    need_pce_file = os.path.join(
-        os.environ["DIR_OUT"], "{0} PCE ASSESSMENT REQUEST.xlsx".format(today))
-    need_pce.to_excel(need_pce_file,  index=False)
+        print(f'PCE requests: {len(active_wt_pce_req)}')
+        # PCE REQUEST FILE - AM
+        need_pce_file = os.path.join(
+            os.environ["DIR_OUT"], "{0} PCE ASSESSMENT REQUEST.xlsx".format(today))
+        need_pce.to_excel(need_pce_file,  index=False)
+
+    await_char()

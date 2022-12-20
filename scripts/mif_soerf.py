@@ -2,7 +2,7 @@ def mif_soerf():
     import pandas as pd
     import os
 
-    from helpers.helpers import use_dotenv, ignore_warnings
+    from helpers.helpers import use_dotenv, ignore_warnings, await_char
     from helpers.data_frames import get_selected_active
 
     use_dotenv()
@@ -35,7 +35,9 @@ def mif_soerf():
     with open(os.path.join(os.environ['DIR_APP'], 'sql', 'full_mif_soerf.sql')) as file:
         lines = file.readlines()
         lines[5] = output_str
-    with open(os.path.join(os.environ['DESKTOP_DIR'], 'AP_MIF_SOERF.sql'), 'w') as file:
+    with open(os.path.join(os.environ['DIR_DESKTOP'], 'AP_MIF_SOERF.sql'), 'w') as file:
         file.writelines(lines)
 
     print(f'Materials added to SQL query: {len(mif_soerf)}')
+
+    await_char()

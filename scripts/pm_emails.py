@@ -2,7 +2,7 @@ def pm_emails():
     import pandas as pd
     from datetime import date
 
-    from helpers.helpers import ignore_warnings
+    from helpers.helpers import ignore_warnings, await_char
     from helpers.data_frames import get_active
 
     ignore_warnings()
@@ -30,12 +30,11 @@ def pm_emails():
         need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
             '%m/%d/%Y')
 
-    print(f'\nPCE requests: {len(active_wt_pce_req)}')
-
-    # PCE REQUEST FILE - AM
-    need_pce_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\{0} PCE ASSESSMENT REQUEST.xlsx".format(
-        today)
-    need_pce.to_excel(need_pce_file,  index=False)
+        print(f'PCE requests: {len(active_wt_pce_req)}')
+        # PCE REQUEST FILE - AM
+        need_pce_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\{0} PCE ASSESSMENT REQUEST.xlsx".format(
+            today)
+        need_pce.to_excel(need_pce_file,  index=False)
 
     # GTS REQUESTS
     active_wt_gts_req = active.loc[
@@ -51,12 +50,11 @@ def pm_emails():
         need_gts['Date Added'] = need_gts['Date Added'].apply(pd.to_datetime)
         need_gts['Date Added'] = need_gts['Date Added'].dt.strftime('%m/%d/%Y')
 
-    print('\nGTS requests:')
-    print(len(active_wt_gts_req))
-    # GTS REQUEST FILE
-    need_gts_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\INHTS request {0}.xlsx".format(
-        today)
-    need_gts.to_excel(need_gts_file,  index=False)
+        print(f'GTS requests: {len(active_wt_gts_req)}')
+        # GTS REQUEST FILE
+        need_gts_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\INHTS request {0}.xlsx".format(
+            today)
+        need_gts.to_excel(need_gts_file,  index=False)
 
     # ### LOCAL REQUESTS
     active_wt_local_req = active.loc[
@@ -64,7 +62,7 @@ def pm_emails():
             'Localization required;', case=True) == True)
     ]
     if active_wt_local_req.empty:
-        print('\nNO LOCALIZATION REQUESTS')
+        print('NO LOCALIZATION REQUESTS')
     else:
         need_local = active_wt_local_req[['Date Added', 'target sorg', 'target plant', 'SAP MATNR\n(from request form)', 'description', 'Catalog', 'Ser', 'MTART/GenItemCat', ' sorg1k dchain', ' sorg1k cs', 'sorg1k price', ' sorg4k dchain', ' sorg4k cs', 'PGC', 'target sorg price', 'target sorg dchain',
                                           'target sorg DWERK', 'target sorg cs', 'target sorg pub', 'target plant status', 'target plant mrp type', 'DWERK Plant Status', 'DWERK Plant Code', 'mif/soerf check', 'Sales Text', 'INDIA GST\nINHTS', 'INDIA GST\nmarc.stuec', 'INDIA GST taxm1', 'MIF Submitted', 'SOERF Submitted']]
@@ -77,9 +75,10 @@ def pm_emails():
         need_local['SOERF Submitted'] = need_local['SOERF Submitted'].dt.strftime(
             '%m/%d')
 
-    print('\nLOCALIZATION requests:')
-    print(len(active_wt_local_req))
-    # GTS REQUEST FILE
-    need_local_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\India localization required {0}.xlsx".format(
-        today)
-    need_local.to_excel(need_local_file,  index=False)
+        print(f'LOCALIZATION requests: {len(active_wt_local_req)}')
+        # GTS REQUEST FILE
+        need_local_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\India localization required {0}.xlsx".format(
+            today)
+        need_local.to_excel(need_local_file,  index=False)
+
+    await_char()

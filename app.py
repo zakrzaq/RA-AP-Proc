@@ -61,7 +61,7 @@ def get_menu_choice():
             mif_soerf.mif_soerf()
             clear()
         elif choice == '3':
-            mif_soerf.mif_soerf()
+            am_status.am_status()
             clear()
         elif choice == '4':
             am_emails.am_emails()
