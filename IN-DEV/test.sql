@@ -1,1 +1,0 @@
-select * from AP_MM_SERVICE
