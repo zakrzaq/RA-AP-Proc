@@ -1,4 +1,4 @@
-def await_char(char, msg="", func="", param=""):
+def await_char(char="y", msg="", func="", param=""):
     import keyboard
     if msg == "":
         msg_out = 'Press {} to continue'.format(char.upper())

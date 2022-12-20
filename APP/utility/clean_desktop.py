@@ -19,43 +19,47 @@ def clean_desktop():
     dir_ap_req_archive = os.path.join(dir_temp, 'AP Process', 'AP Requests')
 
     # archive desktop folder to shared edm drive
-    for filename in os.listdir(dir_temp):
-        f = os.path.join(dir_temp, filename)
-        if os.path.isfile(f):
-            # pce requests
-            if ' ASSESSMENT REQUEST.xlsx' in f:
-                print("\t" + filename)
-                shutil.move(f, dir_pce_requests)
-            # pce feedback
-            if ' ASSESSMENT REQUEST' in f:
-                print("\t" + filename)
-                shutil.move(f, dir_pce_feedback)
-            # pricing requests
-            if 'AP pricing needed with active demand' in f:
-                print("\t" + filename)
-                shutil.move(f, dir_pricing)
-            # inhts requests
-            if 'INHTS request ' in f:
-                print("\t" + filename)
-                shutil.move(f, dir_inhts)
-            # localization requests
-            if 'India localization required' in f:
-                print("\t" + filename)
-                shutil.move(f, dir_local)
-            # AP requests - A
-            if 'AP_Material_Master_Service_Request_Form' in f:
-                print("\t" + filename)
-                os.remove(f)
-            # AP requests - B
-            if '_AP form ' in f:
-                print("\t" + filename)
-                os.remove(f)
-            # AP requests - C
-            if 'AP form ' in f:
-                print("\t" + filename)
-                os.remove(f)
-            if 'ap form ' in f:
-                print("\t" + filename)
-                os.remove(f)
+    try:
+        for filename in os.listdir(dir_temp):
+            f = os.path.join(dir_temp, filename)
+            if os.path.isfile(f):
+                # pce requests
+                if ' ASSESSMENT REQUEST.xlsx' in f:
+                    print("\t" + filename)
+                    shutil.move(f, dir_pce_requests)
+                # pce feedback
+                if ' ASSESSMENT REQUEST' in f:
+                    print("\t" + filename)
+                    shutil.move(f, dir_pce_feedback)
+                # pricing requests
+                if 'AP pricing needed with active demand' in f:
+                    print("\t" + filename)
+                    shutil.move(f, dir_pricing)
+                # inhts requests
+                if 'INHTS request ' in f:
+                    print("\t" + filename)
+                    shutil.move(f, dir_inhts)
+                # localization requests
+                if 'India localization required' in f:
+                    print("\t" + filename)
+                    shutil.move(f, dir_local)
+                # AP requests - A
+                if 'AP_Material_Master_Service_Request_Form' in f:
+                    print("\t" + filename)
+                    os.remove(f)
+                # AP requests - B
+                if '_AP form ' in f:
+                    print("\t" + filename)
+                    os.remove(f)
+                # AP requests - C
+                if 'AP form ' in f:
+                    print("\t" + filename)
+                    os.remove(f)
+                if 'ap form ' in f:
+                    print("\t" + filename)
+                    os.remove(f)
+    except:
+        print('Something went wrong :/ \nRun me again, please!')
+        await_char()
 
-    await_char("y")
+    await_char()
