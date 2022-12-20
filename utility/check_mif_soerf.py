@@ -25,7 +25,7 @@ def check_mif_soerf():
         f = os.path.join(mif_dir, filename)
         if os.path.isfile(f):
             if 'Jakub Zakrzewski' in f:
-                print('- ' + filename + '\n')
+                print('- ' + filename)
                 tmp_df = pd.read_excel(f)
                 mifs_submitted = pd.concat([mifs_submitted, tmp_df])
     if mifs_submitted.empty:
@@ -35,9 +35,8 @@ def check_mif_soerf():
         for index, row in mifs_submitted.iterrows():
             r = row.apply(str).values
             print(", ".join(r))
-        print('\nYou have submitted {} MIFs today.'.format(
-            mifs_submitted.shape[0]))
-    print('MIFs Requests in the submission folder: {} \n'.format(mif_count))
+        print(f'\nYou have submitted {mifs_submitted.shape[0]} MIFs today.')
+    print(f'MIFs Requests in the submission folder: {mif_count} \n')
 
     tmp_df = pd.DataFrame()
 
@@ -48,7 +47,7 @@ def check_mif_soerf():
         f = os.path.join(soerf_dir, filename)
         if os.path.isfile(f):
             if 'Jakub Zakrzewski' in f:
-                print('- ' + filename + '\n')
+                print('- ' + filename)
                 tmp_df = pd.read_excel(f)
                 soerfs_submitted = pd.concat([soerfs_submitted, tmp_df])
     if soerfs_submitted.empty:
@@ -58,8 +57,8 @@ def check_mif_soerf():
         for index, row in soerfs_submitted.iterrows():
             r = row.apply(str).values
             print(", ".join(r))
-        print('\nYou have submitted {} SOERFs today.'.format(
-            soerfs_submitted.shape[0]))
-    print('SOERFs Requests in the submission folder: {} \n'.format(soerf_count))
+        print(
+            f'\nYou have submitted {soerfs_submitted.shape[0]} SOERFs today.')
+    print(f'SOERFs Requests in the submission folder: {soerf_count} \n')
 
     await_char("y")

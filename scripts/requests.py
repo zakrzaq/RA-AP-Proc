@@ -84,9 +84,9 @@ def requests():
                     i = ws_active_firstrow - 1
                     while i < ws_active_lastrow:
                         i += 1
-                        formula = ws_active['{}2'.format(x)].value
-                        ws_active['{}{}'.format(x, i)] = Translator(
-                            formula, origin="{}2".format(x)).translate_formula("{}{}".format(x, i))
+                        formula = ws_active[f'{x}2'].value
+                        ws_active[f'{x}{i}'] = Translator(
+                            formula, origin=f"{x}2").translate_formula(f"{x}{i}")
             except:
                 print('could not extend formulas')
 
@@ -99,7 +99,7 @@ def requests():
                     if i == 1:
                         continue
                     # print(i)
-                    ws_active["BF{}".format(i)].value = i - 1
+                    ws_active[f"BF{i}"].value = i - 1
                     i += 1
             except:
                 print('could not create sort order')

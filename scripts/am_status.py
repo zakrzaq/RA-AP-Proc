@@ -25,8 +25,7 @@ def am_status():
         (selected_active_view['status'].str.contains(
             'needs price;') == True)
     ]
-    print('\nMaterials NEEDING PRICE in AP LOG: {}'.format(
-        len(price_requested)))
+    print(f'Materials NEEDING PRICE in AP LOG: {len(price_requested)}')
 
     # MATNRs PCE NEEDED
     need_pce = (
@@ -48,7 +47,7 @@ def am_status():
         (selected_active_view['status'].str.contains(
             'pending PCE review;') == True)
     ]
-    print('\nMaterials needing PCE in log: {}'.format(len(pce_requested)))
+    print(f'Materials needing PCE in log: {len(pce_requested)}')
 
     # STATUS TO TXT
     status_file = os.path.join(

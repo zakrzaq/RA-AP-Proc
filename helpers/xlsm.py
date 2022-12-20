@@ -42,5 +42,5 @@ def extend_concats(sheet):
         while i < last_row:
             i += 1
             formula = sheet['A2'].value
-            sheet['A{}'.format(i)] = Translator(
-                formula, origin="A2").translate_formula("A{}".format(i))
+            sheet[f'A{i}'] = Translator(
+                formula, origin="A2").translate_formula(f"A{i}")

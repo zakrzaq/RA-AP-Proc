@@ -5,7 +5,7 @@ import warnings
 def await_char(char="y", msg="", func="", param=""):
     import keyboard
     if msg == "":
-        msg_out = 'Press {} to continue'.format(char.upper())
+        msg_out = f'Press {char.upper()} to continue'
     else:
         msg_out = msg
     print(msg_out)

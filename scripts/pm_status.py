@@ -48,7 +48,7 @@ def pm_status():
         (selected_active_view['status'].str.contains(
             'GST data needed;') == True)
     ]
-    print('\nMaterials needing GTS in log:')
+    print('Materials needing GTS in log:')
     print(len(gts_requested))
 
     # MATNRs LOCAL NEEDED
@@ -61,7 +61,7 @@ def pm_status():
         (selected_active_view['status'].str.contains(
             'Localization required;') == True)
     ]
-    print('\nMaterials needing LOCALIZATION in log:')
+    print('Materials needing LOCALIZATION in log:')
     print(len(local_requested))
 
     # SAVE TXT

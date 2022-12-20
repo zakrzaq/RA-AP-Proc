@@ -17,13 +17,13 @@ def check_daily_report():
     )
 
     today = date.today().strftime("%m-%d-%Y")
-    print("Daily AP Process update for:  {0}\n".format(today))
+    print(f"Daily AP Process update for:  {today}\n")
 
     for filename in os.listdir(report_directory):
         f = os.path.join(report_directory, filename)
         if os.path.isfile(f):
             if today in f:
-                print("\t{0}\n".format(filename))
+                print(f"\t{filename}\n")
 
     if os.path.exists(ap_materials_list):
         os.remove(ap_materials_list)

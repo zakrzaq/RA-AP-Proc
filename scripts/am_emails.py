@@ -39,7 +39,7 @@ def am_emails():
         print(f'Needing price: {len(need_price)}')
         # PRICE REQUEST FILE
         need_price_list_file = os.path.join(
-            os.environ["DIR_OUT"], "AP pricing needed with active demand {0}.xlsx".format(today))
+            os.environ["DIR_OUT"], f"AP pricing needed with active demand {today}.xlsx")
         need_price.to_excel(need_price_list_file,  index=False)
 
     # MATNRs PCE NEEDED
@@ -71,7 +71,7 @@ def am_emails():
         print(f'PCE requests: {len(active_wt_pce_req)}')
         # PCE REQUEST FILE - AM
         need_pce_file = os.path.join(
-            os.environ["DIR_OUT"], "{0} PCE ASSESSMENT REQUEST.xlsx".format(today))
+            os.environ["DIR_OUT"], f"{today} PCE ASSESSMENT REQUEST.xlsx")
         need_pce.to_excel(need_pce_file,  index=False)
 
     await_char()
