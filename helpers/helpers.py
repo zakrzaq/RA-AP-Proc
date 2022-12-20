@@ -1,3 +1,7 @@
+import dotenv
+import warnings
+
+
 def await_char(char="y", msg="", func="", param=""):
     import keyboard
     if msg == "":
@@ -17,3 +21,12 @@ def await_char(char="y", msg="", func="", param=""):
                 else:
                     func()
             break
+
+
+def use_dotenv():
+    dotenv_file = dotenv.find_dotenv()
+    dotenv.load_dotenv(dotenv_file)
+
+
+def ignore_warnings():
+    warnings.filterwarnings("ignore")

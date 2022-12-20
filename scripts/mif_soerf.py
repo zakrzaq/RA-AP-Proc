@@ -1,26 +1,18 @@
 def mif_soerf():
-    import warnings
-    from openpyxl import load_workbook
     import pandas as pd
     import os
-    import keyboard
-    from helpers.xlsm import populate_sheet_series
-    import dotenv
-    dotenv_file = dotenv.find_dotenv()
-    dotenv.load_dotenv(dotenv_file)
-    warnings.filterwarnings("ignore")
 
-    active = pd.read_excel(os.environ['AP_LOG'],
-                           sheet_name='Active Materials', dtype=str)
-    print(active.tail(2))
+    from helpers.helpers import use_dotenv, ignore_warnings
+    from helpers.data_frames import get_selected_active
 
-    # VIEW LIKE ACTIVE SHEET IN EXCEL
-    selected_active_view = active[['Date Added', 'target sorg', 'target plant', 'email prefix\n(from request form)', 'SAP MATNR\n(from request form)', 'Service Requested\n(from request form)', 'Location\n(from request form)', 'Catalog', 'Ser', 'MTART/GenItemCat', ' sorg1k dchain', ' sorg1k cs', 'sorg1k price', ' sorg4k dchain', ' sorg4k cs', 'PGC', 'target sorg price', 'target sorg dchain', 'target sorg DWERK', 'target sorg cs', 'target sorg pub', 'target plant status',
-                                   'target plant mrp type', 'DWERK Plant Status', 'DWERK Plant Code', "mif/soerf check", 'Sales Text', 'INDIA GST\nINHTS', 'INDIA GST\nmarc.stuec', 'INDIA GST taxm1', 'STATUS_CHINA_ENERGY_LBL', "Regulatory Cert\n(Z62 Class)", 'Regulatory Cert\n(Z62 Characteristic)', 'Z62 characteristic\n(assigned in SAP)', 'PCE Assessment\n(received)', 'Date of PCE review', 'MIF Submitted', 'SOERF Submitted', 'pricing request', 'PCE cert rev req\'d', 'status', 'sort order']]
+    use_dotenv()
+    ignore_warnings()
+
+    selected_active_view = get_selected_active()
 
     # MIF / SOERF needed
-    mif_soerf_view = active[['Date Added', 'target sorg', 'target plant',
-                            'email prefix\n(from request form)', 'SAP MATNR\n(from request form)', 'Service Requested\n(from request form)', 'Location\n(from request form)', 'status']]
+    mif_soerf_view = selected_active_view[['Date Added', 'target sorg', 'target plant',
+                                           'email prefix\n(from request form)', 'SAP MATNR\n(from request form)', 'Service Requested\n(from request form)', 'Location\n(from request form)', 'status']]
 
     mif_soerf = mif_soerf_view.loc[
         ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False) | selected_active_view['status'].isna()) &
@@ -46,82 +38,4 @@ def mif_soerf():
     with open(os.path.join(os.environ['DESKTOP_DIR'], 'AP_MIF_SOERF.sql'), 'w') as file:
         file.writelines(lines)
 
-    print('Materials added to SQL query:')
-    print(len(mif_soerf))
-
-    # AM RUN STATUSES:
-    print('Press Y to generate AM material status updates')
-    while True:
-        if keyboard.is_pressed("y"):
-            # LOAD LOG
-            log_file = os.environ['AP_LOG']
-            log = load_workbook(filename=log_file, keep_vba=True)
-            ws_active = log['Active Materials']
-
-            # MATNRs PRICE NEEDED
-            need_price = (selected_active_view['target sorg price'].isna()) & (~selected_active_view['SOERF Submitted'].isna()) & (
-                (selected_active_view['status'].str.contains('cancel|complete|on hold|needs price;', case=False) == False) | (selected_active_view['status'].isnull()))
-
-            selected_active_view.loc[need_price, 'status'] = selected_active_view['status'].astype(
-                str) + "needs price;"
-
-            price_requested = selected_active_view.loc[
-                (selected_active_view['status'].str.contains(
-                    'needs price;') == True)
-            ]
-            print('\nMaterials NEEDING PRICE in AP LOG: {}'.format(
-                len(price_requested)))
-
-            # MATNRs PCE NEEDED
-            need_pce = (
-                ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) &
-                ((selected_active_view['status'].str.contains('pending PCE review;') == False)) &
-                (selected_active_view['Service Requested\n(from request form)']
-                 == 'Product Certification Review')
-            ) | (
-                (selected_active_view['MTART/GenItemCat'].isin(['ZFG', 'ZTG'])) &
-                (~selected_active_view['Regulatory Cert\n(Z62 Characteristic)'].isna()) &
-                (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) &
-                ((selected_active_view['status'].str.contains('cancel|complete|on hold|pending PCE review;', case=False) == False)) &
-                ((selected_active_view['status'].str.contains('pending PCE review;') == False)))
-
-            selected_active_view.loc[need_pce, 'status'] = selected_active_view['status'].astype(
-                str) + 'pending PCE review;'
-
-            pce_requested = selected_active_view.loc[
-                (selected_active_view['status'].str.contains(
-                    'pending PCE review;') == True)
-            ]
-            print('\nMaterials needing PCE in log: {}'.format(len(pce_requested)))
-
-            # STATUS TO TXT
-            status_file = os.path.join(
-                os.environ['DIR_DESKTOP'], 'AP status.txt')
-            status_output = selected_active_view['status']
-            status_output_str = ''
-
-            if os.path.exists(status_file):
-                os.remove(status_file)
-            for ind in status_output.index:
-                if type(status_output[ind]) == float:
-                    status_output_str = status_output_str + "" + "\n"
-                else:
-                    status_output_str = status_output_str + \
-                        str(status_output[ind]) + "\n"
-            with open(status_file, 'w') as file:
-                file.writelines(status_output_str)
-
-            # TEST SAVE LOG
-            populate_sheet_series(status_output, ws_active, 50, 2)
-            log.save(os.path.join(
-                os.environ['DIR_OUT'], 'TEST_am_status.xlsm'))
-
-            # ACTUAL SAVE LOG
-            print('Press Y to save status updates to AP LOG')
-            while True:
-                if keyboard.is_pressed("y"):
-                    # INTERATE OVER STATUS LIENS AND UPDATE IN AP LOG
-
-                    break
-
-            break
+    print(f'Materials added to SQL query: {len(mif_soerf)}')

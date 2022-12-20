@@ -1,21 +1,17 @@
 def am_emails():
     import os
     import pandas as pd
-    import warnings
     from datetime import date
-    import dotenv
-    dotenv_file = dotenv.find_dotenv()
-    dotenv.load_dotenv(dotenv_file)
-    warnings.filterwarnings("ignore")
+
+    from helpers.helpers import use_dotenv, ignore_warnings
+    from helpers.data_frames import get_active
+
+    use_dotenv()
+    ignore_warnings()
 
     today = date.today().strftime("%m-%d-%Y")
 
-    active = pd.read_excel(os.environ['AP_LOG'],
-                           sheet_name='Active Materials', dtype=str)
-    # active.tail(2)
-
-    # VIEW LIKE ACTIVE SHEET IN EXCEL
-    # selected_active_view = active[['Date Added', 'target sorg', 'target plant', 'email prefix\n(from request form)', 'SAP MATNR\n(from request form)', 'Service Requested\n(from request form)', 'Location\n(from request form)', 'Catalog', 'Ser', 'MTART/GenItemCat', ' sorg1k dchain', ' sorg1k cs', 'sorg1k price', ' sorg4k dchain', ' sorg4k cs', 'PGC', 'target sorg price', 'target sorg dchain', 'target sorg DWERK', 'target sorg cs', 'target sorg pub', 'target plant status', 'target plant mrp type', 'DWERK Plant Status', 'DWERK Plant Code', "mif/soerf check", 'Sales Text', 'INDIA GST\nINHTS', 'INDIA GST\nmarc.stuec', 'INDIA GST taxm1', 'STATUS_CHINA_ENERGY_LBL', "Regulatory Cert\n(Z62 Class)", 'Regulatory Cert\n(Z62 Characteristic)', 'Z62 characteristic\n(assigned in SAP)', 'PCE Assessment\n(received)', 'Date of PCE review', 'MIF Submitted', 'SOERF Submitted', 'pricing request', 'PCE cert rev req\'d', 'status', 'sort order']]
+    active = get_active()
 
     # MATNRs PRICE NEEDED
     # price_needed = selected_active_view.loc[
@@ -23,6 +19,7 @@ def am_emails():
     #   (~selected_active_view['SOERF Submitted'].isna()) &
     #   ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False))
     # ]
+
     # PRICE REQUEST ALL
     price_view = active[['Date Added', 'target sorg', 'target plant', "email prefix\n(from request form)", "SAP MATNR\n(from request form)", "Service Requested\n(from request form)", "Location\n(from request form)",
                         'description', 'Catalog', 'Ser', "MTART/GenItemCat", ' sorg1k dchain', ' sorg1k cs', 'sorg1k price', ' sorg4k dchain', ' sorg4k cs', 'PGC', 'target sorg price', 'target sorg dchain', 'pricing request', 'status']]
@@ -47,10 +44,12 @@ def am_emails():
     need_price.to_excel(need_price_list_file,  index=False)
 
     # MATNRs PCE NEEDED
+
     # pce_needed = selected_active_view[
     #   (((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) & (selected_active_view['Service Requested\n(from request form)'] == 'Product Certification Review'))  |
     #   ((selected_active_view['MTART/GenItemCat'].isin(['ZFG', 'ZTG'])) & (~selected_active_view['Regulatory Cert\n(Z62 Characteristic)'].isna()) & (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) & ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)))
     # ]
+
     # PCE REQUEST
     active_wt_pce_req = active.loc[
         (active['status'].str.contains('pending PCE review;', case=True) == True) &

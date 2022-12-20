@@ -1,15 +1,15 @@
 def pm_emails():
     import pandas as pd
-    import warnings
     from datetime import date
 
-    warnings.filterwarnings("ignore")
+    from helpers.helpers import ignore_warnings
+    from helpers.data_frames import get_active
+
+    ignore_warnings()
 
     today = date.today().strftime("%m-%d-%Y")
 
-    active = pd.read_excel('W:\AP MM Service Request Log.xlsm',
-                           sheet_name='Active Materials', dtype=str)
-    # active.tail(2)
+    active = get_active()
 
     # PCE REQUEST
     active_wt_pce_req = active.loc[
@@ -30,8 +30,8 @@ def pm_emails():
         need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
             '%m/%d/%Y')
 
-    print('\nPCE requests:')
-    print(len(active_wt_pce_req))
+    print(f'\nPCE requests: {len(active_wt_pce_req)}')
+
     # PCE REQUEST FILE - AM
     need_pce_file = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\{0} PCE ASSESSMENT REQUEST.xlsx".format(
         today)

@@ -1,17 +1,13 @@
 def requests():
-    from openpyxl.formula.translate import Translator
     import pandas as pd
-    import warnings
     import os
+    from openpyxl.formula.translate import Translator
 
-    from helpers.helpers import await_char
+    from helpers.helpers import await_char, use_dotenv, ignore_warnings
     from helpers.log import save_log, load_log, test_save
 
-    import dotenv
-    dotenv_file = dotenv.find_dotenv()
-    dotenv.load_dotenv(dotenv_file)
-
-    warnings.filterwarnings("ignore")
+    use_dotenv()
+    ignore_warnings()
 
     # VARIABLES
     ready_to_save = False

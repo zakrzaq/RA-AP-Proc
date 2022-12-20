@@ -1,36 +1,18 @@
 # LIBS
 def sap_data():
-    import os
-    import sys
-    fpath = os.path.join(os.path.dirname(__file__), 'utility')
-    sys.path.append(fpath)
-
-    from helpers.helpers import await_char
-    from helpers.xlsm import populate_sap_data_sheet, extend_concats
-    from openpyxl.formula.translate import Translator
-    from openpyxl import load_workbook
     import pandas as pd
-    import warnings
     import os
-    import dotenv
-    dotenv_file = dotenv.find_dotenv()
-    dotenv.load_dotenv(dotenv_file)
 
-    warnings.filterwarnings("ignore")
+    from helpers.helpers import await_char, use_dotenv, ignore_warnings
+    from helpers.log import load_log, save_log, test_save
+    from helpers.xlsm import populate_sap_data_sheet, extend_concats
 
-    # VARIABLES
+    use_dotenv()
+    ignore_warnings()
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-
-    # ACTUAL
     print("Reading log file")
-    log_file = os.environ['AP_LOG']
-    # TESTING
-    # log_file = 'W:\\AP MM Service Request Log_CLEANOUT.xlsm'
-    # log_file = 'W:\\AP MM Service Request Log_TESTING.xlsm'
-    # log_file = "W:\\VBA.xlsm"
-
-    log = load_workbook(filename=log_file, keep_vba=True)
+    log = load_log()
 
     ws_mara = log['mara']
     ws_marc = log['marc']
@@ -102,11 +84,12 @@ def sap_data():
         for sheet in ws_list:
             extend_concats(sheet)
 
-        # save test
+        # save test log
         print("Save results")
-        log.save(os.path.join(os.environ['DIR_OUT'], 'TEST_sap_data.xlsm'))
-        # log.save(os.environ['AP_LOG'])
-        await_char("y")
+        test_save(log, "TEST_sap_data")
+        # save ACTUAL log
+        await_char(
+            "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
 
     else:
         print('Missing SAP data')

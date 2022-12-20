@@ -1,4 +1,5 @@
 import pandas as pd
+from openpyxl.formula.translate import Translator
 
 
 def populate_sheet_series(df, sheet, col, row):

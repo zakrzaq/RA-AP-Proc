@@ -3,6 +3,7 @@ import platform
 
 import scripts.requests as requests
 import scripts.mif_soerf as mif_soerf
+import scripts.am_status as am_status
 import scripts.am_emails as am_emails
 import scripts.pm_status as pm_status
 import scripts.pm_emails as pm_emails
@@ -29,10 +30,10 @@ def get_menu_choice():
         print(30 * "-", "AP MM EXTENSION PROCESS", 30 * "-")
         print("1)    Get current requests")
         print("2)    Generate MIF / SOERF requests")
-        print("3)    Generate AM Price & PCE requests")
-        print("4)    Update Material Statuses post MM Extension")
-        print("5)    Generate PM CCC, Localization & GTS Requests")
-        print("6)    ")
+        print("3)    Update Material Statuses pre MM")
+        print("4)    Generate AM Price & PCE requests")
+        print("5)    Update Material Statuses post MM Extension")
+        print("6)    Generate PM CCC, Localization & GTS Requests")
         print("7)    ")
         print("8)    ")
         print(85 * "-")
@@ -41,7 +42,8 @@ def get_menu_choice():
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print(85 * "-")
-        print("X)    Close AP MM EXTENSION PROCESS")
+        print("U)    Update program")
+        print("X)    Close program")
         print(85 * "=")
 
     loop = True
@@ -59,12 +61,15 @@ def get_menu_choice():
             mif_soerf.mif_soerf()
             clear()
         elif choice == '3':
-            am_emails.am_emails()
+            mif_soerf.mif_soerf()
             clear()
         elif choice == '4':
-            pm_status.pm_status()
+            am_emails.am_emails()
             clear()
         elif choice == '5':
+            pm_status.pm_status()
+            clear()
+        elif choice == '6':
             pm_emails.pm_emails()
             clear()
         elif choice == '9':
@@ -78,6 +83,9 @@ def get_menu_choice():
             clear()
         elif choice == '12':
             daily_report_check.check_daily_report()
+            clear()
+        elif (choice == 'u' or choice == 'U'):
+            os.system("git pull")
             clear()
         elif (choice == 'x' or choice == 'X'):
             int_choice = -1
