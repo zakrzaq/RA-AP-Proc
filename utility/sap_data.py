@@ -1,4 +1,3 @@
-# LIBS
 def sap_data():
     import pandas as pd
     import os
@@ -33,14 +32,15 @@ def sap_data():
     # DEFINE DATA FILES
     mara = marc = mvke = ausp = mlan = price = gts = text = pd.DataFrame()
 
-    fl_mara = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'mara.XLSX')
-    fl_marc = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'marc.XLSX')
-    fl_mvke = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'mvke.XLSX')
-    fl_ausp = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'ausp.XLSX')
-    fl_mlan = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'mlan.XLSX')
-    fl_price = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'price.XLSX')
-    fl_gts = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'gts.XLSX')
-    fl_text = os.path.join(os.environ['DIR_IN'], 'INPUTS', 'sales_text.XLSX')
+    fl_mara = os.path.join(os.environ['DIR_IN'], 'mara.XLSX')
+    fl_marc = os.path.join(os.environ['DIR_IN'],  'marc.XLSX')
+    fl_mvke = os.path.join(os.environ['DIR_IN'],  'mvke.XLSX')
+    fl_ausp = os.path.join(os.environ['DIR_IN'], 'ausp.XLSX')
+    fl_mlan = os.path.join(os.environ['DIR_IN'], 'mlan.XLSX')
+    fl_price = os.path.join(os.environ['DIR_IN'], 'price.XLSX')
+    fl_gts = os.path.join(os.environ['DIR_IN'], 'gts.XLSX')
+    fl_text = os.path.join(os.environ['DIR_IN'], 'sales_text.XLSX')
+    print(fl_ausp)
 
     # load sap data to df
     print("Loading new SAP data")
@@ -63,22 +63,32 @@ def sap_data():
 
     inputs_list = [mara, marc, mvke, ausp, mlan, price, gts, text]
 
-    # FUNCTIONS
+    # FORMAT DATA
+    # TODO: dates in mvke[vmstd], price[Valid to, Valid From]
+    print(mvke.head(1))
+    print(price.head(1))
+    mvke['VMSTD'] = mvke['VMSTD'].astype(
+        str).str[:-9]
+    price['Valid to'] = price['Valid to'].astype(
+        str).str[:-9]
+    price['Valid From'] = price['Valid From'].astype(
+        str).str[:-9]
 
+    # FUNCTIONS
     inputs_not_empty = 0
     for input in inputs_list:
         if not input.empty:
             inputs_not_empty += 1
 
-    if inputs_not_empty == 7:
+    if inputs_not_empty == 8:
         print("Populate new data")
-        populate_sap_data_sheet(mara, ws_mara)
+        populate_sap_data_sheet(mara, ws_mara,)
         populate_sap_data_sheet(marc, ws_marc)
         populate_sap_data_sheet(mvke, ws_mvke)
         populate_sap_data_sheet(ausp, ws_ausp)
         populate_sap_data_sheet(mlan, ws_mlan)
         populate_sap_data_sheet(price, ws_price)
-        populate_sap_data_sheet(gts, ws_gts)
+        populate_sap_data_sheet(gts, ws_gts, 1)
         populate_sap_data_sheet(text, ws_text)
 
         for sheet in ws_list:
@@ -92,5 +102,5 @@ def sap_data():
             "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
 
     else:
-        print('Missing SAP data')
+        print(f'Missing SAP data - {inputs_not_empty}')
         await_char("y")

@@ -6,6 +6,8 @@ def clean_desktop():
 
     report_directory = os.environ['EDM_APMM']
     output_directory = os.environ['DIR_OUT']
+    input_directory = os.environ['DIR_IN']
+    process_dirs = [output_directory, input_directory]
 
     dir_pce_feedback = os.path.join(report_directory, 'PCE FEEDBACK')
     dir_pce_requests = os.path.join(report_directory, 'PCE REQUESTS')
@@ -17,44 +19,34 @@ def clean_desktop():
 
     # archive desktop folder to shared edm drive
     try:
-        for filename in os.listdir(output_directory):
-            f = os.path.join(output_directory, filename)
-            if os.path.isfile(f):
-                # pce requests
-                if ' ASSESSMENT REQUEST.xlsx' in f:
-                    print("\t" + filename)
-                    shutil.move(f, dir_pce_requests)
-                # pce feedback
-                if ' ASSESSMENT REQUEST' in f:
-                    print("\t" + filename)
-                    shutil.move(f, dir_pce_feedback)
-                # pricing requests
-                if 'AP pricing needed with active demand' in f:
-                    print("\t" + filename)
-                    shutil.move(f, dir_pricing)
-                # inhts requests
-                if 'INHTS request ' in f:
-                    print("\t" + filename)
-                    shutil.move(f, dir_inhts)
-                # localization requests
-                if 'India localization required' in f:
-                    print("\t" + filename)
-                    shutil.move(f, dir_local)
-                # AP requests - A
-                if 'AP_Material_Master_Service_Request_Form' in f:
-                    print("\t" + filename)
-                    os.remove(f)
-                # AP requests - B
-                if '_AP form ' in f:
-                    print("\t" + filename)
-                    os.remove(f)
-                # AP requests - C
-                if 'AP form ' in f:
-                    print("\t" + filename)
-                    os.remove(f)
-                if 'ap form ' in f:
-                    print("\t" + filename)
-                    os.remove(f)
+        for dir in process_dirs:
+            for filename in os.listdir(dir):
+                f = os.path.join(output_directory, filename)
+                if os.path.isfile(f):
+                    # pce requests
+                    if ' ASSESSMENT REQUEST.xlsx' in f:
+                        print("\t" + filename)
+                        shutil.move(f, dir_pce_requests)
+                    # pce feedback
+                    if ' ASSESSMENT REQUEST' in f:
+                        print("\t" + filename)
+                        shutil.move(f, dir_pce_feedback)
+                    # pricing requests
+                    if 'AP pricing needed with active demand' in f:
+                        print("\t" + filename)
+                        shutil.move(f, dir_pricing)
+                    # inhts requests
+                    if 'INHTS request ' in f:
+                        print("\t" + filename)
+                        shutil.move(f, dir_inhts)
+                    # localization requests
+                    if 'India localization required' in f:
+                        print("\t" + filename)
+                        shutil.move(f, dir_local)
+                    # AP requests
+                    if ('AP_Material_Master_Service_Request_Form' in f) or ('_AP form ') in f or ('AP form ' in f) or ('ap form ' in f):
+                        print("\t" + filename)
+                        os.remove(f)
     except:
         print('Something went wrong :/ \nRun me again, please!')
         await_char()
