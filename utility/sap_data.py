@@ -67,12 +67,12 @@ def sap_data():
     # TODO: dates in mvke[vmstd], price[Valid to, Valid From]
     print(mvke.head(1))
     print(price.head(1))
-    mvke['VMSTD'] = mvke['VMSTD'].astype(
-        str).str[:-9]
-    price['Valid to'] = price['Valid to'].astype(
-        str).str[:-9]
-    price['Valid From'] = price['Valid From'].astype(
-        str).str[:-9]
+    mvke['VMSTD'] = pd.to_datetime(
+        mvke['VMSTD'], errors='coerce').dt.strftime('%d-%m%Y')
+    price['Valid to'] = pd.to_datetime(
+        price['Valid to'], errors='coerce').dt.strftime('%d-%m-%Y')
+    price['Valid From'] = pd.to_datetime(
+        price['Valid From'], errors='coerce').dt.strftime('%d-%m-%Y')
 
     # FUNCTIONS
     inputs_not_empty = 0

@@ -19,7 +19,7 @@ def pm_emails():
         (active['Regulatory Cert\n(Z62 Class)'].isin(['CCC']))
     ]
     if active_wt_pce_req.empty:
-        print('NO PCE REQUESTS')
+        print('NO CCC REQUESTS')
     else:
         need_pce = active_wt_pce_req[['Date Added', 'target sorg', 'target plant', "email prefix\n(from request form)", "SAP MATNR\n(from request form)", "Service Requested\n(from request form)", "Location\n(from request form)", 'description', 'Catalog',
                                       'Ser', 'target sorg DWERK', 'DWERK Plant Code', 'Regulatory Cert\n(Z62 Class)', 'Regulatory Cert\n(Z62 Characteristic)', 'Z62 characteristic\n(assigned in SAP)', 'PCE Assessment\n(received)', 'Date of PCE review', "PCE cert rev req'd"]]
@@ -32,10 +32,10 @@ def pm_emails():
         need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
             '%m/%d/%Y')
 
-        print(f'PCE requests: {len(active_wt_pce_req)}')
+        print(f'CCC requests: {len(active_wt_pce_req)}')
         # PCE REQUEST FILE - AM
         need_pce_file = os.path.join(
-            os.environ['DIR_OUT'], f"{today} PCE ASSESSMENT REQUEST.xlsx")
+            os.environ['DIR_OUT'], f"{today} CCC ASSESSMENT REQUEST.xlsx")
         need_pce.to_excel(need_pce_file,  index=False)
 
     # GTS REQUESTS

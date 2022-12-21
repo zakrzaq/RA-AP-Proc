@@ -15,13 +15,14 @@ def clean_desktop():
     dir_inhts = os.path.join(report_directory, 'CGT requests')
     dir_local = os.path.join(report_directory, 'india localization')
     dir_ap_req_archive = os.path.join(
-        output_directory, 'AP Process', 'AP Requests')
+        os.environ['DIR_DESKTOP'], 'AP Process', 'AP Requests')
 
     # archive desktop folder to shared edm drive
     try:
         for dir in process_dirs:
+            print(dir)
             for filename in os.listdir(dir):
-                f = os.path.join(output_directory, filename)
+                f = os.path.join(dir, filename)
                 if os.path.isfile(f):
                     # pce requests
                     if ' ASSESSMENT REQUEST.xlsx' in f:
@@ -46,7 +47,10 @@ def clean_desktop():
                     # AP requests
                     if ('AP_Material_Master_Service_Request_Form' in f) or ('_AP form ') in f or ('AP form ' in f) or ('ap form ' in f):
                         print("\t" + filename)
-                        os.remove(f)
+                        shutil.move(f, dir_ap_req_archive)
+                    # TODO: uncomment when sap_data is ready
+                    # if ('mara' in f) or ('marc' in f) or ('mvke' in f) or ('ausp' in f) or ('mlan' in f) or ('price' in f) or ('gts' in f) or ('sales_text' in f):
+                    #     print(f)
     except:
         print('Something went wrong :/ \nRun me again, please!')
         await_char()
