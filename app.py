@@ -38,7 +38,7 @@ def get_menu_choice():
         print("8)    ")
         print(85 * "-")
         print("9)    UTILITY: Bring SAP Data")
-        print("10)   UTILITY: Clean DESKTOP folder")
+        print("10)   UTILITY: Clean working folder & archive request files")
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print(85 * "-")
