@@ -9,11 +9,11 @@ dotenv.load_dotenv(dotenv_file)
 os.system("python -m pip install --upgrade pip")
 os.system("pip install virtualenv")
 os.system("python -m venv env")
-os.system("pip install python-dotenv pandas numpy openpyxl keyboard xlrd")
+os.system("pip install python-dotenv pandas numpy openpyxl keyboard xlrd flask")
 os.system("pip list")
 os.system("echo call env/Scripts/activate.bat >> ap_proc.bat")
 os.system("echo call env/Scripts/Activate.ps1 >> ap_proc.bat")
-os.system("echo python app.py >> ap_proc.bat")
+os.system("echo python ap_proc.py >> ap_proc.bat")
 
 
 # FIND DESKTOP FOLDER

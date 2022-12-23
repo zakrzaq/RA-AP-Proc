@@ -1,4 +1,4 @@
-def check_mif_soerf():
+def check_mif_soerf(server):
     import os
     import sys
     fpath = os.path.join(os.path.dirname(__file__), 'utility')
