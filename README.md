@@ -125,6 +125,9 @@ It says it on the tin.
   - [ ] try / except
   - [ ] error logging for CLI
   - [ ] error logging for API
+- [ ] SAP darta import
+  - [ ] LRF?
+  - [ ] AutoHotKey ?
 - [ ] REST API using Flask
   - [ ] user interface
   - [ ] mechanics
@@ -135,4 +138,12 @@ It says it on the tin.
 
 ## MVP REQUIREMENTS:
 
+- Business logic works correctly
+- Training for some on operate CLI GUI in correct order // understanding the process
+- external system access: SAP, Oracle RTD
+-
+
+## Notes
+
+- Tyler Luoma for CR // is he Python?
 -
