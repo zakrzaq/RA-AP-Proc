@@ -30,9 +30,6 @@ IfWinExist, SAP Easy Access
   Sleep (2000)
   Send, C:\RA-Apps\AP-Proc\INPUTS\gts{enter}
   Sleep (2000)
-  WinClose ahk_class SAP_FRONTEND_SESSION
-  Sleep, (1000)
   WinClose, Export / Import Classification Report
-  Sleep, (1000)
   Return
 }

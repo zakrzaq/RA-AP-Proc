@@ -34,10 +34,11 @@ IfWinExist, SAP Easy Access
   Sleep (3000)
   Send +{tab} {tab}
   Send, C:\RA-Apps\AP-Proc\INPUTS\mlan{enter}
-  Sleep (2000)
-  WinClose, Data Browser: Table MLAN
-  Sleep, (1000)
-  WinClose, mlan.XLSX - Excel
-  Sleep, (1000)
-  Return
 }
+
+IfWinExist, Data Browser: Table MLAN Select Entries
+{
+  Sleep, (2500)
+  WinClose, Data Browser: Table MLAN Select Entries
+}
+Return

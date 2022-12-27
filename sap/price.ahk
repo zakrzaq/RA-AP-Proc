@@ -35,17 +35,25 @@ IfWinExist, SAP Easy Access
   Send {up} {enter}
   Sleep (1500)
   Send {enter}
-  Sleep (2000)
+  Sleep (4000)
   Send +{tab}
+  Sleep (1000)
   Send {tab}
-  Sleep (3000)
-  Send, C:\RA-Apps\AP-Proc\INPUTS\price{enter}
   Sleep (2000)
-  WinClose, AP_LIST_PRICE
-  Sleep, (1000)
-  WinClose, price.XLSX - Excel
-  Sleep, (1000)
-  WinClose, Material Sales Text Load/Extract
-  Sleep, (1000)
-  Return
+  Send, C:\RA-Apps\AP-Proc\INPUTS\price{enter}
 }
+
+IfWinExist, AP_LIST_PRICE
+{
+  Sleep, (2500)
+  WinClose, AP_LIST_PRICE
+  WinClose, Material Sales Text Load/Extract
+  WinClose, ausp.XLSX - Excel
+  WinClose, mara.XLSX - Excel
+  WinClose, marc.XLSX - Excel
+  WinClose, mlan.XLSX - Excel
+  WinClose, mvke.XLSX - Excel
+  WinClose, gts.XLSX - Excel
+  WinClose, price.XLSX - Excel
+}
+Return

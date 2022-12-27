@@ -28,10 +28,11 @@ IfWinExist, SAP Easy Access
   Sleep (3000)
   Send +{tab} {tab}
   Send, C:\RA-Apps\AP-Proc\INPUTS\mara{enter}
-  Sleep (2000)
-  WinClose, Display Material: Material List
-  Sleep, (1000)
-  WinClose, mara.XLSX - Excel
-  Sleep, (1000)
-  Return
 }
+
+IfWinExist, Display Material: Material List
+{
+  Sleep, (2500)
+  WinClose, Display Material: Material List
+}
+Return

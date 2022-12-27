@@ -32,10 +32,11 @@ IfWinExist, SAP Easy Access
   Send +{tab} {tab}
   Sleep (2500)
   Send, C:\RA-Apps\AP-Proc\INPUTS\marc{enter}
-  Sleep (2000)
-  WinClose, Data Browser: Table MARC
-  Sleep, (1000)
-  WinClose, marc.XLSX - Excel
-  Sleep, (1000)
-  Return
 }
+
+IfWinExist, Data Browser: Table MARC Select Entries
+{
+  Sleep, (2500)
+  WinClose, Data Browser: Table MARC Select Entries
+}
+Return
