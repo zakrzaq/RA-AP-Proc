@@ -29,17 +29,16 @@ clear()
 def get_menu_choice():
     def print_menu():       # Your menu design here
         print(30 * "-", "AP MM EXTENSION PROCESS", 30 * "-")
-        print("1)    Download SAP DATA")
-        print("2)    Process SAP DATA")
+        print("1)    Get current requests")
+        print("2)    Generate MIF / SOERF requests")
+        print("3)    Update Material Statuses pre MM")
+        print("4)    Generate AM Price & PCE requests")
+        print("5)    Update Material Statuses post MM Extension")
+        print("6)    Generate PM CCC, Localization & GTS Requests")
+        print("7)    ")
         print(85 * "-")
-        print("3)    Get current requests")
-        print("4)    Generate MIF / SOERF requests")
-        print("5)    Update Material Statuses pre MM")
-        print("6)    Generate AM Price & PCE requests")
-        print("7)    Update Material Statuses post MM Extension")
-        print("8)    Generate PM CCC, Localization & GTS Requests")
-        print(85 * "-")
-        print("9)    UTILITY: _____")
+        print("8)    UTILITY: Download SAP Data")
+        print("9)    UTILITY: Bring SAP Data")
         print("10)   UTILITY: Clean working folder & archive request files")
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
@@ -57,28 +56,28 @@ def get_menu_choice():
         print("\n")
 
         if choice == '1':
-            get_sap_data()
-            clear()
-        elif choice == '2':
-            sap_data.sap_data()
-            clear()
-        elif choice == '3':
             requests.requests()
             clear()
-        elif choice == '4':
+        elif choice == '2':
             mif_soerf.mif_soerf()
             clear()
-        elif choice == '5':
+        elif choice == '3':
             am_status.am_status()
             clear()
-        elif choice == '6':
+        elif choice == '4':
             am_emails.am_emails()
             clear()
-        elif choice == '7':
+        elif choice == '5':
             pm_status.pm_status()
             clear()
-        elif choice == '8':
+        elif choice == '6':
             pm_emails.pm_emails()
+            clear()
+        elif choice == '8':
+            get_sap_data()
+            clear()
+        elif choice == '9':
+            sap_data.sap_data()
             clear()
         elif choice == '10':
             clean_desktop.clean_desktop()

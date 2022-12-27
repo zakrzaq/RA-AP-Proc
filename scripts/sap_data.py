@@ -49,6 +49,3 @@ def get_sap_data():
         os.system(f'{script}')
         sleep_time = 3
         time.sleep(sleep_time)
-
-
-get_sap_data()
