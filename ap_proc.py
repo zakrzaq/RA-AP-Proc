@@ -1,20 +1,19 @@
 import os
 import platform
 
-import scripts.requests as requests
-import scripts.mif_soerf as mif_soerf
-import scripts.am_status as am_status
-import scripts.am_emails as am_emails
-import scripts.pm_status as pm_status
-import scripts.pm_emails as pm_emails
+from scripts.sap_data import get_sap_data
+from scripts.proc_sap_data import proc_sap_data
+from scripts.requests import requests
+from scripts.mif_soerf import mif_soerf
+from scripts.am_status import am_status
+from scripts.am_emails import am_emails
+from scripts.pm_status import pm_status
+from scripts.pm_emails import pm_emails
 
 
-import utility.check_mif_soerf as mif_soerf_check
-import utility.clean_desktop as clean_desktop
-import utility.check_daily_report as daily_report_check
-import utility.sap_data as sap_data
-
-server = False
+from utility.mif_soerf_check import mif_soerf_check
+from utility.clean_desktop import clean_desktop
+from utility.check_daily_report import check_daily_report
 
 
 def clear():
@@ -37,10 +36,11 @@ def get_menu_choice():
         print("5)    Update Material Statuses post MM Extension")
         print("6)    Generate PM CCC, Localization & GTS Requests")
         print("7)    ")
-        print("8)    ")
         print(85 * "-")
-        print("9)    UTILITY: Bring SAP Data")
-        print("10)   UTILITY: Clean DESKTOP folder")
+        print("8)    DATA: Download SAP Data")
+        print("9)    DATA: Bring SAP Data")
+        print(85 * "-")
+        print("10)   UTILITY: Clean working folder & archive request files")
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print(85 * "-")
@@ -49,7 +49,6 @@ def get_menu_choice():
         print(85 * "=")
 
     loop = True
-    int_choice = -1
 
     while loop:          # While loop which will keep going until loop = False
         print_menu()    # Displays menu
@@ -57,40 +56,42 @@ def get_menu_choice():
         print("\n")
 
         if choice == '1':
-            requests.requests()
+            requests()
             clear()
         elif choice == '2':
-            mif_soerf.mif_soerf()
+            mif_soerf()
             clear()
         elif choice == '3':
-            am_status.am_status()
+            am_status()
             clear()
         elif choice == '4':
-            am_emails.am_emails()
+            am_emails()
             clear()
         elif choice == '5':
-            pm_status.pm_status()
+            pm_status()
             clear()
         elif choice == '6':
-            pm_emails.pm_emails()
+            pm_emails()
+            clear()
+        elif choice == '8':
+            get_sap_data()
             clear()
         elif choice == '9':
-            sap_data.sap_data()
+            proc_sap_data()
             clear()
         elif choice == '10':
-            clean_desktop.clean_desktop()
+            clean_desktop()
             clear()
         elif choice == '11':
-            mif_soerf_check.check_mif_soerf(server)
+            mif_soerf_check()
             clear()
         elif choice == '12':
-            daily_report_check.check_daily_report()
+            check_daily_report()
             clear()
         elif (choice == 'u' or choice == 'U'):
             os.system("git pull")
             clear()
         elif (choice == 'x' or choice == 'X'):
-            int_choice = -1
             print("Exiting...")
             loop = False
         else:
