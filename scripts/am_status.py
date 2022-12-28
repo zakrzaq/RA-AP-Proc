@@ -3,8 +3,11 @@ import pandas as pd
 
 from helpers.log import load_log, save_log, test_save
 from helpers.xlsm import populate_sheet_series
-from helpers.helpers import await_char
+from helpers.helpers import await_char, use_dotenv, ignore_warnings
 from helpers.data_frames import get_selected_active
+
+use_dotenv()
+ignore_warnings()
 
 
 def am_status():
@@ -19,7 +22,7 @@ def am_status():
         (selected_active_view['status'].str.contains('cancel|complete|on hold|needs price;', case=False) == False) | (selected_active_view['status'].isnull()))
 
     selected_active_view.loc[need_price, 'status'] = selected_active_view['status'].astype(
-        str) + "needs price;"
+        str).replace("nan", "") + "needs price;"
 
     price_requested = selected_active_view.loc[
         (selected_active_view['status'].str.contains(
@@ -29,19 +32,27 @@ def am_status():
 
     # MATNRs PCE NEEDED
     need_pce = (
-        ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) &
-        ((selected_active_view['status'].str.contains('pending PCE review;') == False)) &
+        (selected_active_view['status'].str.contains(
+            'cancel|complete|on hold|pending PCE review', case=False) == False)
         (selected_active_view['Service Requested\n(from request form)']
-            == 'Product Certification Review')
+         == 'Product Certification Review')
     ) | (
-        (selected_active_view['MTART/GenItemCat'].isin(['ZFG', 'ZTG'])) &
-        (~selected_active_view['Regulatory Cert\n(Z62 Characteristic)'].isna()) &
+        (selected_active_view['Regulatory Cert\n(Z62 Class)'].isin(
+            ['BIS', 'BSMI', 'CCC', 'KC', 'RCM'])) &
         (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) &
-        ((selected_active_view['status'].str.contains('cancel|complete|on hold|pending PCE review;', case=False) == False)) &
-        ((selected_active_view['status'].str.contains('pending PCE review;') == False)))
+        (selected_active_view['MTART/GenItemCat'].isin(['ZFG',
+         'ZTG', 'ZRS1', 'ZRS4', 'ZRS5'])) &
+        (selected_active_view['status'].str.contains(
+            'cancel|complete|on hold|pending PCE review', case=False) == False)
+    )
+
+    # test = selected_active_view.loc[need_pce, ['status',
+    #                                            'Z62 characteristic\n(assigned in SAP)']]
+    # print(test)
+    # print(len(test))
 
     selected_active_view.loc[need_pce, 'status'] = selected_active_view['status'].astype(
-        str) + 'pending PCE review;'
+        str).replace("nan", "") + 'pending PCE review;'
 
     pce_requested = selected_active_view.loc[
         (selected_active_view['status'].str.contains(
@@ -49,22 +60,16 @@ def am_status():
     ]
     print(f'Materials needing PCE in log: {len(pce_requested)}')
 
-    # STATUS TO TXT
-    status_file = os.path.join(
-        os.environ['DIR_DESKTOP'], 'AP status.txt')
+    # STATUS OUTPUT
     status_output = selected_active_view['status']
     status_output_str = ''
 
-    if os.path.exists(status_file):
-        os.remove(status_file)
-        for ind in status_output.index:
-            if type(status_output[ind]) == float:
-                status_output_str = status_output_str + "" + "\n"
-            else:
-                status_output_str = status_output_str + \
-                    str(status_output[ind]) + "\n"
-        with open(status_file, 'w') as file:
-            file.writelines(status_output_str)
+    for ind in status_output.index:
+        if type(status_output[ind]) == float:
+            status_output_str = status_output_str + "" + "\n"
+        else:
+            status_output_str = status_output_str + \
+                str(status_output[ind]) + "\n"
 
     # TEST SAVE LOG
     populate_sheet_series(status_output, ws_active, 50, 2)
