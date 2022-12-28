@@ -21,13 +21,19 @@ def proc_sap_data():
     ws_price = log['ZZ_MATPRC_HIST']
     ws_gts = log['gts']
     ws_text = log['sales text']
-    ws_list = [ws_mara, ws_marc, ws_mvke, ws_ausp,
-               ws_mlan, ws_price, ws_gts, ws_text]
+    # ws_list = [ws_mara, ws_marc, ws_mvke, ws_ausp,
+    #            ws_mlan, ws_price, ws_gts, ws_text]
 
     # # clean out data
     print("Truncating data")
-    for sheet in ws_list:
-        sheet.delete_rows(100, ws_mara.max_row)
+    ws_mara.delete_rows(100, ws_mara.max_row)
+    ws_marc.delete_rows(100, ws_mara.max_row)
+    ws_mvke.delete_rows(100, ws_mara.max_row)
+    ws_ausp.delete_rows(100, ws_mara.max_row)
+    ws_mlan.delete_rows(100, ws_mara.max_row)
+    ws_price.delete_rows(100, ws_mara.max_row)
+    ws_gts.delete_rows(100, ws_mara.max_row)
+    ws_text.delete_rows(100, ws_mara.max_row)
 
     # DEFINE DATA FILES
     mara = marc = mvke = ausp = mlan = price = gts = text = pd.DataFrame()
@@ -39,8 +45,7 @@ def proc_sap_data():
     fl_mlan = os.path.join(os.environ['DIR_IN'], 'mlan.XLSX')
     fl_price = os.path.join(os.environ['DIR_IN'], 'price.XLSX')
     fl_gts = os.path.join(os.environ['DIR_IN'], 'gts.XLSX')
-    fl_text = os.path.join(os.environ['DIR_IN'], 'sales_text.XLSX')
-    print(fl_ausp)
+    fl_text = os.path.join(os.environ['DIR_IN'], 'sales_text.xls')
 
     # load sap data to df
     print("Loading new SAP data")
@@ -59,16 +64,15 @@ def proc_sap_data():
     if os.path.exists(fl_gts):
         gts = pd.read_excel(fl_gts)
     if os.path.exists(fl_text):
-        text = pd.read_excel(fl_text)
+        text = pd.read_csv(fl_text, sep='\t', encoding="utf-16")
 
     inputs_list = [mara, marc, mvke, ausp, mlan, price, gts, text]
 
     # FORMAT DATA
-    # TODO: dates in mvke[vmstd], price[Valid to, Valid From]
-    print(mvke.head(1))
-    print(price.head(1))
+    # TODO: price[Valid to] is a long date and needs to be format different
+    # just now it returning blank rows
     mvke['VMSTD'] = pd.to_datetime(
-        mvke['VMSTD'], errors='coerce').dt.strftime('%d-%m%Y')
+        mvke['VMSTD'], errors='coerce').dt.strftime('%d-%m-%Y')
     price['Valid to'] = pd.to_datetime(
         price['Valid to'], errors='coerce').dt.strftime('%d-%m-%Y')
     price['Valid From'] = pd.to_datetime(
@@ -78,6 +82,7 @@ def proc_sap_data():
     inputs_not_empty = 0
     for input in inputs_list:
         if not input.empty:
+            print(input.head(1))
             inputs_not_empty += 1
 
     if inputs_not_empty == 8:
@@ -88,11 +93,16 @@ def proc_sap_data():
         populate_sap_data_sheet(ausp, ws_ausp)
         populate_sap_data_sheet(mlan, ws_mlan)
         populate_sap_data_sheet(price, ws_price)
-        populate_sap_data_sheet(gts, ws_gts, 1)
+        populate_sap_data_sheet(gts, ws_gts, 1, 2)
         populate_sap_data_sheet(text, ws_text)
 
-        for sheet in ws_list:
-            extend_concats(sheet)
+        extend_concats(ws_mara)
+        extend_concats(ws_marc)
+        extend_concats(ws_mvke)
+        extend_concats(ws_ausp)
+        extend_concats(ws_mlan)
+        extend_concats(ws_price)
+        extend_concats(ws_text)
 
         # save test log
         print("Save results")

@@ -32,11 +32,12 @@ def am_status():
 
     # MATNRs PCE NEEDED
     need_pce = (
-        (selected_active_view['status'].str.contains(
-            'cancel|complete|on hold|pending PCE review', case=False) == False)
-        (selected_active_view['Service Requested\n(from request form)']
-         == 'Product Certification Review')
-    ) | (
+        # TODO: needs to be in separate section
+        #     (selected_active_view['status'].str.contains(
+        #         'cancel|complete|on hold|pending PCE review', case=False) == False)
+        #     (selected_active_view['Service Requested\n(from request form)']
+        #      == 'Product Certification Review')
+        # ) | (
         (selected_active_view['Regulatory Cert\n(Z62 Class)'].isin(
             ['BIS', 'BSMI', 'CCC', 'KC', 'RCM'])) &
         (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) &
