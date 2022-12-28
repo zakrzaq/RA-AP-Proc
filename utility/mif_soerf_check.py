@@ -1,8 +1,5 @@
-def check_mif_soerf(server):
+def mif_soerf_check(server):
     import os
-    import sys
-    fpath = os.path.join(os.path.dirname(__file__), 'utility')
-    sys.path.append(fpath)
 
     from helpers.helpers import await_char
     import pandas as pd
