@@ -18,3 +18,5 @@ INPUTS/
 RESOURCES/
 IN-DEV/
 ap_proc.bat
+tx.sap
+test.ahk
