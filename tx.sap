@@ -1,7 +1,0 @@
-<html><head>
-<script type="text/javascript">
-/*HTML Business for Java, 6.0*/
-ur_system = {doc : window.document , mimepath :"/com.sap.portal.design.urdesigndata/themes/portal/RA_Theme/common/", stylepath : "/com.sap.portal.design.urdesigndata/themes/portal/RA_Theme/ur/", is508 : false, domainrelaxing : "MINIMAL"};
-var popup_emptydoc = "/htmlb/jslib/emptyhover.html";</script>
-<link rel="stylesheet" href="/com.sap.portal.theming.webdav.themeswebdavlistener/Portal/prtl_std/RA_Theme/default.css?v=7.31.18.0" />
-<title>SAP&#x20;NetWeaver&#x20;Portal</title><meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"><link  REL=STYLESHEET  HREF="/com.sap.portal.theming.webdav.themeswebdavlistener/Portal/ctrl/RA_Theme/default.css?rid=5a880faf7a80a6c5823a9d5b4c802a0f&v=7.31.18.0"  TYPE="text/css" ></head><body class="prtlBody urFontBaseFam urScrl"><table  border="0" cellspacing="5" cellpadding="0"><tr> <td class="ctrlMsgBarImgError">&nbsp;</td><td class="ctrlTxtEmph"><SPAN CLASS="ctrlLblReq">Could&#x20;not&#x20;open&#x20;iView.&#x20;The&#x20;iView&#x20;is&#x20;not&#x20;compatible&#x20;with&#x20;your&#x20;browser,&#x20;operating&#x20;system,&#x20;or&#x20;device.&#x20;Contact&#x20;your&#x20;system&#x20;administrator&#x20;for&#x20;more&#x20;information.</SPAN></td></tr></table></body></html>
