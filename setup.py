@@ -13,7 +13,7 @@ os.system("pip install python-dotenv pandas numpy openpyxl keyboard xlrd pypercl
 os.system("pip list")
 os.system("echo call env/Scripts/activate.bat >> ap_proc.bat")
 os.system("echo call env/Scripts/Activate.ps1 >> ap_proc.bat")
-os.system("echo python app.py >> ap_proc.bat")
+os.system("echo python ap_proc.py >> ap_proc.bat")
 
 
 # FIND DESKTOP FOLDER
