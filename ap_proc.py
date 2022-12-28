@@ -43,6 +43,8 @@ def get_menu_choice():
         print("10)   UTILITY: Clean working folder & archive request files")
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
+        print("13)   UTILITY: Open SAP Instance")
+
         print(85 * "-")
         print("U)    Update program")
         print("X)    Close program")
@@ -87,6 +89,9 @@ def get_menu_choice():
             clear()
         elif choice == '12':
             check_daily_report()
+            clear()
+        elif choice == '12':
+            os.system(r'C:\RA-Apps\AP-Proc\sap\sap.ahk')
             clear()
         elif (choice == 'u' or choice == 'U'):
             os.system("git pull")
