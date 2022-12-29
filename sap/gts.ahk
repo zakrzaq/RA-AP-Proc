@@ -25,11 +25,11 @@ IfWinExist, SAP Easy Access
   Send {F8}
   Sleep (6000)
   Send ^{F2}
-  Sleep (3000)
+  Sleep (4000)
   Send +{tab} {tab}
-  Sleep (2000)
+  Sleep (3000)
   Send, C:\RA-Apps\AP-Proc\INPUTS\gts{enter}
-  Sleep (2000)
+  Sleep (3000)
   WinClose, Export / Import Classification Report
   Return
 }

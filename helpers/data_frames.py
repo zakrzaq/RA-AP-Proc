@@ -6,9 +6,9 @@ from helpers.helpers import use_dotenv
 use_dotenv()
 
 
-def get_active():
+def get_active(sheet_name='Active Materials'):
     return pd.read_excel(os.environ['AP_LOG'],
-                         sheet_name='Active Materials', dtype=str)
+                         sheet_name=sheet_name, dtype=str)
 
 
 def get_selected_active():

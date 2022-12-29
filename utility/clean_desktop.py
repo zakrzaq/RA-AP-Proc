@@ -30,45 +30,51 @@ def clean_desktop():
                         dest = os.path.join(dir_pce_requests, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
-                        shutil.move(f, dir_pce_requests)
+                        shutil.copy2(f, dir_pce_requests)
+                        os.remove(os.path.join(output_directory, f))
                     # pce feedback
                     if ' ASSESSMENT REQUEST' in f:
                         print("\t" + filename)
                         dest = os.path.join(dir_pce_feedback, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
-                        shutil.move(f, dir_pce_feedback)
+                        shutil.copy2(f, dir_pce_feedback)
+                        os.remove(os.path.join(output_directory, f))
                     # pricing requests
                     if 'AP pricing needed with active demand' in f:
                         print("\t" + filename)
                         dest = os.path.join(dir_pricing, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
-                        shutil.move(f, dir_pricing)
+                        shutil.copy2(f, dir_pricing)
+                        os.remove(os.path.join(output_directory, f))
                     # inhts requests
                     if 'INHTS request ' in f:
                         print("\t" + filename)
                         dest = os.path.join(dir_inhts, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
-                        shutil.move(f, dir_inhts)
+                        shutil.copy2(f, dir_inhts)
+                        os.remove(os.path.join(output_directory, f))
                     # localization requests
                     if 'India localization required' in f:
                         print("\t" + filename)
                         dest = os.path.join(dir_local, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
-                        shutil.move(f, dir_local)
+                        shutil.copy2(f, dir_local)
+                        os.remove(os.path.join(output_directory, f))
                     # AP requests
                     if ('AP_Material_Master_Service_Request_Form' in f) or ('_AP form ') in f or ('AP form ' in f) or ('ap form ' in f):
                         print("\t" + filename)
                         dest = os.path.join(dir_ap_req_archive, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
-                        shutil.move(f, dir_ap_req_archive)
-                    # TODO: uncomment when sap_data is ready
+                        shutil.copy2(f, dir_ap_req_archive)
+                        os.remove(os.path.join(output_directory, f))
+                    # TODO: need full file path
                     if ('mara' in f) or ('marc' in f) or ('mvke' in f) or ('ausp' in f) or ('mlan' in f) or ('price' in f) or ('gts' in f) or ('sales_text' in f):
-                        print(f)
+                        print('\t' + f)
                         os.remove(f)
     except:
         print('Something went wrong :/ \nRun me again, please!')

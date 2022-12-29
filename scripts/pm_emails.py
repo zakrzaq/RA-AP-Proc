@@ -3,10 +3,11 @@ def pm_emails():
     import pandas as pd
     from datetime import date
 
-    from helpers.helpers import ignore_warnings, await_char, use_dotenv
+    from helpers.helpers import ignore_warnings, await_char, use_dotenv, use_logger
     from helpers.data_frames import get_active
 
-    use_dotenv
+    use_dotenv()
+    use_logger()
     ignore_warnings()
 
     today = date.today().strftime("%m-%d-%Y")

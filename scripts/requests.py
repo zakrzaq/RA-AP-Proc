@@ -3,10 +3,11 @@ def requests():
     import os
     from openpyxl.formula.translate import Translator
 
-    from helpers.helpers import await_char, use_dotenv, ignore_warnings
+    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger
     from helpers.log import save_log, load_log, test_save
 
     use_dotenv()
+    use_logger()
     ignore_warnings()
 
     # VARIABLES

@@ -1,5 +1,7 @@
+import os
 import dotenv
 import warnings
+import logging
 
 
 def await_char(char="y", msg="", func="", param=""):
@@ -30,3 +32,8 @@ def use_dotenv():
 
 def ignore_warnings():
     warnings.filterwarnings("ignore")
+
+
+def use_logger():
+    logging.basicConfig(filename=os.path.join(
+        "logs", "log.txt"), level=logging.DEBUG)
