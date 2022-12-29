@@ -1,4 +1,4 @@
-def reconcile_pce():
+def reconcile_pce(server):
     import os
     import pandas as pd
 

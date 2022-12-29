@@ -11,7 +11,7 @@ use_logger()
 ignore_warnings()
 
 
-def am_status():
+def am_status(server):
     # LOAD LOG
     log = load_log()
     ws_active = log['Active Materials']
