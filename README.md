@@ -34,6 +34,10 @@ EDM_APMM='<your_end_drive_letter>:\Request Logs\APMM'
 
 ## USAGE
 
+Execute via `ap_proc.bat` for CLI Interface
+
+Execute via `ap_serv.bat` for web interface accessible on [here](http://localhost:5000)
+
 **IMPORTANT:** AP LOG file has to be closed on local machine to execute any scripts.
 
 ### Get current requests
@@ -44,7 +48,7 @@ All new request will added to AP LOG
 
 ### Generate MIF / SOERF requests
 
-This will genrate SQL Query file to your Desktop with name
+This will generate SQL Query file to your Desktop with name
 
 ### Update Material Statuses pre MM
 
@@ -115,7 +119,14 @@ Will run git command to update to latest changes available on repository.
 
 It says it on the tin.
 
-## TODO
+## BUGFIXES
+
+- [ ] check for log being open on every script
+- [ ] MKVE.ahk SAP error
+- [ ] BIS only on PCE status finder
+- [ ] PCE finder to include Prod Cert Review
+
+## TODO 0.5
 
 - [x] Get SAP DATA
   - [x] fix data layout issues
@@ -123,12 +134,19 @@ It says it on the tin.
 - [ ] Handle initial additions / CANCELLATIONS
 - [x] Get current requests
 - [x] Generate MIF/SOERF SQL Query
+  - [ ] using CLI for query running and data
 - [x] Update Material Statuses pre MM:
   - [x] fix query result for price and PCE
   - [ ] dates needing to be added to pce and price requests status updates
 - [x] Generate AM Price & PCE requests
 - [ ] Update Material Statuses post MM Extension
   - [ ] fix query result for price and PCE
+- [ ] Reconcile PCE & Orignal Source
+  - [ ] org_source - list of material from df
+  - [ ] org_source - ahk query
+  - [ ] reconcile PCE - update log
+  - [ ] reconcile PCE - update load file
+  - [ ] reconcile PCE - update ahk script
 - [x] Generate PM CCC, Localization & GTS Requests
 - [x] CLI GUI with menu
 - [ ] Error handling
@@ -138,16 +156,21 @@ It says it on the tin.
 - [x] SAP data import
   - [ ] LRF?
   - [x] AutoHotKey
-- [ ] REST API using Flask
-  - [ ] user interface
-  - [ ] mechanics
+- [x] REST API using Flask
+  - [x] user interface
+  - [x] mechanics
 
-## BUGFIXES
+## TODO 1.0
 
-- [ ] check for log being open on every script
-- [ ] MKVE.ahk SAP error
-- [ ] BIS only on PCE status finder
-- [ ] PCE finder to include Prod Cert Review
+- [ ] sqlite db for all data
+- [ ] query db api
+- [ ] BE able to run on milwaukee machine / ip address for vpn network
+- [ ] requests to db
+
+## TODO 1.5
+
+- [ ] integrate AgilePoint for Interface
+- [ ] hosted db
 
 ## MVP REQUIREMENTS:
 
@@ -158,5 +181,4 @@ It says it on the tin.
 
 ## Notes
 
-- Tyler Luoma for CR // is he Python?
--
+> Tyler Luoma for CR // is he Python?

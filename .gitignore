@@ -20,6 +20,7 @@ INPUTS/
 RESOURCES/
 IN-DEV/
 ap_proc.bat
+ap_serv.bat
 tx.sap
 test.ahk
 test.py
