@@ -3,10 +3,11 @@ def am_emails():
     import pandas as pd
     from datetime import date
 
-    from helpers.helpers import use_dotenv, ignore_warnings, await_char
+    from helpers.helpers import use_dotenv, ignore_warnings, await_char, use_logger
     from helpers.data_frames import get_active
 
     use_dotenv()
+    use_logger()
     ignore_warnings()
 
     today = date.today().strftime("%m-%d-%Y")

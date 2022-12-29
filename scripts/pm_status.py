@@ -2,12 +2,13 @@ def pm_status():
     import os
     import pandas as pd
 
-    from helpers.helpers import await_char, ignore_warnings, use_dotenv
+    from helpers.helpers import await_char, ignore_warnings, use_dotenv, use_logger
     from helpers.log import save_log, test_save, load_log
     from helpers.xlsm import populate_sheet_series
     from helpers.data_frames import get_selected_active
 
     use_dotenv()
+    use_logger()
     ignore_warnings()
 
     log = load_log()

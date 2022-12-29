@@ -2,11 +2,12 @@ def proc_sap_data():
     import pandas as pd
     import os
 
-    from helpers.helpers import await_char, use_dotenv, ignore_warnings
+    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger
     from helpers.log import load_log, save_log, test_save
     from helpers.xlsm import populate_sap_data_sheet, extend_concats
 
     use_dotenv()
+    use_logger()
     ignore_warnings()
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES

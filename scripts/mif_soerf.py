@@ -2,10 +2,11 @@ def mif_soerf():
     import pandas as pd
     import os
 
-    from helpers.helpers import use_dotenv, ignore_warnings, await_char
+    from helpers.helpers import use_dotenv, ignore_warnings, await_char, use_logger
     from helpers.data_frames import get_selected_active
 
     use_dotenv()
+    use_logger()
     ignore_warnings()
 
     selected_active_view = get_selected_active()

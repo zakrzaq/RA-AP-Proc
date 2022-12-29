@@ -1,19 +1,21 @@
+from utility.check_daily_report import check_daily_report
+from utility.clean_desktop import clean_desktop
+from utility.mif_soerf_check import mif_soerf_check
+from scripts.pm_emails import pm_emails
+from scripts.pm_status import pm_status
+from scripts.am_emails import am_emails
+from scripts.am_status import am_status
+from scripts.mif_soerf import mif_soerf
+from scripts.requests import requests
+from scripts.proc_sap_data import proc_sap_data
+from scripts.sap_data import get_sap_data
+
+
 import os
 import platform
+from helpers.helpers import use_logger
 
-from scripts.sap_data import get_sap_data
-from scripts.proc_sap_data import proc_sap_data
-from scripts.requests import requests
-from scripts.mif_soerf import mif_soerf
-from scripts.am_status import am_status
-from scripts.am_emails import am_emails
-from scripts.pm_status import pm_status
-from scripts.pm_emails import pm_emails
-
-
-from utility.mif_soerf_check import mif_soerf_check
-from utility.clean_desktop import clean_desktop
-from utility.check_daily_report import check_daily_report
+use_logger()
 
 
 def clear():
@@ -90,7 +92,7 @@ def get_menu_choice():
         elif choice == '12':
             check_daily_report()
             clear()
-        elif choice == '12':
+        elif choice == '13':
             os.system(r'C:\RA-Apps\AP-Proc\sap\sap.ahk')
             clear()
         elif (choice == 'u' or choice == 'U'):
