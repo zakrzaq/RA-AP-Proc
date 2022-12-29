@@ -1,6 +1,6 @@
 
 
-def get_sap_data():
+def get_sap_data(server):
     import time
     import pandas as pd
     import os

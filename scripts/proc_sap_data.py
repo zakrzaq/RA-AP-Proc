@@ -1,4 +1,4 @@
-def proc_sap_data():
+def proc_sap_data(server):
     import pandas as pd
     import os
 
