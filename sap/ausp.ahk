@@ -28,8 +28,9 @@ IfWinExist, SAP Easy Access
   Send {F8}
   Sleep (17000)
   Send ^+{F7}
-  Sleep (15000)
+  Sleep (20000)
   Send +{tab} {tab}
+  Sleep, 500
   Send, C:\RA-Apps\AP-Proc\INPUTS\ausp{enter}
   Sleep (2000)
 }

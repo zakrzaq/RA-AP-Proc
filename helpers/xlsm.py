@@ -32,11 +32,11 @@ def populate_sap_data_sheet(df, sheet, start_col=2, start_row=2):
             sheet.cell(column=colx, row=rowy, value=value)
 
 
-def extend_concats(sheet):
+def extend_concats(sheet, start_row=100, col_letter="A"):
     last_row = sheet.max_row
-    i = 100
+    i = start_row
     while i < last_row:
         i += 1
-        formula = sheet['A2'].value
-        sheet[f'A{i}'] = Translator(
-            formula, origin="A2").translate_formula(f"A{i}")
+        formula = sheet[f'{col_letter}2'].value
+        sheet[f'{col_letter}{i}'] = Translator(
+            formula, origin=f'{col_letter}2').translate_formula(f'{col_letter}{i}')

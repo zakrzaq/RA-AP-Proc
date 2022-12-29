@@ -1,4 +1,4 @@
-def mif_soerf(server):
+def mif_soerf(server=False):
     import pandas as pd
     import os
 

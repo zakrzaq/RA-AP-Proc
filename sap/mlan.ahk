@@ -33,6 +33,7 @@ IfWinExist, SAP Easy Access
   Send ^+{F7}
   Sleep (3000)
   Send +{tab} {tab}
+  Sleep, 500
   Send, C:\RA-Apps\AP-Proc\INPUTS\mlan{enter}
 }
 

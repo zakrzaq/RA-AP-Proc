@@ -27,6 +27,7 @@ IfWinExist, SAP Easy Access
   Send {enter}
   Sleep (3000)
   Send +{tab} {tab}
+  Sleep, 500
   Send, C:\RA-Apps\AP-Proc\INPUTS\mara{enter}
 }
 

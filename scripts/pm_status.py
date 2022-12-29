@@ -1,4 +1,4 @@
-def pm_status(server):
+def pm_status(server=False):
     import os
     import pandas as pd
 
