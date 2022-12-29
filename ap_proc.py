@@ -1,3 +1,17 @@
+import os
+import platform
+from flask import Flask, render_template
+
+from scripts.sap_data import get_sap_data
+from scripts.proc_sap_data import proc_sap_data
+from scripts.requests import requests
+from scripts.mif_soerf import mif_soerf
+from scripts.am_status import am_status
+from scripts.am_emails import am_emails
+from scripts.pm_status import pm_status
+from scripts.pm_emails import pm_emails
+
+
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
 from utility.mif_soerf_check import mif_soerf_check
@@ -28,6 +42,9 @@ def clear():
 clear()
 
 
+server = False
+
+
 def get_menu_choice():
     def print_menu():       # Your menu design here
         print(30 * "-", "AP MM EXTENSION PROCESS", 30 * "-")
@@ -46,7 +63,6 @@ def get_menu_choice():
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print("13)   UTILITY: Open SAP Instance")
-
         print(85 * "-")
         print("U)    Update program")
         print("X)    Close program")

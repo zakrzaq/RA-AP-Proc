@@ -62,9 +62,11 @@ Will output request files for Pricing & PCE requests. THose will be located in `
 
 Will output request files for GTS, Localization & CCC requests. THose will be located in `OUTPUTS` folder.
 
-### UTILITY: Bring SAP Data
+### DATA: Download SAP Data
 
 All SAP data file to be saved in `OUTPUTS` folder.
+
+> **Leave your computer for 5 minutes while it runs**
 
 REQUIRED FILES:
 
@@ -78,6 +80,10 @@ price.xlsx
 gts.xlsx
 sales_text.xlsx
 ```
+
+### DATA: Bring SAP Data
+
+Will bring SAP data to AP LOG.
 
 ### UTILITY: Clean working folder & archive request files
 
@@ -97,6 +103,10 @@ Will produce out put showing for both MIF/SOERF to AP MM Extension Process:
 
 Will produce out indicating if report file for current day is present in Sharepoint Repository.
 
+### UTILITY: Open SAP Instance
+
+Open SAP instance using browser. No to touch mouse / keyboard while it runs
+
 ### Update program
 
 Will run git command to update to latest changes available on repository.
@@ -107,14 +117,14 @@ It says it on the tin.
 
 ## TODO
 
-- [ ] Get SAP DATA
+- [x] Get SAP DATA
   - [x] fix data layout issues
-  - [ ] fix date issues
+  - [x] fix date issues
 - [ ] Handle initial additions / CANCELLATIONS
 - [x] Get current requests
 - [x] Generate MIF/SOERF SQL Query
-- [ ] Update Material Statuses pre MM:
-  - [ ] fix query result for price and PCE
+- [x] Update Material Statuses pre MM:
+  - [x] fix query result for price and PCE
   - [ ] dates needing to be added to pce and price requests status updates
 - [x] Generate AM Price & PCE requests
 - [ ] Update Material Statuses post MM Extension
@@ -125,9 +135,9 @@ It says it on the tin.
   - [ ] try / except
   - [ ] error logging for CLI
   - [ ] error logging for API
-- [ ] SAP darta import
+- [x] SAP data import
   - [ ] LRF?
-  - [ ] AutoHotKey ?
+  - [x] AutoHotKey
 - [ ] REST API using Flask
   - [ ] user interface
   - [ ] mechanics
@@ -135,6 +145,9 @@ It says it on the tin.
 ## BUGFIXES
 
 - [ ] check for log being open on every script
+- [ ] MKVE.ahk SAP error
+- [ ] BIS only on PCE status finder
+- [ ] PCE finder to include Prod Cert Review
 
 ## MVP REQUIREMENTS:
 
