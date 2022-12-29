@@ -46,7 +46,7 @@ def get_sap_data():
     scripts_List = []
     for filename in os.listdir(os.path.join(os.environ['DIR_APP'], 'sap')):
         if filename not in omitted_scripts:
-            file = os.path.join(os.environ['DIR_APP'], filename)
+            file = os.path.join(os.environ['DIR_APP'], 'sap', filename)
             scripts_List.append(file)
 
     sleep_time = 4

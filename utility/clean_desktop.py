@@ -71,7 +71,7 @@ def clean_desktop():
                         if os.path.exists(dest):
                             os.remove(dest)
                         shutil.copy2(f, dir_ap_req_archive)
-                        # os.remove(os.path.join(output_directory, f))
+                        os.remove(os.path.join(output_directory, f))
                     # TODO: need full file path
                     if ('mara' in f) or ('marc' in f) or ('mvke' in f) or ('ausp' in f) or ('mlan' in f) or ('price' in f) or ('gts' in f) or ('sales_text' in f):
                         print('\t' + f)

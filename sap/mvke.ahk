@@ -7,7 +7,6 @@ SetWorkingDir, %A_ScriptDir%
 ;MVKE
 IfWinExist, SAP Easy Access
 {
-
   WinActivate, SAP Easy Access
   Sleep (1500)
   Send {/}ose16 {enter}
@@ -31,12 +30,11 @@ IfWinExist, SAP Easy Access
   Send ^+{F7}
   Sleep (4000)
   Send +{tab} {tab}
+  Sleep, (2000)
   Send, C:\RA-Apps\AP-Proc\INPUTS\mvke{enter}
-}
-
-IfWinExist, Data Browser: Table MVKE Select Entries
-{
   Sleep, (2500)
   WinClose, Data Browser: Table MVKE Select Entries
+  ; Sleep, 3000
+  ; WinClose, Cancel SAP Application
+  Return
 }
-Return
