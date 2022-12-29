@@ -1,4 +1,4 @@
-def requests(server):
+def requests(server=False):
     import pandas as pd
     import os
     from openpyxl.formula.translate import Translator

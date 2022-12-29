@@ -1,4 +1,4 @@
-def pm_emails(server):
+def pm_emails(server=False):
     import os
     import pandas as pd
     from datetime import date

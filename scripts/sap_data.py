@@ -1,6 +1,6 @@
 
 
-def get_sap_data(server):
+def get_sap_data(server=False):
     import time
     import pandas as pd
     import os
@@ -42,7 +42,8 @@ def get_sap_data(server):
     material_list.to_clipboard(sep='\n', index=False)
 
     # RUN ALL DATA SCRIPTS
-    omitted_scripts = ['sap.ahk', 'sales_text.ahk']
+    omitted_scripts = ['sap.ahk', 'sales_text.ahk',
+                       'org_source.ahk', 'upd_class.ahk']
     scripts_List = []
     for filename in os.listdir(os.path.join(os.environ['DIR_APP'], 'sap')):
         if filename not in omitted_scripts:
