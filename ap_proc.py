@@ -11,6 +11,7 @@ from scripts.am_emails import am_emails
 from scripts.am_status import am_status
 from scripts.mif_soerf import mif_soerf
 from scripts.requests import requests
+from scripts.reconcile_pce import reconcile_pce
 from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
 
@@ -42,9 +43,9 @@ def get_menu_choice():
         print("2)    Generate MIF / SOERF requests")
         print("3)    Update Material Statuses pre MM")
         print("4)    Generate AM Price & PCE requests")
+        print("5)    Reconcile PCE / Update ORG Source")
         print("5)    Update Material Statuses post MM Extension")
         print("6)    Generate PM CCC, Localization & GTS Requests")
-        print("7)    ")
         print(85 * "-")
         print("8)    DATA: Download SAP Data")
         print("9)    DATA: Bring SAP Data")
@@ -78,9 +79,12 @@ def get_menu_choice():
             am_emails()
             clear()
         elif choice == '5':
-            pm_status()
+            reconcile_pce()
             clear()
         elif choice == '6':
+            pm_status()
+            clear()
+        elif choice == '7':
             pm_emails()
             clear()
         elif choice == '8':

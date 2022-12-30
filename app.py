@@ -11,6 +11,7 @@ from scripts.am_emails import am_emails
 from scripts.am_status import am_status
 from scripts.mif_soerf import mif_soerf
 from scripts.requests import requests
+from scripts.reconcile_pce import reconcile_pce
 from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
 
@@ -88,6 +89,12 @@ def r_am_status(script='Update Material Statuses pre MM'):
 @app.route("/am_emails")
 def r_am_emails(script='Generate AM Price & PCE requests'):
     output = am_emails(server)
+    return render_template('output.html', script=script, output=output)
+
+
+@app.route("/reconcile_pce")
+def r_reconcile_pce(script='Reconcile PCE / Update ORG Source'):
+    output = reconcile_pce(server)
     return render_template('output.html', script=script, output=output)
 
 
