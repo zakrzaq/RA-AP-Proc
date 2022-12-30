@@ -125,6 +125,8 @@ It says it on the tin.
 - [ ] MKVE.ahk SAP error
 - [ ] BIS only on PCE status finder
 - [ ] PCE finder to include Prod Cert Review
+- [ ] Flask: Check daily report server error
+- [ ] Flask: clean server error
 
 ## TODO 0.5
 
