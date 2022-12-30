@@ -136,23 +136,24 @@ It says it on the tin.
 - [ ] Handle initial additions / CANCELLATIONS
 - [x] Get current requests
 - [x] Generate MIF/SOERF SQL Query
-  - [ ] using CLI for query running and data
+  - [ ] using CLI Oracle CS for query running and data
 - [x] Update Material Statuses pre MM:
   - [x] fix query result for price and PCE
   - [ ] dates needing to be added to pce and price requests status updates
 - [x] Generate AM Price & PCE requests
 - [ ] Update Material Statuses post MM Extension
   - [ ] fix query result for price and PCE
-- [ ] Reconcile PCE & Orignal Source
-  - [ ] org_source - list of material from df
-  - [ ] org_source - ahk query
-  - [ ] reconcile PCE - update log
-  - [ ] reconcile PCE - update load file
-  - [ ] reconcile PCE - update ahk script
+- [ ] Reconcile PCE & Original Source
+  - [x] org_source - list of material from df
+  - [x] org_source - ahk query
+  - [x] reconcile PCE - update log
+  - [x] reconcile PCE - update load file
+  - [x] reconcile PCE - update ahk script
 - [x] Generate PM CCC, Localization & GTS Requests
 - [x] CLI GUI with menu
 - [ ] Error handling
-  - [ ] try / except
+  - [x] try / except v1
+  - [ ] try / except v2
   - [ ] error logging for CLI
   - [ ] error logging for API
 - [x] SAP data import
