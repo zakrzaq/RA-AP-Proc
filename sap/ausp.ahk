@@ -32,12 +32,11 @@ IfWinExist, SAP Easy Access
   Send +{tab} {tab}
   Sleep, 500
   Send, C:\RA-Apps\AP-Proc\INPUTS\ausp{enter}
-  Sleep (2000)
-}
-
-IfWinExist, Data Browser: Table AUSP Select Entries
-{
-  Sleep, (2500)
-  WinClose, Data Browser: Table AUSP Select Entries
+  Sleep (4000)
+  IfWinExist, Data Browser: Table AUSP Select Entries
+  {
+    Sleep, (1500)
+    WinClose, Data Browser: Table AUSP Select Entries
+  }
 }
 Return

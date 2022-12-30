@@ -1,4 +1,4 @@
-def check_daily_report():
+def check_daily_report(server=False):
     import os
     import sys
     fpath = os.path.join(os.path.dirname(__file__), 'utility')

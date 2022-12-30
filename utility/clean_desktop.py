@@ -1,4 +1,4 @@
-def clean_desktop():
+def clean_desktop(server=False):
     import os
     import shutil
 

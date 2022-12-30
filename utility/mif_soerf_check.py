@@ -1,4 +1,4 @@
-def mif_soerf_check(server):
+def mif_soerf_check(server=False):
     import os
 
     from helpers.helpers import await_char
