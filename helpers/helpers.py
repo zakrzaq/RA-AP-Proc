@@ -37,3 +37,11 @@ def ignore_warnings():
 def use_logger():
     logging.basicConfig(filename=os.path.join(
         "logs", "log.txt"), level=logging.DEBUG)
+
+
+def output_msg(server, msg):
+    if server == False:
+        print(msg)
+        return ''
+    else:
+        return f'<p>{msg}</p>\n'

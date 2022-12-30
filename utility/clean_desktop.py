@@ -1,9 +1,11 @@
 def clean_desktop(server=False):
     import os
     import shutil
+    from flask import Markup
 
-    from helpers.helpers import await_char
+    from helpers.helpers import await_char, output_msg
 
+    output = ''
     report_directory = os.environ['EDM_APMM']
     output_directory = os.environ['DIR_OUT']
     input_directory = os.environ['DIR_IN']
@@ -20,13 +22,13 @@ def clean_desktop(server=False):
     # archive desktop folder to shared edm drive
     try:
         for dir in process_dirs:
-            print(dir)
+            output += output_msg(server, f'Folder processed: {dir}')
             for filename in os.listdir(dir):
                 f = os.path.join(dir, filename)
                 if os.path.isfile(f):
                     # pce requests
                     if ' ASSESSMENT REQUEST.xlsx' in f:
-                        print("\t" + filename)
+                        output += output_msg(server, "\t" + filename)
                         dest = os.path.join(dir_pce_requests, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
@@ -34,7 +36,7 @@ def clean_desktop(server=False):
                         os.remove(os.path.join(output_directory, f))
                     # pce feedback
                     if ' ASSESSMENT REQUEST' in f:
-                        print("\t" + filename)
+                        output += output_msg(server, "\t" + filename)
                         dest = os.path.join(dir_pce_feedback, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
@@ -42,7 +44,7 @@ def clean_desktop(server=False):
                         os.remove(os.path.join(output_directory, f))
                     # pricing requests
                     if 'AP pricing needed with active demand' in f:
-                        print("\t" + filename)
+                        output += output_msg(server, "\t" + filename)
                         dest = os.path.join(dir_pricing, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
@@ -50,7 +52,7 @@ def clean_desktop(server=False):
                         os.remove(os.path.join(output_directory, f))
                     # inhts requests
                     if 'INHTS request ' in f:
-                        print("\t" + filename)
+                        output += output_msg(server, "\t" + filename)
                         dest = os.path.join(dir_inhts, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
@@ -58,7 +60,7 @@ def clean_desktop(server=False):
                         os.remove(os.path.join(output_directory, f))
                     # localization requests
                     if 'India localization required' in f:
-                        print("\t" + filename)
+                        output += output_msg(server, "\t" + filename)
                         dest = os.path.join(dir_local, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
@@ -66,19 +68,27 @@ def clean_desktop(server=False):
                         os.remove(os.path.join(output_directory, f))
                     # AP requests
                     if ('AP_Material_Master_Service_Request_Form' in f) or ('_AP form ') in f or ('AP form ' in f) or ('ap form ' in f):
-                        print("\t" + filename)
+                        output += output_msg(server, "\t" + filename)
                         dest = os.path.join(dir_ap_req_archive, filename)
                         if os.path.exists(dest):
                             os.remove(dest)
                         shutil.copy2(f, dir_ap_req_archive)
                         os.remove(os.path.join(output_directory, f))
                     if ('mara' in f) or ('marc' in f) or ('mvke' in f) or ('ausp' in f) or ('mlan' in f) or ('price' in f) or ('gts' in f) or ('sales_text' in f):
-                        print('\t' + f)
+                        output += output_msg(server, '\t' + f)
                         os.remove(f)
                     if 'UPDATES TO Z62' in f:
+                        output += output_msg(server, '\t' + f)
                         os.remove(f)
     except:
-        print('Something went wrong :/ \nRun me again, please!')
-        await_char()
+        output += output_msg(server,
+                             'Something went wrong :/ \nRun me again, please!')
+        if server == False:
+            await_char()
+        else:
+            return output
 
-    await_char()
+    if server == False:
+        await_char()
+    else:
+        return Markup(output)

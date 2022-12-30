@@ -5,7 +5,11 @@ def check_daily_report(server=False):
     sys.path.append(fpath)
 
     import platform
+    from flask import Markup
     from datetime import date
+    from helpers.helpers import output_msg
+
+    output = ''
 
     if platform.system() == "Linux":
         report_directory = "/mnt/x/"
@@ -17,16 +21,17 @@ def check_daily_report(server=False):
     )
 
     today = date.today().strftime("%m-%d-%Y")
-    print(f"Daily AP Process update for:  {today}\n")
+    output += output_msg(server, f"Daily AP Process update for:  {today}")
 
     for filename in os.listdir(report_directory):
         f = os.path.join(report_directory, filename)
         if os.path.isfile(f):
             if today in f:
-                print(f"\t{filename}\n")
+                output += output_msg(server, f"\t{filename}")
 
     if os.path.exists(ap_materials_list):
         os.remove(ap_materials_list)
-        print("Materials list file removed\n")
+        output += output_msg(server, "Materials list file removed")
 
-    input("Press ENTER to continue.")
+    if server:
+        return Markup(output)

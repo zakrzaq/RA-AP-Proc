@@ -1,8 +1,9 @@
 def pm_status(server=False):
     import os
     import pandas as pd
+    from flask import Markup
 
-    from helpers.helpers import await_char, ignore_warnings, use_dotenv, use_logger
+    from helpers.helpers import await_char, ignore_warnings, use_dotenv, use_logger, output_msg
     from helpers.log import save_log, test_save, load_log
     from helpers.xlsm import populate_sheet_series
     from helpers.data_frames import get_selected_active
@@ -13,8 +14,8 @@ def pm_status(server=False):
 
     log = load_log()
     ws_active = log['Active Materials']
-
     selected_active_view = get_selected_active()
+    output = ''
 
     # VERIFY PRICED
     selected_active_view.loc[
@@ -64,8 +65,8 @@ def pm_status(server=False):
         (selected_active_view['status'].str.contains(
             'GST data needed;') == True)
     ]
-    print('Materials needing GTS in log:')
-    print(len(gts_requested))
+    output += output_msg(server, 'Materials needing GTS in log:')
+    output += output_msg(server, len(gts_requested))
 
     # MATNRs LOCAL NEEDED
     need_local = (
@@ -84,8 +85,8 @@ def pm_status(server=False):
         (selected_active_view['status'].str.contains(
             'Localization required;') == True)
     ]
-    print('Materials needing LOCALIZATION in log:')
-    print(len(local_requested))
+    output += output_msg(server, 'Materials needing LOCALIZATION in log:')
+    output += output_msg(server, len(local_requested))
 
     # SAVE TXT
     # status_file = os.path.join(os.environ['DIR_DESKTOP'], 'AP_status.txt')
@@ -103,5 +104,10 @@ def pm_status(server=False):
     populate_sheet_series(status_output, ws_active, 50, 2)
     test_save(log, "TEST_pm_status")
     # ACTUAL
-    await_char(
-        "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
+    if server == False:
+        await_char(
+            "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
+    else:
+        save_log(log)
+        output += output_msg(server, 'LOG file saved')
+        return Markup(output)

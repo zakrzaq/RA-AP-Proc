@@ -1,8 +1,9 @@
 def mif_soerf(server=False):
     import pandas as pd
     import os
+    from flask import Markup
 
-    from helpers.helpers import use_dotenv, ignore_warnings, await_char, use_logger
+    from helpers.helpers import use_dotenv, ignore_warnings, await_char, use_logger, output_msg
     from helpers.data_frames import get_selected_active
 
     use_dotenv()
@@ -10,6 +11,7 @@ def mif_soerf(server=False):
     ignore_warnings()
 
     selected_active_view = get_selected_active()
+    output = ''
 
     # MIF / SOERF needed
     mif_soerf_view = selected_active_view[['Date Added', 'target sorg', 'target plant',
@@ -27,11 +29,10 @@ def mif_soerf(server=False):
         mif_soerf["Service Requested\n(from request form)"] + '\');'
 
     # OUTPUT TO SQL FILE
-    output = mif_soerf['sql']
+    output_mif = mif_soerf['sql']
     output_str = ""
-    for ind in output.index:
-        output_str = output_str + output[ind] + "\n"
-
+    for ind in output_mif.index:
+        output_str = output_str + output_mif[ind] + "\n"
     # print(output_str)
     with open(os.path.join(os.environ['DIR_APP'], 'sql', 'full_mif_soerf.sql')) as file:
         lines = file.readlines()
@@ -39,6 +40,10 @@ def mif_soerf(server=False):
     with open(os.path.join(os.environ['DIR_DESKTOP'], 'AP_MIF_SOERF.sql'), 'w') as file:
         file.writelines(lines)
 
-    print(f'Materials added to SQL query: {len(mif_soerf)}')
+    output += output_msg(server,
+                         f'Materials added to SQL query: {len(mif_soerf)}')
 
-    await_char()
+    if server == False:
+        await_char()
+    else:
+        return Markup(output)

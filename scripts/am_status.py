@@ -1,14 +1,17 @@
 import os
 import pandas as pd
+from flask import Markup
 
 from helpers.log import load_log, save_log, test_save
 from helpers.xlsm import populate_sheet_series
-from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger
+from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
 from helpers.data_frames import get_selected_active
 
 use_dotenv()
 use_logger()
 ignore_warnings()
+
+output = ''
 
 
 def am_status(server=False):
@@ -29,7 +32,8 @@ def am_status(server=False):
         (selected_active_view['status'].str.contains(
             'needs price;') == True)
     ]
-    print(f'Materials NEEDING PRICE in AP LOG: {len(price_requested)}')
+    output += output_msg(server,
+                         f'Materials NEEDING PRICE in AP LOG: {len(price_requested)}')
 
     # MATNRs PCE NEEDED
     need_pce = (
@@ -60,7 +64,8 @@ def am_status(server=False):
         (selected_active_view['status'].str.contains(
             'pending PCE review;') == True)
     ]
-    print(f'Materials needing PCE in log: {len(pce_requested)}')
+    output += output_msg(server,
+                         f'Materials needing PCE in log: {len(pce_requested)}')
 
     # STATUS OUTPUT
     status_output = selected_active_view['status']
@@ -77,5 +82,10 @@ def am_status(server=False):
     populate_sheet_series(status_output, ws_active, 50, 2)
     test_save(log, "TEST_am_status")
     # ACTUAL
-    await_char(
-        "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
+    if server == False:
+        await_char(
+            "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
+    else:
+        save_log(log)
+        output += output_msg(server, 'LOG file saved')
+        return Markup(output)

@@ -2,8 +2,9 @@ def reconcile_pce(server=False):
     import os
     import pandas as pd
     import time
+    from flask import Markup
 
-    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger
+    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
     from helpers.datetime import today_ymd, today_dmy
     from helpers.log import save_log, load_log, test_save
     from helpers.data_frames import get_active
@@ -20,6 +21,7 @@ def reconcile_pce(server=False):
     f_upd_class = os.path.join(os.environ['DIR_APP'], 'sap', 'upd_class.ahk')
     upd_file = os.path.join(
         os.environ['DIR_OUT'], 'UPDATES TO Z62.txt')
+    output = ''
 
     # ORGINAL SOURCE
     mifs = get_active('mif')
@@ -36,7 +38,7 @@ def reconcile_pce(server=False):
     for filename in os.listdir('C:\RA-Apps\AP-Proc\INPUTS'):
         file = os.path.join('C:\RA-Apps\AP-Proc\INPUTS', filename)
         if ' ASSESSMENT REQUEST' in filename:
-            print("\t" + file)
+            output += output_msg(server, "\t" + file)
             df = pd.read_excel(file)
             pce_feedback = pd.concat([pce_feedback, df])
 
@@ -61,11 +63,16 @@ def reconcile_pce(server=False):
         # TEST SAVE
         test_save(log, 'TEST_pce_reconcile')
         # ACTUAL
-        await_char(
-            "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
         # TODO: update the ap log
+        if server == False:
+            await_char(
+                "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
+        else:
+            save_log(log)
+            output += output_msg(server, 'LOG file saved')
+            return Markup(output)
     except:
-        print('Unable to load the LOG to update PCE')
+        output += output_msg(server, 'Unable to load the LOG to update PCE')
 
     # PCE FEDDBACK TO UPDATE FILE
     for_upd = pce_feedback.iloc[:, [4, 12, 13, 18]]

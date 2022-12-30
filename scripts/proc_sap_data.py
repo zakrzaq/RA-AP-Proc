@@ -1,8 +1,9 @@
 def proc_sap_data(server=False):
     import pandas as pd
     import os
+    from flask import Markup
 
-    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger
+    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
     from helpers.log import load_log, save_log, test_save
     from helpers.xlsm import populate_sap_data_sheet, extend_concats
 
@@ -10,8 +11,10 @@ def proc_sap_data(server=False):
     use_logger()
     ignore_warnings()
 
+    output = ''
+
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-    print("Reading log file")
+    output += output_msg(server, "Reading log file")
     log = load_log()
 
     ws_mara = log['mara']
@@ -26,7 +29,7 @@ def proc_sap_data(server=False):
     #            ws_mlan, ws_price, ws_gts, ws_text]
 
     # # clean out data
-    print("Truncating data")
+    output += output_msg(server, "Truncating data")
     ws_mara.delete_rows(100, ws_mara.max_row)
     ws_marc.delete_rows(100, ws_mara.max_row)
     ws_mvke.delete_rows(100, ws_mara.max_row)
@@ -49,7 +52,7 @@ def proc_sap_data(server=False):
     fl_text = os.path.join(os.environ['DIR_IN'], 'sales_text.xls')
 
     # load sap data to df
-    print("Loading new SAP data")
+    output += output_msg(server, "Loading new SAP data")
     if os.path.exists(fl_mara):
         mara = pd.read_excel(fl_mara)
     if os.path.exists(fl_marc):
@@ -83,11 +86,11 @@ def proc_sap_data(server=False):
     inputs_not_empty = 0
     for input in inputs_list:
         if not input.empty:
-            print(input.head(1))
+            output += output_msg(server, input.head(1))
             inputs_not_empty += 1
 
     if inputs_not_empty == 8:
-        print("Populate new data")
+        output += output_msg(server, "Populate new data")
         populate_sap_data_sheet(mara, ws_mara,)
         populate_sap_data_sheet(marc, ws_marc)
         populate_sap_data_sheet(mvke, ws_mvke)
@@ -106,12 +109,19 @@ def proc_sap_data(server=False):
         extend_concats(ws_text)
 
         # save test log
-        print("Save results")
+        output += output_msg(server, "Save results")
         test_save(log, "TEST_sap_data")
         # save ACTUAL log
-        await_char(
-            "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
+        if server == False:
+            await_char(
+                "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
+        else:
+            save_log(log)
+            output += output_msg(server, 'LOG file saved')
+            return Markup(output)
 
     else:
-        print(f'Missing SAP data - {inputs_not_empty}')
-        await_char("y")
+        output += output_msg(server,
+                             f'Missing SAP data - got only {inputs_not_empty} inputs')
+        if server == False:
+            await_char("y")
