@@ -5,7 +5,6 @@
 .env.test
 .env.prod
 env/
-wsl-env/
 
 # python
 __pycache__/
