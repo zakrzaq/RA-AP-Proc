@@ -21,7 +21,8 @@ def check_daily_report(server=False):
     )
 
     today = date.today().strftime("%m-%d-%Y")
-    output += output_msg(server, f"Daily AP Process update for:  {today}")
+    output += output_msg(server,
+                         f"Daily AP Process update for:  {today}", "bold")
 
     for filename in os.listdir(report_directory):
         f = os.path.join(report_directory, filename)

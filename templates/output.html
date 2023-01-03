@@ -14,18 +14,21 @@
     />
     <link rel="stylesheet" href= "{{ url_for('static',filename='styles/index.css') }}">
   <body>
-    <div class="container-md d-flex justify-content-center flex-column"></div>
-    {% if script %}
-      <h1>Result: {{ script }}</h1>
-    {% else %}
-      <h1>No script name provided</h1>
-    {% endif %} {% if output %}
-      <p>{{ output }}</p>
-    {% else %}
-      <h1>No output generated</h1>
-    {% endif %}
-    <a href="/" class="menu-option"><-- Return</button>
+    <div class="container-md d-flex justify-content-center flex-column">
+      <div class="row">
+        <div class="col">
+          {% if script %}
+            <h1>Result: {{ script }}</h1>
+          {% else %}
+            <h1>No script name provided</h1>
+          {% endif %} {% if output %}
+            <div class="code-output">{{ output }}</div>
+          {% else %}
+            <div class="code-output">No output generated</div>
+          {% endif %}
+          <a href="/" class="menu-option">Return</a>
+        </div>
+      </div>
     </div>
   </body>
-
 </html>

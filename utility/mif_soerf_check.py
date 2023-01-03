@@ -17,7 +17,7 @@ def mif_soerf_check(server=False):
     mif_count = 0
     soerf_count = 0
 
-    output += output_msg(server, '\nMIFs submitted:')
+    output += output_msg(server, '\nMIFs submitted:', 'bold')
     mifs_submitted = pd.DataFrame()
     for filename in os.listdir(mif_dir):
         mif_count += 1
@@ -41,7 +41,7 @@ def mif_soerf_check(server=False):
 
     tmp_df = pd.DataFrame()
 
-    output += output_msg(server, 'SOERFs submitted:')
+    output += output_msg(server, 'SOERFs submitted:', 'bold')
     soerfs_submitted = pd.DataFrame()
     for filename in os.listdir(soerf_dir):
         soerf_count += 1

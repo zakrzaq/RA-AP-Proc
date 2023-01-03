@@ -13,6 +13,15 @@
 .mt-30 {
   margin-top: 3em;
 }
+
+.bold {
+  font-weight: 700;
+}
+
+.red {
+  color: red;
+}
+
 a.menu-option {
   padding: 12px 24px;
   margin-bottom: 15px;
@@ -70,4 +79,17 @@ h1,
 h2,
 h3 {
   text-align: center;
+}
+
+.code-output {
+  background-color: rgb(218, 218, 218);
+  border-radius: 12px;
+  padding: 10px 10px 10px 30px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  margin: 40px 0 60px;
+  font-size: 12px;
+}
+
+p.code-line {
+  margin: 5px 0;
 }

@@ -39,9 +39,12 @@ def use_logger():
         "logs", "log.txt"), level=logging.DEBUG)
 
 
-def output_msg(server, msg):
+def output_msg(server, msg, *args):
     if server == False:
         print(msg)
         return ''
     else:
-        return f'<p>{msg}</p>\n'
+        classes = 'code-line '
+        for a in args:
+            classes += a + ' '
+        return f'<p class="{classes}">{msg}</p>\n'
