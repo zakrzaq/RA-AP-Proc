@@ -1,20 +1,73 @@
-a,
-a::hover {
-  all: unset;
+:root {
+  --blue: rgb(16, 93, 209);
+  --red: rgb(165, 49, 55);
+  --green: rgb(58, 124, 61);
+  --orange: rgb(145, 129, 62);
+  --white: #ffffff;
+  --shadd: 0 0 11px rgba(33, 33, 33, 0.2);
 }
 
-.menu-option {
+.mt-20 {
+  margin-top: 2em;
+}
+.mt-30 {
+  margin-top: 3em;
+}
+a.menu-option {
   padding: 12px 24px;
   margin-bottom: 15px;
   text-decoration: none;
-  background-color: cadetblue;
-  color: ivory;
+  background-color: var(--blue);
+  color: var(--white);
   border-radius: 8px;
-  border: 3px solid cadetblue;
+  border: 3px solid var(--blue);
   transition: 0.3s;
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
-.menu-option::hover {
-  background-color: ivory;
-  color: cadetblue;
+a.menu-option:hover {
+  background-color: var(--white);
+  color: var(--blue);
+  box-shadow: var(--shadd);
+}
+
+a.menu-option-orange {
+  background-color: var(--orange);
+  border: 3px solid var(--orange);
+  color: var(--white);
+}
+
+a.menu-option-orange:hover {
+  background-color: var(--white);
+  color: var(--orange);
+}
+
+a.menu-option-red {
+  background-color: rgb(165, 49, 55);
+  border: 3px solid rgb(165, 49, 55);
+  color: var(--white);
+}
+
+a.menu-option-red:hover {
+  background-color: var(--white);
+  color: rgb(165, 49, 55);
+}
+
+a.menu-option-green {
+  background-color: rgb(52, 138, 57);
+  border: 3px solid rgb(52, 138, 57);
+  color: var(--white);
+}
+
+a.menu-option-green:hover {
+  background-color: var(--white);
+  color: rgb(52, 138, 57);
+}
+
+h1,
+h2,
+h3 {
+  text-align: center;
 }

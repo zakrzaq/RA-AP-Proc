@@ -7,7 +7,7 @@ def check_daily_report(server=False):
     import platform
     from flask import Markup
     from datetime import date
-    from helpers.helpers import output_msg
+    from helpers.helpers import output_msg, await_char
 
     output = ''
 
@@ -35,3 +35,5 @@ def check_daily_report(server=False):
 
     if server:
         return Markup(output)
+    else:
+        await_char()
