@@ -7,14 +7,14 @@ from helpers.xlsm import populate_sheet_series
 from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
 from helpers.data_frames import get_selected_active
 
-use_dotenv()
-use_logger()
-ignore_warnings()
-
-output = ''
-
 
 def am_status(server=False):
+    use_dotenv()
+    use_logger()
+    ignore_warnings()
+
+    output = ''
+
     # LOAD LOG
     log = load_log()
     ws_active = log['Active Materials']

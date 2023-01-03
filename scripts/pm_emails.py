@@ -70,13 +70,13 @@ def pm_emails(server=False):
     else:
         need_local = active_wt_local_req[['Date Added', 'target sorg', 'target plant', 'SAP MATNR\n(from request form)', 'description', 'Catalog', 'Ser', 'MTART/GenItemCat', ' sorg1k dchain', ' sorg1k cs', 'sorg1k price', ' sorg4k dchain', ' sorg4k cs', 'PGC', 'target sorg price', 'target sorg dchain',
                                           'target sorg DWERK', 'target sorg cs', 'target sorg pub', 'target plant status', 'target plant mrp type', 'DWERK Plant Status', 'DWERK Plant Code', 'mif/soerf check', 'Sales Text', 'INDIA GST\nINHTS', 'INDIA GST\nmarc.stuec', 'INDIA GST taxm1', 'MIF Submitted', 'SOERF Submitted']]
-        need_local[['Date Added', 'MIF Submitted', 'SOERF Submitted']] = need_local[[
-            'Date Added', 'MIF Submitted', 'SOERF Submitted']].apply(pd.to_datetime)
-        need_local['Date Added'] = need_local['Date Added'].apply(
-            pd.to_datetime).dt.strftime('%m/%d/%Y')
-        need_local['MIF Submitted'] = need_local['MIF Submitted'].dt.strftime(
+        # need_local[['Date Added', 'MIF Submitted', 'SOERF Submitted']] = need_local[[
+        #     'Date Added', 'MIF Submitted', 'SOERF Submitted']].apply(pd.to_datetime(errors='coerce'))
+        need_local['Date Added'] = pd.to_datetime(need_local['Date Added'], errors='coerce').dt.strftime(
+            '%m/%d/%Y')
+        need_local['MIF Submitted'] = pd.to_datetime(need_local['MIF Submitted'], errors='coerce').dt.strftime(
             '%m/%d')
-        need_local['SOERF Submitted'] = need_local['SOERF Submitted'].dt.strftime(
+        need_local['SOERF Submitted'] = pd.to_datetime(need_local['SOERF Submitted'], errors='coerce').dt.strftime(
             '%m/%d')
 
         output += output_msg(server,
