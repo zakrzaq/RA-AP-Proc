@@ -1,5 +1,3 @@
-
-
 def get_sap_data(server=False):
     import time
     import pandas as pd
@@ -13,14 +11,6 @@ def get_sap_data(server=False):
     ignore_warnings()
 
     output = ''
-
-    # from helpers.helpers import use_dotenv, await_char
-
-    # use_dotenv()
-
-    # f_materials_list = os.path.join(
-    #     os.environ['DIR_DESKTOP'], 'AP materials.txt')
-    # f_sap = os.path.join(os.environ['DIR_APP'], 'sap', 'sap.ahk')
 
     # CLEAN ALL SAP DATA IN INPUT
     sap_files = ['mara', 'marc', 'mvke', 'ausp',
