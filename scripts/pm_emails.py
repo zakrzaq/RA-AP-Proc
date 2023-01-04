@@ -26,13 +26,13 @@ def pm_emails(server=False):
         need_pce = active_wt_pce_req[['Date Added', 'target sorg', 'target plant', "email prefix\n(from request form)", "SAP MATNR\n(from request form)", "Service Requested\n(from request form)", "Location\n(from request form)", 'description', 'Catalog',
                                       'Ser', 'target sorg DWERK', 'DWERK Plant Code', 'Regulatory Cert\n(Z62 Class)', 'Regulatory Cert\n(Z62 Characteristic)', 'Z62 characteristic\n(assigned in SAP)', 'PCE Assessment\n(received)', 'Date of PCE review', "PCE cert rev req'd"]]
         need_pce['New PCE Assessment'] = ""
-        need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
-            'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)
-        need_pce['Date Added'] = need_pce['Date Added'].dt.strftime('%m/%d/%Y')
-        need_pce['Date of PCE review'] = need_pce['Date of PCE review'].dt.strftime(
-            '%m/%d/%Y')
-        need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
-            '%m/%d/%Y')
+        # need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
+        #     'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)
+        # need_pce['Date Added'] = need_pce['Date Added'].dt.strftime('%m/%d/%Y')
+        # need_pce['Date of PCE review'] = need_pce['Date of PCE review'].dt.strftime(
+        #     '%m/%d/%Y')
+        # need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
+        #     '%m/%d/%Y')
 
         output += output_msg(server, f'CCC requests: {len(active_wt_pce_req)}')
         # PCE REQUEST FILE - AM
