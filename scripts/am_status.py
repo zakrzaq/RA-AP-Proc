@@ -5,6 +5,7 @@ from flask import Markup
 from helpers.log import load_log, save_log, test_save
 from helpers.xlsm import populate_sheet_series
 from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
+from helpers.datetime import today_ymd
 from helpers.data_frames import get_selected_active
 
 
@@ -14,6 +15,7 @@ def am_status(server=False):
     ignore_warnings()
 
     output = ''
+    today = str(today_ymd())[-5:]
 
     # LOAD LOG
     try:
@@ -35,6 +37,7 @@ def am_status(server=False):
 
     selected_active_view.loc[need_price, 'status'] = selected_active_view['status'].astype(
         str).replace("nan", "") + "needs price;"
+    selected_active_view.loc[need_price, 'pricing request'] = today
 
     price_requested = selected_active_view.loc[
         (selected_active_view['status'].str.contains(
@@ -44,29 +47,34 @@ def am_status(server=False):
                          f'Materials NEEDING PRICE in AP LOG: {len(price_requested)}')
 
     # MATNRs PCE NEEDED
-    need_pce = (
-        # TODO: needs to be in separate section
-        #     (selected_active_view['status'].str.contains(
-        #         'cancel|complete|on hold|pending PCE review', case=False) == False)
-        #     (selected_active_view['Service Requested\n(from request form)']
-        #      == 'Product Certification Review')
-        # ) | (
-        (selected_active_view['Regulatory Cert\n(Z62 Class)'].isin(
-            ['BIS', 'BSMI', 'CCC', 'KC', 'RCM'])) &
-        (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) &
-        (selected_active_view['MTART/GenItemCat'].isin(['ZFG',
-         'ZTG', 'ZRS1', 'ZRS4', 'ZRS5'])) &
-        (selected_active_view['status'].str.contains(
-            'cancel|complete|on hold|pending PCE review', case=False) == False)
+    done_status = '|'.join(
+        ['cancel', 'complete', 'on hold', 'pending PCE review'])
+    prod_cert = (
+        (selected_active_view['Service Requested\n(from request form)']
+         == 'Product Certification Review') &
+        (((selected_active_view['status'].str.contains(
+            done_status, case=False) == False)) |
+         (selected_active_view['status'].isna()))
     )
 
-    # test = selected_active_view.loc[need_pce, ['status',
-    #                                            'Z62 characteristic\n(assigned in SAP)']]
-    # print(test)
-    # print(len(test))
+    certs = '|'.join(['BIS', 'BSMI', 'CCC', 'KC', 'RCM'])
+    allowed_mtart = '|'.join(['ZFG', 'ZTG', 'ZRS1', 'ZRS4', 'ZRS5'])
+    need_pce = (
+        (selected_active_view['Regulatory Cert\n(Z62 Class)'].str.contains(certs)) &
+        (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) &
+        (selected_active_view['MTART/GenItemCat'].str.contains(allowed_mtart)) &
+        (((selected_active_view['status'].str.contains(
+            done_status, case=False) == False)) |
+         (selected_active_view['status'].isna()))
+    )
 
     selected_active_view.loc[need_pce, 'status'] = selected_active_view['status'].astype(
         str).replace("nan", "") + 'pending PCE review;'
+    selected_active_view.loc[need_pce, "PCE cert rev req'd"] = today
+
+    selected_active_view.loc[prod_cert, 'status'] = selected_active_view['status'].astype(
+        str).replace("nan", "") + 'pending PCE review;'
+    selected_active_view.loc[prod_cert, "PCE cert rev req'd"] = str(today)
 
     pce_requested = selected_active_view.loc[
         (selected_active_view['status'].str.contains(
@@ -77,17 +85,24 @@ def am_status(server=False):
 
     # STATUS OUTPUT
     status_output = selected_active_view['status']
-    status_output_str = ''
+    # status_output_str = ''
 
-    for ind in status_output.index:
-        if type(status_output[ind]) == float:
-            status_output_str = status_output_str + "" + "\n"
-        else:
-            status_output_str = status_output_str + \
-                str(status_output[ind]) + "\n"
+    # for ind in status_output.index:
+    #     if type(status_output[ind]) == float:
+    #         status_output_str = status_output_str + "" + "\n"
+    #     else:
+    #         status_output_str = status_output_str + \
+    #             str(status_output[ind]) + "\n"
+
+    # DATE OUTPUT
+    # TODO:
+    pce_date_output = selected_active_view["PCE cert rev req'd"]
+    price_date_output = selected_active_view["pricing request"]
 
     # TEST SAVE LOG
     populate_sheet_series(status_output, ws_active, 50, 2)
+    populate_sheet_series(pce_date_output, ws_active, 49, 2)
+    populate_sheet_series(price_date_output, ws_active, 48, 2)
     test_save(log, "TEST_am_status")
     # ACTUAL
     if server == False:
