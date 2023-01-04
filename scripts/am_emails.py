@@ -12,15 +12,8 @@ def am_emails(server=False):
     ignore_warnings()
 
     today = date.today().strftime("%m-%d-%Y")
-    active = get_active()
     output = ''
-
-    # MATNRs PRICE NEEDED
-    # price_needed = selected_active_view.loc[
-    #   (selected_active_view['target sorg price'].isna()) &
-    #   (~selected_active_view['SOERF Submitted'].isna()) &
-    #   ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False))
-    # ]
+    active = get_active()
 
     # PRICE REQUEST ALL
     price_view = active[['Date Added', 'target sorg', 'target plant', "email prefix\n(from request form)", "SAP MATNR\n(from request form)", "Service Requested\n(from request form)", "Location\n(from request form)",
@@ -43,13 +36,6 @@ def am_emails(server=False):
         need_price_list_file = os.path.join(
             os.environ["DIR_OUT"], f"AP pricing needed with active demand {today}.xlsx")
         need_price.to_excel(need_price_list_file,  index=False)
-
-    # MATNRs PCE NEEDED
-
-    # pce_needed = selected_active_view[
-    #   (((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)) & (selected_active_view['Service Requested\n(from request form)'] == 'Product Certification Review'))  |
-    #   ((selected_active_view['MTART/GenItemCat'].isin(['ZFG', 'ZTG'])) & (~selected_active_view['Regulatory Cert\n(Z62 Characteristic)'].isna()) & (selected_active_view['Z62 characteristic\n(assigned in SAP)'].isna()) & ((selected_active_view['status'].str.contains('cancel|complete', case=False) == False)))
-    # ]
 
     # PCE REQUEST
     active_wt_pce_req = active.loc[

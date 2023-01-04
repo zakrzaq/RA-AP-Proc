@@ -73,14 +73,6 @@ def proc_sap_data(server=False):
     inputs_list = [mara, marc, mvke, ausp, mlan, price, gts, text]
 
     # FORMAT DATA
-    # TODO: price[Valid to] is a long date and needs to be format different
-    # just now it returning blank rows
-    mvke['VMSTD'] = pd.to_datetime(
-        mvke['VMSTD'], errors='coerce').dt.strftime('%d-%m-%Y')
-    price['Valid to'] = pd.to_datetime(
-        price['Valid to'], errors='coerce').dt.strftime('%d-%m-%Y')
-    price['Valid From'] = pd.to_datetime(
-        price['Valid From'], errors='coerce').dt.strftime('%d-%m-%Y')
 
     # FUNCTIONS
     inputs_not_empty = 0
@@ -90,6 +82,15 @@ def proc_sap_data(server=False):
             inputs_not_empty += 1
 
     if inputs_not_empty == 8:
+        # TODO: price[Valid to] is a long date and needs to be format different
+        # just now it returning blank rows
+        mvke['VMSTD'] = pd.to_datetime(
+            mvke['VMSTD'], errors='coerce').dt.strftime('%d-%m-%Y')
+        price['Valid to'] = pd.to_datetime(
+            price['Valid to'], errors='coerce').dt.strftime('%d-%m-%Y')
+        price['Valid From'] = pd.to_datetime(
+            price['Valid From'], errors='coerce').dt.strftime('%d-%m-%Y')
+
         output += output_msg(server, "Populate new data")
         populate_sap_data_sheet(mara, ws_mara,)
         populate_sap_data_sheet(marc, ws_marc)
@@ -121,7 +122,9 @@ def proc_sap_data(server=False):
             return Markup(output)
 
     else:
-        output += output_msg(server,
-                             f'Missing SAP data - got only {inputs_not_empty} inputs')
         if server == False:
             await_char("y")
+        else:
+            output += output_msg(server,
+                                 f'Missing SAP data - got only {inputs_not_empty} inputs', 'red')
+            return Markup(output)

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
@@ -50,7 +50,8 @@ def r_mif_soerf_check(script='Check for MIF/SOERF submitted'):
 @app.route("/open_sap")
 def r_open_sap():
     os.system(r'C:\RA-Apps\AP-Proc\sap\sap.ahk')
-    return render_template('index.html')
+    return redirect("/")
+
 
 # DATA ROUTES
 
