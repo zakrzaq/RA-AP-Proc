@@ -14,14 +14,25 @@
     />
     <link rel="stylesheet" href= "{{ url_for('static',filename='styles/index.css') }}">
   <body>
+    <header class="header">
+      <div class="logo">
+        <h1>
+          APMM <br />
+          Process
+        </h1>
+      </div>
+      <div class="title">
+        <h2>{% if script %}
+          Result: {{ script }}
+        {% else %}
+          No script name provided
+        {% endif %} </h2>
+      </div>
+    </header>
     <div class="container-md d-flex justify-content-center flex-column">
       <div class="row">
         <div class="col">
-          {% if script %}
-            <h1>Result: {{ script }}</h1>
-          {% else %}
-            <h1>No script name provided</h1>
-          {% endif %} {% if output %}
+          {% if output %}
             <div class="code-output">{{ output }}</div>
           {% else %}
             <div class="code-output">No output generated</div>

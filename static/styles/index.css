@@ -4,6 +4,7 @@
   --green: rgb(58, 124, 61);
   --orange: rgb(145, 129, 62);
   --white: #ffffff;
+  --light-gray: rgb(242, 242, 242);
   --shadd: 0 0 11px rgba(33, 33, 33, 0.2);
 }
 
@@ -19,7 +20,7 @@
 }
 
 .red {
-  color: red;
+  color: var(--red);
 }
 
 a.menu-option {
@@ -54,25 +55,25 @@ a.menu-option-orange:hover {
 }
 
 a.menu-option-red {
-  background-color: rgb(165, 49, 55);
-  border: 3px solid rgb(165, 49, 55);
+  background-color: var(--red);
+  border: 3px solid var(--red);
   color: var(--white);
 }
 
 a.menu-option-red:hover {
   background-color: var(--white);
-  color: rgb(165, 49, 55);
+  color: var(--red);
 }
 
 a.menu-option-green {
-  background-color: rgb(52, 138, 57);
-  border: 3px solid rgb(52, 138, 57);
+  background-color: var(--green);
+  border: 3px solid var(--green);
   color: var(--white);
 }
 
 a.menu-option-green:hover {
   background-color: var(--white);
-  color: rgb(52, 138, 57);
+  color: var(--green);
 }
 
 h1,
@@ -82,7 +83,7 @@ h3 {
 }
 
 .code-output {
-  background-color: rgb(218, 218, 218);
+  background-color: var(--light-gray);
   border-radius: 12px;
   padding: 10px 10px 10px 30px;
   font-family: "Lucida Console", "Courier New", monospace;
@@ -92,4 +93,26 @@ h3 {
 
 p.code-line {
   margin: 5px 0;
+}
+
+.header {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  background-color: var(--blue);
+  color: var(--white);
+  box-shadow: var(--shadd);
+}
+
+.header .logo {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header .title {
+  width: 100%;
+  display: flex;
+  align-items: center;
 }

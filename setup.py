@@ -10,7 +10,7 @@ os.system("python -m pip install --upgrade pip")
 os.system("pip install virtualenv")
 os.system("python -m venv env")
 os.system(
-    "pip install python-dotenv pandas numpy openpyxl keyboard xlrd pyperclip flask")
+    "pip install -r requirements.txt")
 os.system("pip list")
 os.system("echo call env/Scripts/activate.bat >> ap_proc.bat")
 os.system("echo call env/Scripts/Activate.ps1 >> ap_proc.bat")
