@@ -15,7 +15,7 @@ def am_status(server=False):
     ignore_warnings()
 
     output = ''
-    today = str(today_ymd())[-5:]
+    today = today_ymd()[-5:-9]
 
     # LOAD LOG
     try:
@@ -83,21 +83,12 @@ def am_status(server=False):
     output += output_msg(server,
                          f'Materials NEEDING PCE in AP LOG: {len(pce_requested)}')
 
-    # STATUS OUTPUT
+    # OUTPUTS
     status_output = selected_active_view['status']
-    # status_output_str = ''
-
-    # for ind in status_output.index:
-    #     if type(status_output[ind]) == float:
-    #         status_output_str = status_output_str + "" + "\n"
-    #     else:
-    #         status_output_str = status_output_str + \
-    #             str(status_output[ind]) + "\n"
-
-    # DATE OUTPUT
-    # TODO:
-    pce_date_output = selected_active_view["PCE cert rev req'd"]
-    price_date_output = selected_active_view["pricing request"]
+    pce_date_output = selected_active_view["PCE cert rev req'd"].map(
+        lambda x: str(x)[5:-9] if str(x) != 'comp' else 'comp')
+    price_date_output = selected_active_view["pricing request"].map(
+        lambda x: str(x)[5:-9] if str(x) != 'comp' else 'comp')
 
     # TEST SAVE LOG
     populate_sheet_series(status_output, ws_active, 50, 2)
