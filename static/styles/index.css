@@ -20,6 +20,9 @@ body {
 .mt-30 {
   margin-top: 3em;
 }
+.mb-30 {
+  margin-bottom: 3em;
+}
 
 .bold {
   font-weight: 700;
