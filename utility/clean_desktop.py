@@ -22,7 +22,7 @@ def clean_desktop(server=False):
     # archive desktop folder to shared edm drive
     try:
         for dir in process_dirs:
-            output += output_msg(server, f'Folder processed: {dir}')
+            output += output_msg(server, f'Folder processed: {dir}', 'bold')
             for filename in os.listdir(dir):
                 f = os.path.join(dir, filename)
                 if os.path.isfile(f):

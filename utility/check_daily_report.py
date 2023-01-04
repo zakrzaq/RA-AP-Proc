@@ -10,6 +10,7 @@ def check_daily_report(server=False):
     from helpers.helpers import output_msg, await_char
 
     output = ''
+    report_found = False
 
     if platform.system() == "Linux":
         report_directory = "/mnt/x/"
@@ -29,6 +30,11 @@ def check_daily_report(server=False):
         if os.path.isfile(f):
             if today in f:
                 output += output_msg(server, f"\t{filename}")
+                report_found = True
+
+    if report_found != True:
+        output += output_msg(server,
+                             'No report found for today in Sharepoint repository')
 
     if os.path.exists(ap_materials_list):
         os.remove(ap_materials_list)
