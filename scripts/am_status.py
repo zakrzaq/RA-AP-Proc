@@ -16,10 +16,18 @@ def am_status(server=False):
     output = ''
 
     # LOAD LOG
-    log = load_log()
-    ws_active = log['Active Materials']
-
-    selected_active_view = get_selected_active()
+    try:
+        log = load_log()
+        ws_active = log['Active Materials']
+        selected_active_view = get_selected_active()
+    except:
+        if server == False:
+            await_char(
+                "y", "Unable to load AP LOG, please close the excel file and press Y to continue")
+        else:
+            output += output_msg(server,
+                                 'Unable to load AP LOG, please close the excel file.', 'red')
+            return Markup(output)
 
     # MATNRs PRICE NEEDED
     need_price = (selected_active_view['target sorg price'].isna()) & (~selected_active_view['SOERF Submitted'].isna()) & (
@@ -65,7 +73,7 @@ def am_status(server=False):
             'pending PCE review;') == True)
     ]
     output += output_msg(server,
-                         f'Materials needing PCE in log: {len(pce_requested)}')
+                         f'Materials NEEDING PCE in AP LOG: {len(pce_requested)}')
 
     # STATUS OUTPUT
     status_output = selected_active_view['status']

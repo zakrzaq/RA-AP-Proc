@@ -31,7 +31,7 @@ def get_sap_data(server=False):
             os.remove(file)
 
     f_materials_list = os.path.join(
-        os.environ['DIR_DESKTOP'], 'AP materials.txt')
+        os.environ['DIR_OUT'], 'AP materials.txt')
     f_sap = os.path.join(os.environ['DIR_APP'], 'sap', 'sap.ahk')
     f_sales_text = os.path.join(os.environ['DIR_APP'], 'sap', 'sales_text.ahk')
 

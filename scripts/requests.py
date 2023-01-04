@@ -75,7 +75,8 @@ def requests(server=False):
                         ws_active_lastrow = cell.row
                         break
             except:
-                output += output_msg(server, 'could not populate data ')
+                output += output_msg(server,
+                                     'I could not populate data', 'red')
 
             # EXTEND FORMULAS By Col / Rows
             output += output_msg(server, "Data formatting")
@@ -91,7 +92,8 @@ def requests(server=False):
                         ws_active[f'{x}{i}'] = Translator(
                             formula, origin=f"{x}2").translate_formula(f"{x}{i}")
             except:
-                output += output_msg(server, 'could not extend formulas')
+                output += output_msg(server,
+                                     'I could not extend formulas', 'red')
 
             # CREATE SORT
             try:
@@ -105,12 +107,13 @@ def requests(server=False):
                     ws_active[f"BF{i}"].value = i - 1
                     i += 1
             except:
-                output += output_msg(server, 'could not create sort order')
+                output += output_msg(server,
+                                     'I could not create sort order', 'red')
 
             ready_to_save = True
 
         else:
-            output += output_msg(server, 'no request files found')
+            output += output_msg(server, 'No request files found', 'red')
 
         if ready_to_save:
             # TESTING
@@ -127,13 +130,13 @@ def requests(server=False):
         # MAKE LIST OF MATERIALS IN AP LOG
 
         active_matnr_list_file = os.path.join(
-            os.environ['DIR_DESKTOP'], 'AP materials.txt')
+            os.environ['DIR_OUT'], 'AP materials.txt')
 
         if os.path.exists(active_matnr_list_file):
             os.remove(active_matnr_list_file)
             output += output_msg(server, 'material list redone')
         else:
-            output += output_msg(server, 'material list not found')
+            output += output_msg(server, 'material list created')
 
         active_matnr_list = ''
         with open(active_matnr_list_file, "w") as file:
@@ -151,13 +154,17 @@ def requests(server=False):
             file.close()
 
         if server == False:
-            await_char("y", "", "Routine completed. Press Y to continue")
+            await_char(
+                "y", "", "Requests have bene processed. Press Y to continue")
         else:
-            output += output_msg(server, 'Routine completed.')
+            output += output_msg(server, 'Requests have bene processed.')
+            return Markup(output)
 
     except:
         if server == False:
-            await_char(
+            return await_char(
                 "y", "Unable to load AP LOG, please close the excel file and press Y to continue")
         else:
-            output += output_msg(server, 'Routine completed.')
+            output += output_msg(server,
+                                 'Unable to load AP LOG, please close the excel file.', 'red')
+            return Markup(output)

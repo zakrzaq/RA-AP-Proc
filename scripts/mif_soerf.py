@@ -37,7 +37,7 @@ def mif_soerf(server=False):
     with open(os.path.join(os.environ['DIR_APP'], 'sql', 'full_mif_soerf.sql')) as file:
         lines = file.readlines()
         lines[5] = output_str
-    with open(os.path.join(os.environ['DIR_DESKTOP'], 'AP_MIF_SOERF.sql'), 'w') as file:
+    with open(os.path.join(os.environ['DIR_OUT'], 'AP_MIF_SOERF.sql'), 'w') as file:
         file.writelines(lines)
 
     output += output_msg(server,
