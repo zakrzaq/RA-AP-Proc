@@ -6,12 +6,15 @@ def proc_sap_data(server=False):
     from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
     from helpers.log import load_log, save_log, test_save
     from helpers.xlsm import populate_sap_data_sheet, extend_concats
+    from helpers.db import con_db, close_db
 
     use_dotenv()
     use_logger()
     ignore_warnings()
 
     output = ''
+    con, cur = con_db()
+    sql_dir = os.path.join(os.getcwd(), 'api', 'sql')
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
     output += output_msg(server, "Reading log file")
@@ -55,20 +58,44 @@ def proc_sap_data(server=False):
     output += output_msg(server, "Loading new SAP data")
     if os.path.exists(fl_mara):
         mara = pd.read_excel(fl_mara)
+        with open(os.path.join(sql_dir, 'create_mara.sql')) as f:
+            con.executescript(f.read())
+        mara.to_sql('mara', con, if_exists='replace', index=False)
     if os.path.exists(fl_marc):
         marc = pd.read_excel(fl_marc)
+        with open(os.path.join(sql_dir, 'create_marc.sql')) as f:
+            con.executescript(f.read())
+        marc.to_sql('marc', con, if_exists='replace', index=False)
     if os.path.exists(fl_mvke):
         mvke = pd.read_excel(fl_mvke)
+        with open(os.path.join(sql_dir, 'create_mvke.sql')) as f:
+            con.executescript(f.read())
+        mvke.to_sql('mvke', con, if_exists='replace', index=False)
     if os.path.exists(fl_ausp):
         ausp = pd.read_excel(fl_ausp)
+        with open(os.path.join(sql_dir, 'create_ausp.sql')) as f:
+            con.executescript(f.read())
+        ausp.to_sql('ausp', con, if_exists='replace', index=False)
     if os.path.exists(fl_mlan):
         mlan = pd.read_excel(fl_mlan)
+        with open(os.path.join(sql_dir, 'create_mlan.sql')) as f:
+            con.executescript(f.read())
+        mlan.to_sql('mlan', con, if_exists='replace', index=False)
     if os.path.exists(fl_price):
         price = pd.read_excel(fl_price)
+        with open(os.path.join(sql_dir, 'create_price.sql')) as f:
+            con.executescript(f.read())
+        price.to_sql('price', con, if_exists='replace', index=False)
     if os.path.exists(fl_gts):
         gts = pd.read_excel(fl_gts)
+        with open(os.path.join(sql_dir, 'create_gts.sql')) as f:
+            con.executescript(f.read())
+        gts.to_sql('gts', con, if_exists='replace', index=False)
     if os.path.exists(fl_text):
         text = pd.read_csv(fl_text, sep='\t', encoding="utf-16")
+        with open(os.path.join(sql_dir, 'create_sales_text.sql')) as f:
+            con.executescript(f.read())
+        text.to_sql('sales_text', con, if_exists='replace', index=False)
 
     inputs_list = [mara, marc, mvke, ausp, mlan, price, gts, text]
 
