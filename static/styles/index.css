@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
 :root {
   --blue: rgb(16, 93, 209);
   --red: rgb(165, 49, 55);
@@ -6,6 +8,10 @@
   --white: #ffffff;
   --light-gray: rgb(242, 242, 242);
   --shadd: 0 0 11px rgba(33, 33, 33, 0.2);
+}
+
+body {
+  font-family: "Lato", sans-serif !important;
 }
 
 .mt-20 {
@@ -115,4 +121,9 @@ p.code-line {
   width: 100%;
   display: flex;
   align-items: center;
+}
+
+.title-text {
+  font-weight: 300;
+  text-align: left;
 }
