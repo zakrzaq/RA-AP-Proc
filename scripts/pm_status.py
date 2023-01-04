@@ -78,12 +78,14 @@ def pm_status(server=False):
 
     need_local = (
         (selected_active_view['MTART/GenItemCat'].isin(['ZFG', 'ZTG', 'ZNFG', 'ZRS1', 'ZRS4'])) &
-        (~selected_active_view['target plant'].isin(['5070'])) &
+        (selected_active_view['target plant'].isin(['5070'])) &
         (selected_active_view['target plant mrp type'].isin(['ND'])) &
         (((selected_active_view['status'].str.contains(
             done_status, case=False) == False)) |
          (selected_active_view['status'].isna()))
     )
+
+    print(len(selected_active_view.loc[need_local]))
 
     selected_active_view.loc[need_local, 'status'] = selected_active_view['status'].astype(
         str).replace("nan", "") + 'Localization required;'
