@@ -1,3 +1,3 @@
-from scripts.reconcile_pce import reconcile_pce
+from api.init_db import init_db
 
-reconcile_pce(False)
+init_db()
