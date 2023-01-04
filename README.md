@@ -1,4 +1,4 @@
-# AP MM EXTENSION BUSINESS ENGINE (APMMEBE)
+# AP MM EXTENSION PROCESS API
 
 Developed for RA-INT to support extension of Material Master items with current demand to AP Region.
 
@@ -57,6 +57,10 @@ This will generate SQL Query file to your Desktop with name
 ### Generate AM Price & PCE requests
 
 Will output request files for Pricing & PCE requests. THose will be located in `OUTPUTS` folder.
+
+### Reconcile PCE Requests / Update ORG SOURCE
+
+> _to be written_
 
 ### Update Material Statuses post MM Extension
 
@@ -122,11 +126,11 @@ It says it on the tin.
 ## BUGFIXES
 
 - [ ] check for log being open on every script
-- [ ] MKVE.ahk SAP error
-- [ ] BIS only on PCE status finder
-- [ ] PCE finder to include Prod Cert Review
-- [ ] Flask: Check daily report server error
-- [ ] Flask: clean server error
+- [x] MKVE.ahk SAP error
+- [x] BIS only on PCE status finder
+- [x] PCE finder to include Prod Cert Review
+- [x] Flask: Check daily report server error
+- [x] Flask: clean server error
 
 ## TODO 0.5
 
@@ -134,16 +138,18 @@ It says it on the tin.
   - [x] fix data layout issues
   - [x] fix date issues
 - [ ] Handle initial additions / CANCELLATIONS
+  - [ ] amend existing request form
+  - [ ] new request form and dat source
 - [x] Get current requests
 - [x] Generate MIF/SOERF SQL Query
   - [ ] using CLI Oracle CS for query running and data
 - [x] Update Material Statuses pre MM:
   - [x] fix query result for price and PCE
-  - [ ] dates needing to be added to pce and price requests status updates
+  - [x] dates needing to be added to pce and price requests status updates
 - [x] Generate AM Price & PCE requests
-- [ ] Update Material Statuses post MM Extension
-  - [ ] fix query result for price and PCE
-- [ ] Reconcile PCE & Original Source
+- [x] Update Material Statuses post MM Extension
+  - [x] fix query result for price and PCE
+- [x] Reconcile PCE & Original Source
   - [x] org_source - list of material from df
   - [x] org_source - ahk query
   - [x] reconcile PCE - update log
@@ -154,14 +160,20 @@ It says it on the tin.
 - [ ] Error handling
   - [x] try / except v1
   - [ ] try / except v2
-  - [ ] error logging for CLI
-  - [ ] error logging for API
+  - [x] error logging for CLI
+  - [x] error logging for API
 - [x] SAP data import
-  - [ ] LRF?
+  - [ ] LRF? current 8 scripts / on LFR will 10 + 2
   - [x] AutoHotKey
 - [x] REST API using Flask
   - [x] user interface
   - [x] mechanics
+- [ ] SQLITE DB
+  - [ ] sharepoint or local?
+  - [ ] data model to reflect AP LOG
+  - [ ] search query and parameters
+  - [ ] fetch new request from data source
+  - [ ] archive new requests to data source
 
 ## TODO 1.0
 
