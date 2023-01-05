@@ -78,7 +78,7 @@ def proc_sap_data(server=False):
     inputs_not_empty = 0
     for input in inputs_list:
         if not input.empty:
-            output += output_msg(server, input.head(1))
+            output += output_msg(server, f'{input.describe()}')
             inputs_not_empty += 1
 
     if inputs_not_empty == 8:
