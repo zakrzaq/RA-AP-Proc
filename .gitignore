@@ -27,3 +27,9 @@ test.ahk
 test.py
 **/log.txt
 
+# Node Specific
+node_modules
+package.json
+package-lock.json
+
+
