@@ -51,3 +51,5 @@ def get_sap_data(server=False):
         output += output_msg(server, script)
         os.system(f'{script}')
         time.sleep(sleep_time)
+
+    return Markup(output)

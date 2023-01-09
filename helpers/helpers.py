@@ -46,5 +46,3 @@ def output_msg(server, msg, *args):
         for a in args:
             classes += a + ' '
         return f'<p class="{classes}">{msg}</p>\n'
-    else:
-        return msg
