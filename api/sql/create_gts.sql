@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS gts;
 
 CREATE TABLE gts (
-    'Part Number'	varchar(30),
-    'INHTS' varchar(20),
+    matnr	text,
+    inhts text,
   PRIMARY KEY (
-    'Part Number'
+    matnr
   )
 );

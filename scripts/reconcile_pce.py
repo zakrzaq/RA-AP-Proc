@@ -24,6 +24,7 @@ def reconcile_pce(server=False):
     output = ''
 
     # ORGINAL SOURCE
+    output += output_msg(server, 'Processing ORG SOURCE')
     mifs = get_active('mif')
     mifs['date'] = mifs['date'].map(lambda x: str(x)[:-9])
     mifs_today = mifs[mifs['date'] == today]
@@ -32,8 +33,10 @@ def reconcile_pce(server=False):
     os.system(f'{f_sap}')
     time.sleep(7)
     os.system(f'{f_org_source}')
+    output += output_msg(server, 'ORG SOURCE script finished')
 
     # FIND PCE REQUEST
+    output += output_msg(server, 'Reconciling PCE feedback')
     pce_feedback = pd.DataFrame()
     for filename in os.listdir('C:\RA-Apps\AP-Proc\INPUTS'):
         file = os.path.join('C:\RA-Apps\AP-Proc\INPUTS', filename)
@@ -59,6 +62,7 @@ def reconcile_pce(server=False):
             ws_pce[f'F{i}'].value = ws_today
         # CONCAT
         extend_concats(ws_pce, last_row - 1, "A")
+        output += output_msg(server, 'Feedback reconciled')
 
         # TEST SAVE
         test_save(log, 'TEST_pce_reconcile')
@@ -70,11 +74,12 @@ def reconcile_pce(server=False):
         else:
             save_log(log)
             output += output_msg(server, 'LOG file saved')
-            return Markup(output)
+
     except:
         output += output_msg(server, 'Unable to load the LOG to update PCE')
 
     # PCE FEDDBACK TO UPDATE FILE
+    output += output_msg(server, 'Processing Z62 updates')
     for_upd = pce_feedback.iloc[:, [4, 12, 13, 18]]
     for_upd = for_log[for_log['New PCE Assessment'].notna()]
     for_upd["SAP Table"] = "MARA"
@@ -87,3 +92,7 @@ def reconcile_pce(server=False):
     os.system(f'{f_sap}')
     time.sleep(7)
     os.system(f'{f_upd_class}')
+    output += output_msg(server, 'Z62 script finished')
+
+    if server:
+        return Markup(output)

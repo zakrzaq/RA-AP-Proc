@@ -20,25 +20,9 @@ def init_log():
     with open(os.path.join(sql_dir, 'drop_log_view.sql')) as f:
         con.executescript(f.read())
 
-    log_view = cur.execute(
-        '''
-        CREATE VIEW log_view
-        AS
-        SELECT 
-            "Active", 
-            "Date Added", 
-            "target sorg",
-            "target plant",
-            "email prefix (from request form)",
-            "SAP MATNR (from request form)",
-            "Service Requested (from request form)",
-            "Location (from request form)",
-            price.Amount
-        FROM log
-        LEFT JOIN price ON
-            log.[SAP MATNR (from request form)] = price.Material AND
-            log.[target sorg] = price.[SOrg.]
-        ''').fetchall()
+    with open(os.path.join(sql_dir, 'get_log_view.sql')) as f:
+        # con.executescript(f.read())
+        log_view = cur.execute(f.read()).fetchall()
 
     for row in log_view:
         print(row[0:15])

@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS mara;
 
 CREATE TABLE mara (
-    'Material' varchar(30),
-    'Material Type' varchar(5),
-    'Material Description' varchar(150),
-    'Gen. item cat. grp' varchar(10),
-    'Product hierarchy' varchar(50),
+    matnr TEXT,
+    mtart TEXT,
+    mat_description TEXT,
+    cat_group TEXT,
+    prod_hierarchy TEXT,
   PRIMARY KEY (
-    'Material'
+    matnr
   )
 );

@@ -40,11 +40,11 @@ def use_logger():
 
 
 def output_msg(server, msg, *args):
-    if server == False:
-        print(msg)
-        return ''
-    else:
+    print(msg)
+    if server:
         classes = 'code-line '
         for a in args:
             classes += a + ' '
         return f'<p class="{classes}">{msg}</p>\n'
+    else:
+        return msg

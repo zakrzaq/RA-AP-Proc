@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS sales_text;
 
 CREATE TABLE sales_text (
-    'Material' varchar(30),
-    'Sales Organisation' varchar(10),
-    'Language' varchar(10),
-    'Existing Sales Text'	varchar(255),
-    'Modified Sales Text' varchar(255),
+    matnr TEXT,
+    vkorg TEXT,
+    lang TEXT,
+    sales_text TEXT,
+    new_text TEXT,
   PRIMARY KEY (
-    'Sales Organisation', 'Material'
+    vkorg, matnr
   )
 );
