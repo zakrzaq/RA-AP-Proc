@@ -22,6 +22,8 @@ RESOURCES/
 IN-DEV/
 ap_proc.bat
 ap_serv.bat
+ap-proc.sh
+ap-serv.sh
 tx.sap
 test.ahk
 test.py
