@@ -38,26 +38,27 @@ server = False
 
 def get_menu_choice():
     def print_menu():       # Your menu design here
-        print(30 * "-", "AP MM EXTENSION PROCESS", 30 * "-")
+        print(24 * "-", "AP MM EXTENSION PROCESS", 24 * "-")
         print("1)    Get current requests")
         print("2)    Generate MIF / SOERF requests")
         print("3)    Update Material Statuses pre MM")
         print("4)    Generate AM Price & PCE requests")
+        print(78 * "-")
         print("5)    Reconcile PCE / Update ORG Source")
         print("6)    Update Material Statuses post MM Extension")
         print("7)    Generate PM CCC, Localization & GTS Requests")
-        print(85 * "-")
+        print(78 * "-")
         print("8)    DATA: Download SAP Data")
         print("9)    DATA: Bring SAP Data")
-        print(85 * "-")
+        print(78 * "-")
         print("10)   UTILITY: Clean working folder & archive request files")
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print("13)   UTILITY: Open SAP Instance")
-        print(85 * "-")
+        print(78 * "-")
         print("U)    Update program")
         print("X)    Close program")
-        print(85 * "=")
+        print(78 * "=")
 
     loop = True
 
