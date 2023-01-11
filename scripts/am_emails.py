@@ -22,7 +22,7 @@ def am_emails(server=False):
         (price_view['status'].str.contains('needs price;', case=True) == True)
     ]
     if need_price.empty:
-        output += output_msg(server, 'NO PCE REQUESTS')
+        output += output_msg('NO PCE REQUESTS')
     else:
         need_price[['Date Added', 'pricing request']] = need_price[[
             'Date Added', 'pricing request']].apply(pd.to_datetime)
@@ -31,7 +31,7 @@ def am_emails(server=False):
         need_price['pricing request'] = need_price['pricing request'].dt.strftime(
             '%m/%d/%Y')
 
-        output += output_msg(server, f'Needing price: {len(need_price)}')
+        output += output_msg(f'Needing price: {len(need_price)}')
         # PRICE REQUEST FILE
         need_price_list_file = os.path.join(
             os.environ["DIR_OUT"], f"AP pricing needed with active demand {today}.xlsx")
@@ -43,7 +43,7 @@ def am_emails(server=False):
         (~active['Regulatory Cert\n(Z62 Class)'].isin(['CCC']))
     ]
     if active_wt_pce_req.empty:
-        output += output_msg(server, 'NO PCE REQUESTS')
+        output += output_msg('NO PCE REQUESTS')
     else:
         need_pce = active_wt_pce_req[['Date Added', 'target sorg', 'target plant', "email prefix\n(from request form)", "SAP MATNR\n(from request form)", "Service Requested\n(from request form)", "Location\n(from request form)", 'description', 'Catalog',
                                       'Ser', 'target sorg DWERK', 'DWERK Plant Code', 'Regulatory Cert\n(Z62 Class)', 'Regulatory Cert\n(Z62 Characteristic)', 'Z62 characteristic\n(assigned in SAP)', 'PCE Assessment\n(received)', 'Date of PCE review', "PCE cert rev req'd"]]
@@ -56,7 +56,7 @@ def am_emails(server=False):
         # need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
         #     '%m/%d/%Y')
 
-        output += output_msg(server, f'PCE requests: {len(active_wt_pce_req)}')
+        output += output_msg(f'PCE requests: {len(active_wt_pce_req)}')
         # PCE REQUEST FILE - AM
         need_pce_file = os.path.join(
             os.environ["DIR_OUT"], f"{today} PCE ASSESSMENT REQUEST.xlsx")

@@ -38,7 +38,7 @@ def reconcile_pce(server=False):
     for filename in os.listdir('C:\RA-Apps\AP-Proc\INPUTS'):
         file = os.path.join('C:\RA-Apps\AP-Proc\INPUTS', filename)
         if ' ASSESSMENT REQUEST' in filename:
-            output += output_msg(server, "\t" + file)
+            output += output_msg("\t" + file)
             df = pd.read_excel(file)
             pce_feedback = pd.concat([pce_feedback, df])
 
@@ -69,10 +69,10 @@ def reconcile_pce(server=False):
                 "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
         else:
             save_log(log)
-            output += output_msg(server, 'LOG file saved')
+            output += output_msg('LOG file saved')
             return Markup(output)
     except:
-        output += output_msg(server, 'Unable to load the LOG to update PCE')
+        output += output_msg('Unable to load the LOG to update PCE')
 
     # PCE FEDDBACK TO UPDATE FILE
     for_upd = pce_feedback.iloc[:, [4, 12, 13, 18]]

@@ -22,23 +22,23 @@ def check_daily_report(server=False):
     )
 
     today = date.today().strftime("%m-%d-%Y")
-    output += output_msg(server,
+    output += output_msg(
                          f"Daily AP Process update for:  {today}", "bold")
 
     for filename in os.listdir(report_directory):
         f = os.path.join(report_directory, filename)
         if os.path.isfile(f):
             if today in f:
-                output += output_msg(server, f"\t{filename}")
+                output += output_msg(f"\t{filename}")
                 report_found = True
 
     if report_found != True:
-        output += output_msg(server,
+        output += output_msg(
                              'No report found for today in Sharepoint repository')
 
     if os.path.exists(ap_materials_list):
         os.remove(ap_materials_list)
-        output += output_msg(server, "Materials list file removed")
+        output += output_msg("Materials list file removed")
 
     if server:
         return Markup(output)

@@ -40,7 +40,7 @@ def mif_soerf(server=False):
     with open(os.path.join(os.environ['DIR_OUT'], 'AP_MIF_SOERF.sql'), 'w') as file:
         file.writelines(lines)
 
-    output += output_msg(server,
+    output += output_msg(
                          f'Materials added to SQL query: {len(mif_soerf)}')
 
     if server == False:

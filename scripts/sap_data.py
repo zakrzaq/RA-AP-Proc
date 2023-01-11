@@ -31,7 +31,7 @@ def get_sap_data(server=False):
 
     # READ LIST OF MATERIALS
     material_list = pd.read_csv(f_materials_list, header=None)
-    output += output_msg(server,
+    output += output_msg(
                          f'Material in list today: {len(material_list)}')
     material_list.to_clipboard(sep='\n', index=False)
 
@@ -48,6 +48,6 @@ def get_sap_data(server=False):
     os.system(f'{f_sales_text}')
     time.sleep(sleep_time)
     for script in scripts_List:
-        output += output_msg(server, script)
+        output += output_msg(script)
         os.system(f'{script}')
         time.sleep(sleep_time)

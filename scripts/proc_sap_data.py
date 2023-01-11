@@ -14,7 +14,7 @@ def proc_sap_data(server=False):
     output = ''
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-    output += output_msg(server, "Reading log file")
+    output += output_msg("Reading log file")
     log = load_log()
 
     ws_mara = log['mara']
@@ -29,7 +29,7 @@ def proc_sap_data(server=False):
     #            ws_mlan, ws_price, ws_gts, ws_text]
 
     # # clean out data
-    output += output_msg(server, "Truncating data")
+    output += output_msg("Truncating data")
     ws_mara.delete_rows(100, ws_mara.max_row)
     ws_marc.delete_rows(100, ws_mara.max_row)
     ws_mvke.delete_rows(100, ws_mara.max_row)
@@ -52,7 +52,7 @@ def proc_sap_data(server=False):
     fl_text = os.path.join(os.environ['DIR_IN'], 'sales_text.xls')
 
     # load sap data to df
-    output += output_msg(server, "Loading new SAP data")
+    output += output_msg("Loading new SAP data")
     if os.path.exists(fl_mara):
         mara = pd.read_excel(fl_mara)
     if os.path.exists(fl_marc):
@@ -78,7 +78,7 @@ def proc_sap_data(server=False):
     inputs_not_empty = 0
     for input in inputs_list:
         if not input.empty:
-            output += output_msg(server, f'{input.describe()}')
+            output += output_msg(f'{input.describe()}')
             inputs_not_empty += 1
 
     if inputs_not_empty == 8:
@@ -91,7 +91,7 @@ def proc_sap_data(server=False):
         price['Valid From'] = pd.to_datetime(
             price['Valid From'], errors='coerce').dt.strftime('%d-%m-%Y')
 
-        output += output_msg(server, "Populate new data")
+        output += output_msg("Populate new data")
         populate_sap_data_sheet(mara, ws_mara,)
         populate_sap_data_sheet(marc, ws_marc)
         populate_sap_data_sheet(mvke, ws_mvke)
@@ -110,7 +110,7 @@ def proc_sap_data(server=False):
         extend_concats(ws_text)
 
         # save test log
-        output += output_msg(server, "Save results")
+        output += output_msg("Save results")
         test_save(log, "TEST_sap_data")
         # save ACTUAL log
         if server == False:
@@ -118,13 +118,13 @@ def proc_sap_data(server=False):
                 "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
         else:
             save_log(log)
-            output += output_msg(server, 'LOG file saved')
+            output += output_msg('LOG file saved')
             return Markup(output)
 
     else:
         if server == False:
             await_char("y")
         else:
-            output += output_msg(server,
+            output += output_msg(
                                  f'Missing SAP data - got only {inputs_not_empty} inputs', 'red')
             return Markup(output)

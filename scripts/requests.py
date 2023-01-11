@@ -16,13 +16,13 @@ def requests(server=False):
     output = ''
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-    output += output_msg(server, "Reading log file")
+    output += output_msg("Reading log file")
     try:
         log = load_log()
         ws_active = log['Active Materials']
 
         # IMPORT REQUESTS FORM DESKTOP
-        output += output_msg(server, "Reading request files")
+        output += output_msg("Reading request files")
         directory = os.environ["DIR_IN"]
         requests = pd.DataFrame()
 
@@ -30,10 +30,9 @@ def requests(server=False):
             if filename.endswith(".xlsm"):
                 if 'AP_Material_Master_Service_Request_Form' in filename:
                     file = os.path.join(directory, filename)
-                    output += output_msg(server, "\t" + filename)
+                    output += output_msg("\t" + filename)
                     df = pd.read_excel(file, 2)
                     df = df.iloc[1:, :]
-                    # output += output_msg(server, df)
                     requests = pd.concat([requests, df])
 
         # cleanup data
@@ -49,7 +48,7 @@ def requests(server=False):
                 'today').strftime("%m/%d/%Y"))
 
             # POPULATE REQUEST TO LOG
-            output += output_msg(server, "Transferring to LOG")
+            output += output_msg("Transferring to LOG")
             try:
                 # last populated row
                 for cell in ws_active['B']:
@@ -75,11 +74,10 @@ def requests(server=False):
                         ws_active_lastrow = cell.row
                         break
             except:
-                output += output_msg(server,
-                                     'I could not populate data', 'red')
+                output += output_msg('I could not populate data', 'red')
 
             # EXTEND FORMULAS By Col / Rows
-            output += output_msg(server, "Data formatting")
+            output += output_msg("Data formatting")
             try:
                 column_list = ['O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'X', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH',
                                'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD', 'BE']
@@ -92,8 +90,7 @@ def requests(server=False):
                         ws_active[f'{x}{i}'] = Translator(
                             formula, origin=f"{x}2").translate_formula(f"{x}{i}")
             except:
-                output += output_msg(server,
-                                     'I could not extend formulas', 'red')
+                output += output_msg('I could not extend formulas', 'red')
 
             # CREATE SORT
             try:
@@ -107,13 +104,12 @@ def requests(server=False):
                     ws_active[f"BF{i}"].value = i - 1
                     i += 1
             except:
-                output += output_msg(server,
-                                     'I could not create sort order', 'red')
+                output += output_msg('I could not create sort order', 'red')
 
             ready_to_save = True
 
         else:
-            output += output_msg(server, 'No request files found', 'red')
+            output += output_msg('No request files found', 'red')
 
         if ready_to_save:
             # TESTING
@@ -124,7 +120,7 @@ def requests(server=False):
                     "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
             else:
                 save_log(log)
-                output += output_msg(server, 'LOG file saved')
+                output += output_msg('LOG file saved')
                 return Markup(output)
 
         # MAKE LIST OF MATERIALS IN AP LOG
@@ -134,9 +130,9 @@ def requests(server=False):
 
         if os.path.exists(active_matnr_list_file):
             os.remove(active_matnr_list_file)
-            output += output_msg(server, 'material list redone')
+            output += output_msg('material list redone')
         else:
-            output += output_msg(server, 'material list created')
+            output += output_msg('material list created')
 
         active_matnr_list = ''
         with open(active_matnr_list_file, "w") as file:
@@ -157,7 +153,7 @@ def requests(server=False):
             await_char(
                 "y", "", "Requests have bene processed. Press Y to continue")
         else:
-            output += output_msg(server, 'Requests have bene processed.')
+            output += output_msg('Requests have bene processed.')
             return Markup(output)
 
     except:
@@ -165,6 +161,6 @@ def requests(server=False):
             return await_char(
                 "y", "Unable to load AP LOG, please close the excel file and press Y to continue")
         else:
-            output += output_msg(server,
+            output += output_msg(
                                  'Unable to load AP LOG, please close the excel file.', 'red')
             return Markup(output)

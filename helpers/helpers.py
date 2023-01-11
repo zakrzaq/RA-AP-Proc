@@ -4,7 +4,7 @@ import warnings
 import logging
 
 
-def await_char(char="y", msg="", func="", param=""):
+def await_char(char="y", msg="", func=None, param=""):
     import keyboard
     if msg == "":
         msg_out = f'Press {char.upper()} to continue'
@@ -17,7 +17,7 @@ def await_char(char="y", msg="", func="", param=""):
         if keyboard.is_pressed("C"):
             break
         if keyboard.is_pressed(char):
-            if func != "":
+            if func:
                 if param != "":
                     func(param)
                 else:
@@ -39,12 +39,9 @@ def use_logger():
         "logs", "log.txt"), level=logging.DEBUG)
 
 
-def output_msg(server, msg, *args):
-    if server == False:
-        print(msg)
-        return ''
-    else:
-        classes = 'code-line '
-        for a in args:
-            classes += a + ' '
-        return f'<p class="{classes}">{msg}</p>\n'
+def output_msg(msg, *args):
+    print(msg)
+    classes = 'code-line '
+    for a in args:
+        classes += a + ' '
+    return f'<p class="{classes}">{msg}</p>\n'
