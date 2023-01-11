@@ -2,7 +2,7 @@ def reconcile_pce(server=False):
     import os
     import pandas as pd
     import time
-    from flask import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
     from helpers.datetime import today_ymd, today_dmy

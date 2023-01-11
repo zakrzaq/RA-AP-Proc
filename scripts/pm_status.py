@@ -1,7 +1,7 @@
 def pm_status(server=False):
     import os
     import pandas as pd
-    from flask import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import await_char, ignore_warnings, use_dotenv, use_logger, output_msg
     from helpers.log import save_log, test_save, load_log

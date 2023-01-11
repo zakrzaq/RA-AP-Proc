@@ -1,7 +1,7 @@
 def clean_desktop(server=False):
     import os
     import shutil
-    from flask import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import await_char, output_msg
 

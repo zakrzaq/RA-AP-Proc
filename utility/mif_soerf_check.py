@@ -4,7 +4,7 @@ def mif_soerf_check(server=False):
     from helpers.helpers import await_char, output_msg
     import pandas as pd
     import dotenv
-    from flask import Markup
+    from markupsafe import Markup
 
     dotenv_file = dotenv.find_dotenv()
     dotenv.load_dotenv(dotenv_file)

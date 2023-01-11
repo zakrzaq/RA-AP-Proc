@@ -1,7 +1,7 @@
 def mif_soerf(server=False):
     import pandas as pd
     import os
-    from flask import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import use_dotenv, ignore_warnings, await_char, use_logger, output_msg
     from helpers.data_frames import get_selected_active

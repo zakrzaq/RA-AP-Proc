@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from flask import Markup
+from markupsafe import Markup
 
 from helpers.log import load_log, save_log, test_save
 from helpers.xlsm import populate_sheet_series

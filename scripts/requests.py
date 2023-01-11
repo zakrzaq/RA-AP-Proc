@@ -2,7 +2,7 @@ def requests(server=False):
     import pandas as pd
     import os
     from openpyxl.formula.translate import Translator
-    from flask import Markup
+    from  markupsafe import Markup
 
     from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
     from helpers.log import save_log, load_log, test_save
@@ -14,6 +14,8 @@ def requests(server=False):
     # VARIABLES
     ready_to_save = False
     output = ''
+    ws_active_firstrow = 1
+    ws_active_lastrow = 1
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
     output += output_msg("Reading log file")
@@ -78,6 +80,7 @@ def requests(server=False):
 
             # EXTEND FORMULAS By Col / Rows
             output += output_msg("Data formatting")
+            ws_active_lastrow = 1
             try:
                 column_list = ['O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'X', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH',
                                'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD', 'BE']

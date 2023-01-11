@@ -1,7 +1,7 @@
 def proc_sap_data(server=False):
     import pandas as pd
     import os
-    from flask import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
     from helpers.log import load_log, save_log, test_save

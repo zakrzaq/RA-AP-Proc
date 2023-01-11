@@ -2,9 +2,9 @@ def get_sap_data(server=False):
     import time
     import pandas as pd
     import os
-    from flask import Markup
+    from markupsafe import Markup
 
-    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
+    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, output_msg
 
     use_dotenv()
     use_logger()
@@ -51,3 +51,6 @@ def get_sap_data(server=False):
         output += output_msg(script)
         os.system(f'{script}')
         time.sleep(sleep_time)
+
+    if server:
+        return Markup(output)

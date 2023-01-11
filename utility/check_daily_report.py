@@ -5,7 +5,7 @@ def check_daily_report(server=False):
     sys.path.append(fpath)
 
     import platform
-    from flask import Markup
+    from markupsafe import Markup
     from datetime import date
     from helpers.helpers import output_msg, await_char
 
