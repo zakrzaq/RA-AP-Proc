@@ -22,6 +22,11 @@ def am_status(server=False):
         log = load_log()
         ws_active = log['Active Materials']
         selected_active_view = get_selected_active()
+        if selected_active_view.empty:
+            output += output_msg('Unable to obtaind data from LOG')
+            return Markup(output)
+        else:
+            output += output_msg('LOG data loaded')        
     except:
         if server == False:
             await_char(
