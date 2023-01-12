@@ -32,9 +32,11 @@ IfWinExist, SAP Easy Access
   Send +{tab} {tab}
   Sleep, (2000)
   Send, C:\RA-Apps\AP-Proc\INPUTS\mvke{enter}
+}
+
+IfWinExist, Data Browser: Table MVKE Select Entries
+{
   Sleep, (2500)
   WinClose, Data Browser: Table MVKE Select Entries
-  ; Sleep, 3000
-  ; WinClose, Cancel SAP Application
-  Return
 }
+Return

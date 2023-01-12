@@ -8,23 +8,23 @@ SetWorkingDir, %A_ScriptDir%
 IfWinExist, SAP Easy Access
 {
   WinActivate, SAP Easy Access
-  Sleep (1500)
+  Sleep (2500)
   Send {/}ose16 {enter}
-  Sleep (1500)
+  Sleep (2500)
   Send marc
   Send {enter}
-  Sleep (1500)
+  Sleep (2500)
   Send +{F5}
-  Sleep (1500)
+  Sleep (2500)
   Send {F8}
-  Sleep (1500)
+  Sleep (2500)
   Send {TAB 2}
   Send {enter}
-  Sleep (1500)
+  Sleep (2500)
   Send +{F12}
-  Sleep (1500)
+  Sleep (2500)
   Send {F8}
-  Sleep (1500)
+  Sleep (2500)
   Send {F8}
   Sleep (5000)
   Send ^+{F7}
