@@ -2,7 +2,7 @@ def requests(server=False):
     import pandas as pd
     import os
     from openpyxl.formula.translate import Translator
-    from  markupsafe import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
     from helpers.log import save_log, load_log, test_save
@@ -38,7 +38,7 @@ def requests(server=False):
                     requests = pd.concat([requests, df])
 
         # cleanup data
-        output += output_msg(server, "Cleaning the data")
+        output += output_msg("Cleaning the data")
         if not requests.empty:
             requests['Unnamed: 3'] = requests['Unnamed: 3'].str.strip()
             requests['Unnamed: 2'] = requests['Unnamed: 2'].str.replace(
@@ -165,5 +165,5 @@ def requests(server=False):
                 "y", "Unable to load AP LOG, please close the excel file and press Y to continue")
         else:
             output += output_msg(
-                                 'Unable to load AP LOG, please close the excel file.', 'red')
+                'Unable to load AP LOG, please close the excel file.', 'red')
             return Markup(output)

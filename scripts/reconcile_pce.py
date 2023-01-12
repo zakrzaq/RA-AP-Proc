@@ -24,7 +24,7 @@ def reconcile_pce(server=False):
     output = ''
 
     # ORGINAL SOURCE
-    output += output_msg(server, 'Preparing ORG Source')
+    output += output_msg('Preparing ORG Source')
     mifs = get_active('mif')
     mifs['date'] = mifs['date'].map(lambda x: str(x)[:-9])
     mifs_today = mifs[mifs['date'] == today]
@@ -32,12 +32,12 @@ def reconcile_pce(server=False):
     mifs_list.to_clipboard(sep=',', index=False, header=None)
     os.system(f'{f_sap}')
     time.sleep(7)
-    output += output_msg(server, 'Running ORG Source AHK')
+    output += output_msg('Running ORG Source AHK')
     os.system(f'{f_org_source}')
-    output += output_msg(server, 'Finished ORG Source')
+    output += output_msg('Finished ORG Source')
 
     # FIND PCE REQUEST
-    output += output_msg(server, 'Preparing PCE Reconciliation')
+    output += output_msg('Preparing PCE Reconciliation')
     pce_feedback = pd.DataFrame()
     for filename in os.listdir('C:\RA-Apps\AP-Proc\INPUTS'):
         file = os.path.join('C:\RA-Apps\AP-Proc\INPUTS', filename)
@@ -48,7 +48,7 @@ def reconcile_pce(server=False):
 
     # PCE FEEDBACK TO LOG
     try:
-        output += output_msg(server, 'Processing PCE Reconciliation')
+        output += output_msg('Processing PCE Reconciliation')
         log = load_log()
         ws_pce = log['pce']
         last_row = ws_pce.max_row + 1
@@ -80,7 +80,7 @@ def reconcile_pce(server=False):
         output += output_msg('Unable to load the LOG to update PCE')
 
     # PCE FEDDBACK TO UPDATE FILE
-    output += output_msg(server, 'Preparing PCE SAP Update')
+    output += output_msg('Preparing PCE SAP Update')
     for_upd = pce_feedback.iloc[:, [4, 12, 13, 18]]
     for_upd = for_log[for_log['New PCE Assessment'].notna()]
     for_upd["SAP Table"] = "MARA"
@@ -92,6 +92,6 @@ def reconcile_pce(server=False):
     for_upd.to_csv(upd_file, header=None, index=False, sep='\t')
     os.system(f'{f_sap}')
     time.sleep(7)
-    output += output_msg(server, 'Processing PCE SAP Update')
+    output += output_msg('Processing PCE SAP Update')
     os.system(f'{f_upd_class}')
-    output += output_msg(server, 'Finished PCE SAP Update')
+    output += output_msg('Finished PCE SAP Update')
