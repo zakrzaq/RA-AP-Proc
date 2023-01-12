@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from flask import Markup
+from markupsafe import Markup
 
 from helpers.log import load_log, save_log, test_save
 from helpers.xlsm import populate_sheet_series
@@ -22,12 +22,17 @@ def am_status(server=False):
         log = load_log()
         ws_active = log['Active Materials']
         selected_active_view = get_selected_active()
+        if selected_active_view.empty:
+            output += output_msg('Unable to obtaind data from LOG')
+            return Markup(output)
+        else:
+            output += output_msg('LOG data loaded')        
     except:
         if server == False:
             await_char(
                 "y", "Unable to load AP LOG, please close the excel file and press Y to continue")
         else:
-            output += output_msg(server,
+            output += output_msg(
                                  'Unable to load AP LOG, please close the excel file.', 'red')
             return Markup(output)
 
@@ -43,7 +48,7 @@ def am_status(server=False):
         (selected_active_view['status'].str.contains(
             'needs price;') == True)
     ]
-    output += output_msg(server,
+    output += output_msg(
                          f'Materials NEEDING PRICE in AP LOG: {len(price_requested)}')
 
     # MATNRs PCE NEEDED
@@ -80,7 +85,7 @@ def am_status(server=False):
         (selected_active_view['status'].str.contains(
             'pending PCE review;') == True)
     ]
-    output += output_msg(server,
+    output += output_msg(
                          f'Materials NEEDING PCE in AP LOG: {len(pce_requested)}')
 
     # OUTPUTS
@@ -101,5 +106,5 @@ def am_status(server=False):
             "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
     else:
         save_log(log)
-        output += output_msg(server, 'LOG file saved')
+        output += output_msg('LOG file saved')
         return Markup(output)

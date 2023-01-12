@@ -18,7 +18,7 @@ os.system("python -m venv env")
 os.system("mkdir logs")
 
 if sys_type == 'windows':
-    os.system('type nul > logs\log.txt')
+    os.system("type nul > logs\\log.txt")
     os.system("env/Scripts/activate.bat")
     os.system('env/Scripts/Activate.ps1')
     os.system("echo call env/Scripts/activate.bat >> ap_proc.bat")

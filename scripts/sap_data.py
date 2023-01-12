@@ -2,9 +2,9 @@ def get_sap_data(server=False):
     import time
     import pandas as pd
     import os
-    from flask import Markup
+    from markupsafe import Markup
 
-    from helpers.helpers import await_char, use_dotenv, ignore_warnings, use_logger, output_msg
+    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, output_msg
 
     use_dotenv()
     use_logger()
@@ -31,7 +31,7 @@ def get_sap_data(server=False):
 
     # READ LIST OF MATERIALS
     material_list = pd.read_csv(f_materials_list, header=None)
-    output += output_msg(server,
+    output += output_msg(
                          f'Material in list today: {len(material_list)}')
     material_list.to_clipboard(sep='\n', index=False)
 
@@ -48,6 +48,9 @@ def get_sap_data(server=False):
     os.system(f'{f_sales_text}')
     time.sleep(sleep_time)
     for script in scripts_List:
-        output += output_msg(server, script)
+        output += output_msg(script)
         os.system(f'{script}')
         time.sleep(sleep_time)
+
+    if server:
+        return Markup(output)

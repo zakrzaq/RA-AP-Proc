@@ -1,7 +1,7 @@
 def pm_status(server=False):
     import os
     import pandas as pd
-    from flask import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import await_char, ignore_warnings, use_dotenv, use_logger, output_msg
     from helpers.log import save_log, test_save, load_log
@@ -69,8 +69,8 @@ def pm_status(server=False):
         (selected_active_view['status'].str.contains(
             'GST data needed;') == True)
     ]
-    output += output_msg(server, 'Materials needing GTS in log:')
-    output += output_msg(server, len(gts_requested))
+    output += output_msg('Materials needing GTS in log:')
+    output += output_msg(len(gts_requested))
 
     # MATNRs LOCAL NEEDED
     done_status = '|'.join(
@@ -94,8 +94,8 @@ def pm_status(server=False):
         (selected_active_view['status'].str.contains(
             'Localization required;') == True)
     ]
-    output += output_msg(server, 'Materials needing LOCALIZATION in log:')
-    output += output_msg(server, len(local_requested))
+    output += output_msg('Materials needing LOCALIZATION in log:')
+    output += output_msg(len(local_requested))
 
     # OUTPUTS
     status_output = selected_active_view['status']
@@ -116,5 +116,5 @@ def pm_status(server=False):
             "y", "Press Y to save to live LOG file or C to cancel.",  save_log, log)
     else:
         save_log(log)
-        output += output_msg(server, 'LOG file saved')
+        output += output_msg('LOG file saved')
         return Markup(output)

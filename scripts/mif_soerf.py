@@ -1,7 +1,7 @@
 def mif_soerf(server=False):
     import pandas as pd
     import os
-    from flask import Markup
+    from markupsafe import Markup
 
     from helpers.helpers import use_dotenv, ignore_warnings, await_char, use_logger, output_msg
     from helpers.data_frames import get_selected_active
@@ -40,7 +40,7 @@ def mif_soerf(server=False):
     with open(os.path.join(os.environ['DIR_OUT'], 'AP_MIF_SOERF.sql'), 'w') as file:
         file.writelines(lines)
 
-    output += output_msg(server,
+    output += output_msg(
                          f'Materials added to SQL query: {len(mif_soerf)}')
 
     if server == False:
