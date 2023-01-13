@@ -1,3 +1,6 @@
+from helpers.helpers import await_char
+
+
 def get_sap_data(server=False):
     import time
     import pandas as pd
@@ -32,7 +35,7 @@ def get_sap_data(server=False):
     # READ LIST OF MATERIALS
     material_list = pd.read_csv(f_materials_list, header=None)
     output += output_msg(
-                         f'Material in list today: {len(material_list)}')
+        f'Material in list today: {len(material_list)}')
     material_list.to_clipboard(sep='\n', index=False)
 
     # RUN ALL DATA SCRIPTS
@@ -48,9 +51,17 @@ def get_sap_data(server=False):
     os.system(f'{f_sales_text}')
     time.sleep(sleep_time)
     for script in scripts_List:
-        output += output_msg(script)
-        os.system(f'{script}')
-        time.sleep(sleep_time)
+        last_slash = script.rfind('\\')
+        output_name = script[last_slash+1:-4] + '.XLSX'
+        output_file = os.path.join(os.environ['DIR_IN'], output_name)
+        while not os.path.isfile(output_file):
+            print(os.path.isfile(output_file))
+            # print(output_file)
+            output += output_msg(script)
+            os.system(f'{script}')
+            time.sleep(sleep_time)
 
     if server:
         return Markup(output)
+    else:
+        await_char('y', 'SAP data downloaded')
