@@ -2,7 +2,7 @@ import dotenv
 import platform
 import os
 
-os.system('python -m pip install python-dotenv')
+os.system("python -m pip install python-dotenv")
 
 
 sys_type = platform.system().lower()
@@ -17,17 +17,17 @@ os.system("pip install virtualenv")
 os.system("python -m venv env")
 os.system("mkdir logs")
 
-if sys_type == 'windows':
+if sys_type == "windows":
     os.system("type nul > logs\\log.txt")
     os.system("env/Scripts/activate.bat")
-    os.system('env/Scripts/Activate.ps1')
+    os.system("env/Scripts/Activate.ps1")
     os.system("echo call env/Scripts/activate.bat >> ap_proc.bat")
     os.system("echo call env/Scripts/Activate.ps1 >> ap_proc.bat")
     os.system("echo python ap_proc.py >> ap_proc.bat")
     os.system("echo flask run >> ap_serv.bat")
 else:
-    os.system('touch logs/log.txt')
-    os.system('source env/bin/activate')
+    os.system("touch logs/log.txt")
+    os.system("source env/bin/activate")
     ap_proc = "#!/bin/bash\nsource env/bin/activate\npython ap_proc.py"
     f = open("ap-proc.sh", "w")
     f.write(ap_proc)
@@ -36,10 +36,9 @@ else:
     f = open("ap-serv.sh", "w")
     f.write(ap_serv)
     f.close()
-    os.system('chmod +x ./ap-serv.sh')
+    os.system("chmod +x ./ap-serv.sh")
 
-os.system(
-    "pip install -r requirements.txt")
+os.system("pip install -r requirements.txt")
 # os.system("pip list")
 
 

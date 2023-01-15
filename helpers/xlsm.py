@@ -3,7 +3,7 @@ from openpyxl.formula.translate import Translator
 
 
 def populate_sheet_series(df, sheet, col=2, row=2):
-    df = df.fillna('')
+    df = df.fillna("")
     output = []
     start_row = row
     start_col = col
@@ -21,7 +21,7 @@ def populate_sheet_series(df, sheet, col=2, row=2):
 
 
 def populate_sap_data_sheet(df, sheet, start_col=2, start_row=2):
-    df = df.fillna('')
+    df = df.fillna("")
     output = []
 
     for index, row in df.iterrows():
@@ -37,6 +37,7 @@ def extend_concats(sheet, start_row=100, col_letter="A"):
     i = start_row
     while i < last_row:
         i += 1
-        formula = sheet[f'{col_letter}2'].value
-        sheet[f'{col_letter}{i}'] = Translator(
-            formula, origin=f'{col_letter}2').translate_formula(f'{col_letter}{i}')
+        formula = sheet[f"{col_letter}2"].value
+        sheet[f"{col_letter}{i}"] = Translator(
+            formula, origin=f"{col_letter}2"
+        ).translate_formula(f"{col_letter}{i}")
