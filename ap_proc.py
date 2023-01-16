@@ -24,10 +24,10 @@ use_logger()
 
 
 def clear():
-    if platform.system() == 'Windows':
-        return os.system('cls')
+    if platform.system() == "Windows":
+        return os.system("cls")
     else:
-        return os.system('clear')
+        return os.system("clear")
 
 
 clear()
@@ -37,7 +37,7 @@ server = False
 
 
 def get_menu_choice():
-    def print_menu():       # Your menu design here
+    def print_menu():  # Your menu design here
         print(24 * "-", "AP MM EXTENSION PROCESS", 24 * "-")
         print("1)    Get current requests")
         print("2)    Generate MIF / SOERF requests")
@@ -62,54 +62,54 @@ def get_menu_choice():
 
     loop = True
 
-    while loop:          # While loop which will keep going until loop = False
-        print_menu()    # Displays menu
+    while loop:  # While loop which will keep going until loop = False
+        print_menu()  # Displays menu
         choice = input("Choose procedure to run: ")
         print("\n")
 
-        if choice == '1':
+        if choice == "1":
             requests()
             clear()
-        elif choice == '2':
+        elif choice == "2":
             mif_soerf()
             clear()
-        elif choice == '3':
+        elif choice == "3":
             am_status()
             clear()
-        elif choice == '4':
+        elif choice == "4":
             am_emails()
             clear()
-        elif choice == '5':
+        elif choice == "5":
             reconcile_pce()
             clear()
-        elif choice == '6':
+        elif choice == "6":
             pm_status()
             clear()
-        elif choice == '7':
+        elif choice == "7":
             pm_emails()
             clear()
-        elif choice == '8':
+        elif choice == "8":
             get_sap_data()
             clear()
-        elif choice == '9':
+        elif choice == "9":
             proc_sap_data()
             clear()
-        elif choice == '10':
+        elif choice == "10":
             clean_desktop()
             clear()
-        elif choice == '11':
+        elif choice == "11":
             mif_soerf_check()
             clear()
-        elif choice == '12':
+        elif choice == "12":
             check_daily_report()
             clear()
-        elif choice == '13':
-            os.system(r'C:\RA-Apps\AP-Proc\sap\sap.ahk')
+        elif choice == "13":
+            os.system(r"C:\RA-Apps\AP-Proc\sap\sap.ahk")
             clear()
-        elif (choice == 'u' or choice == 'U'):
+        elif choice == "u" or choice == "U":
             os.system("git pull")
             clear()
-        elif (choice == 'x' or choice == 'X'):
+        elif choice == "x" or choice == "X":
             print("Exiting...")
             loop = False
         else:

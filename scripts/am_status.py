@@ -79,6 +79,7 @@ def am_status(server=False):
 
     selected_active_view.loc[prod_cert, 'status'] = selected_active_view['status'].astype(
         str).replace("nan", "") + 'pending PCE review;'
+    selected_active_view.loc[need_pce, "PCE cert rev req'd"] = str(today)
     selected_active_view.loc[prod_cert, "PCE cert rev req'd"] = str(today)
 
     pce_requested = selected_active_view.loc[
