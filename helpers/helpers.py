@@ -6,8 +6,9 @@ import logging
 
 def await_char(char="y", msg="", func=None, param=""):
     import keyboard
+
     if msg == "":
-        msg_out = f'Press {char.upper()} to continue'
+        msg_out = f"Press {char.upper()} to continue"
     else:
         msg_out = msg
     print(msg_out)
@@ -35,13 +36,12 @@ def ignore_warnings():
 
 
 def use_logger():
-    logging.basicConfig(filename=os.path.join(
-        "logs", "log.txt"), level=logging.DEBUG)
+    logging.basicConfig(filename=os.path.join("logs", "log.txt"), level=logging.DEBUG)
 
 
 def output_msg(msg, *args):
     print(msg)
-    classes = 'code-line '
+    classes = "code-line "
     for a in args:
-        classes += a + ' '
+        classes += a + " "
     return f'<p class="{classes}">{msg}</p>\n'

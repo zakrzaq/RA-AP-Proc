@@ -81,6 +81,7 @@ def reconcile_pce(server=False):
         else:
             save_log(log)
             output += output_msg("LOG file saved")
+            return Markup(output)
     except:
         output += output_msg("Unable to load the LOG to update PCE")
 
