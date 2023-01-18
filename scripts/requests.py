@@ -198,6 +198,8 @@ def requests(server=False):
             # print(active_matnr_list)
             file.write(active_matnr_list)
             file.close()
+            material_count = active_matnr_list.count("\n")
+            output = output_msg(f"{material_count} materials in the LOG")
 
         if server == False:
             await_char("y", "", "Requests have bene processed. Press Y to continue")
