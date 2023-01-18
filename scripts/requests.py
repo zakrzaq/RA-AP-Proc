@@ -52,7 +52,7 @@ def requests(server=False):
                 "@ra.rockwell.com", ""
             )
             requests["Unnamed: 2"] = requests["Unnamed: 2"].str.lower()
-            requests.insert(0, "Date", pd.to_datetime("today").strftime("%m/%d/%Y"))
+            requests.insert(0, "Date", pd.to_datetime("today").strftime("%d/%m/%Y"))
 
             # POPULATE REQUEST TO LOG
             output += output_msg("Transferring to LOG")
@@ -139,6 +139,14 @@ def requests(server=False):
                         ).translate_formula(f"{x}{i}")
             except:
                 output += output_msg("I could not extend formulas", "red")
+
+            # FORMAT REQUEST DATES
+            try:
+                output += output_msg("Formatting request dates")
+                for r in range(2, ws_active_lastrow):
+                    ws_active[f"A{r}"].number_format = "mm-dd"
+            except:
+                output += output_msg("I could not extend format request dates", "red")
 
             # CREATE SORT
             try:

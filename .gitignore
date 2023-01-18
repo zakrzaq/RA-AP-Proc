@@ -25,8 +25,8 @@ ap_serv.bat
 ap-proc.sh
 ap-serv.sh
 tx.sap
-test.ahk
-test.py
+test*.ahk
+test*.py
 **/log.txt
 cSpell.json
 
