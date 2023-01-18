@@ -132,12 +132,8 @@ def proc_sap_data(server=False):
         else:
             save_log(log)
             output += output_msg("LOG file saved")
+            return Markup(output)
 
     else:
-        if server == False:
-            await_char("y", "SAP data processed, press Y to continue")
-        else:
-            output += output_msg(
-                f"Missing SAP data - got only {inputs_not_empty} inputs", "red"
-            )
-            return Markup(output)
+        output += output_msg("")
+        return Markup(output)
