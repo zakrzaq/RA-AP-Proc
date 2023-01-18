@@ -28,6 +28,7 @@ tx.sap
 test.ahk
 test.py
 **/log.txt
+cSpell.json
 
 # Node Specific
 node_modules

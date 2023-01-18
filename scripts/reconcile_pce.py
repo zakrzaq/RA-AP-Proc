@@ -28,7 +28,7 @@ def reconcile_pce(server=False):
     upd_file = os.path.join(os.environ["DIR_OUT"], "UPDATES TO Z62.txt")
     output = ""
 
-    # ORGINAL SOURCE
+    # ORIGINAL SOURCE
     output += output_msg("Preparing ORG Source")
     mifs = get_active("mif")
     mifs["date"] = mifs["date"].map(lambda x: str(x)[:-9])
@@ -50,6 +50,7 @@ def reconcile_pce(server=False):
             output += output_msg("\t" + file)
             df = pd.read_excel(file)
             pce_feedback = pd.concat([pce_feedback, df])
+    output += output_msg(pce_feedback.head(10))
 
     # PCE FEEDBACK TO LOG
     try:
@@ -59,7 +60,7 @@ def reconcile_pce(server=False):
         last_row = ws_pce.max_row + 1
 
         for_log = pce_feedback.iloc[:, [4, 12, 13, 18]]
-        for_log = for_log[for_log["New PCE Assessment"].notna()]
+        for_log = for_log[for_log["new PCE assessment"].notna()]
 
         populate_sap_data_sheet(for_log, ws_pce, 2, last_row)
         # insert dates
@@ -81,17 +82,16 @@ def reconcile_pce(server=False):
         else:
             save_log(log)
             output += output_msg("LOG file saved")
-            return Markup(output)
     except:
         output += output_msg("Unable to load the LOG to update PCE")
 
-    # PCE FEDDBACK TO UPDATE FILE
-    if pce_feedback.empty():
+    # PCE FEEDBACK TO UPDATE FILE
+    if pce_feedback.empty:
         output += output_msg("No PCE feedback to process")
     else:
         output += output_msg("Preparing PCE SAP Update")
         for_upd = pce_feedback.iloc[:, [4, 12, 13, 18]]
-        for_upd = for_log[for_log["New PCE Assessment"].notna()]
+        for_upd = for_log[for_log["new PCE assessment"].notna()]
         for_upd["SAP Table"] = "MARA"
         for_upd["Class"] = "Z62"
         for_upd["Blank 1"] = ""
@@ -105,7 +105,7 @@ def reconcile_pce(server=False):
                 "Blank 1",
                 "Blank 2",
                 "Regulatory Cert\n(Z62 Characteristic)",
-                "New PCE Assessment",
+                "new PCE assessment",
             ]
         ]
         for_upd.to_csv(upd_file, header=None, index=False, sep="\t")
@@ -116,3 +116,9 @@ def reconcile_pce(server=False):
         output += output_msg("Processing PCE SAP Update")
         os.system(f"{f_upd_class}")
         output += output_msg("Finished PCE SAP Update")
+
+    output += output_msg("Completed Reconcile Script")
+    if server == False:
+        await_char()
+    else:
+        return Markup(output)

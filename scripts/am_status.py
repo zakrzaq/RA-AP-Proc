@@ -1,5 +1,3 @@
-import os
-import pandas as pd
 from markupsafe import Markup
 
 from helpers.log import load_log, save_log, test_save
@@ -10,6 +8,7 @@ from helpers.helpers import (
     ignore_warnings,
     use_logger,
     output_msg,
+    format_pce_price_dates,
 )
 from helpers.datetime import today_ymd
 from helpers.data_frames import get_selected_active
@@ -21,7 +20,7 @@ def am_status(server=False):
     ignore_warnings()
 
     output = ""
-    today = today_ymd()[-5:-9]
+    today = today_ymd()[-5:]
 
     # LOAD LOG
     try:
@@ -49,6 +48,7 @@ def am_status(server=False):
     need_price = (
         (selected_active_view["target sorg price"].isna())
         & (~selected_active_view["SOERF Submitted"].isna())
+        & (selected_active_view["target sorg price"].isna())
         & (
             (
                 selected_active_view["status"].str.contains(
@@ -63,7 +63,7 @@ def am_status(server=False):
     selected_active_view.loc[need_price, "status"] = (
         selected_active_view["status"].astype(str).replace("nan", "") + "needs price;"
     )
-    selected_active_view.loc[need_price, "pricing request"] = today
+    selected_active_view.loc[need_price, "pricing request"] = str(today)
 
     price_requested = selected_active_view.loc[
         (selected_active_view["status"].str.contains("needs price;") == True)
@@ -123,10 +123,10 @@ def am_status(server=False):
     # OUTPUTS
     status_output = selected_active_view["status"]
     pce_date_output = selected_active_view["PCE cert rev req'd"].map(
-        lambda x: str(x)[5:-9] if str(x) != "comp" else "comp"
+        format_pce_price_dates
     )
     price_date_output = selected_active_view["pricing request"].map(
-        lambda x: str(x)[5:-9] if str(x) != "comp" else "comp"
+        format_pce_price_dates
     )
 
     # TEST SAVE LOG

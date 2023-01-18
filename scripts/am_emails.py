@@ -10,14 +10,16 @@ def am_emails(server=False):
         await_char,
         use_logger,
         output_msg,
+        format_request_date,
     )
+    from helpers.datetime import today_ymd
     from helpers.data_frames import get_active
 
     use_dotenv()
     use_logger()
     ignore_warnings()
 
-    today = date.today().strftime("%m-%d-%Y")
+    today_file = today_ymd("-")
     output = ""
     active = get_active()
 
@@ -53,18 +55,21 @@ def am_emails(server=False):
     if need_price.empty:
         output += output_msg("NO PCE REQUESTS")
     else:
-        need_price[["Date Added", "pricing request"]] = need_price[
-            ["Date Added", "pricing request"]
-        ].apply(pd.to_datetime)
-        need_price["Date Added"] = need_price["Date Added"].dt.strftime("%m/%d/%Y")
-        need_price["pricing request"] = need_price["pricing request"].dt.strftime(
-            "%m/%d/%Y"
-        )
+        need_price["Date Added"] = need_price["Date Added"].map(format_request_date)
+        # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
+        # need_price[["Date Added", "pricing request"]] = need_price[
+        #     ["Date Added", "pricing request"]
+        # ].apply(pd.to_datetime)
+        # need_price["Date Added"] = need_price["Date Added"].dt.strftime("%m/%d/%Y")
+        # need_price["pricing request"] = need_price["pricing request"].dt.strftime(
+        #     "%m/%d/%Y"
+        # )
 
         output += output_msg(f"Needing price: {len(need_price)}")
         # PRICE REQUEST FILE
         need_price_list_file = os.path.join(
-            os.environ["DIR_OUT"], f"AP pricing needed with active demand {today}.xlsx"
+            os.environ["DIR_OUT"],
+            f"AP pricing needed with active demand {today_file}.xlsx",
         )
         need_price.to_excel(need_price_list_file, index=False)
 
@@ -98,7 +103,9 @@ def am_emails(server=False):
                 "PCE cert rev req'd",
             ]
         ]
-        # need_pce['New PCE Assessment'] = ""
+        need_pce["new PCE assessment"] = ""
+        need_pce["Date Added"] = need_pce["Date Added"].map(format_request_date)
+        # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
         # need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
         #     'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)
         # need_pce['Date Added'] = need_pce['Date Added'].dt.strftime('%m/%d/%Y')
@@ -110,7 +117,7 @@ def am_emails(server=False):
         output += output_msg(f"PCE requests: {len(active_wt_pce_req)}")
         # PCE REQUEST FILE - AM
         need_pce_file = os.path.join(
-            os.environ["DIR_OUT"], f"{today} PCE ASSESSMENT REQUEST.xlsx"
+            os.environ["DIR_OUT"], f"{today_file} PCE ASSESSMENT REQUEST.xlsx"
         )
         need_pce.to_excel(need_pce_file, index=False)
 

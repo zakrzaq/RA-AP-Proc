@@ -84,7 +84,7 @@ def proc_sap_data(server=False):
     inputs_not_empty = 0
     for input in inputs_list:
         if not input.empty:
-            output += output_msg(f"{input.describe()}")
+            output += output_msg(f"{input.head(3)}")
             inputs_not_empty += 1
 
     if inputs_not_empty == 8:
@@ -132,11 +132,10 @@ def proc_sap_data(server=False):
         else:
             save_log(log)
             output += output_msg("LOG file saved")
-            return Markup(output)
 
     else:
         if server == False:
-            await_char("y")
+            await_char("y", "SAP data processed, press Y to continue")
         else:
             output += output_msg(
                 f"Missing SAP data - got only {inputs_not_empty} inputs", "red"

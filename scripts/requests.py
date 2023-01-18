@@ -2,7 +2,7 @@ def requests(server=False):
     import pandas as pd
     import os
     from openpyxl.formula.translate import Translator
-    from markupsafe import Markup
+    from flask import Markup
 
     from helpers.helpers import (
         await_char,
@@ -20,8 +20,6 @@ def requests(server=False):
     # VARIABLES
     ready_to_save = False
     output = ""
-    ws_active_firstrow = 1
-    ws_active_lastrow = 1
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
     output += output_msg("Reading log file")
@@ -44,7 +42,7 @@ def requests(server=False):
                     requests = pd.concat([requests, df])
 
         # cleanup data
-        output += output_msg("Cleaning the data")
+        output += output_msg(server, "Cleaning the data")
         if not requests.empty:
             requests["Unnamed: 3"] = requests["Unnamed: 3"].str.strip()
             requests["Unnamed: 2"] = requests["Unnamed: 2"].str.replace(
@@ -87,7 +85,6 @@ def requests(server=False):
 
             # EXTEND FORMULAS By Col / Rows
             output += output_msg("Data formatting")
-            ws_active_lastrow = 1
             try:
                 column_list = [
                     "O",

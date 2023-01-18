@@ -28,10 +28,11 @@ IfWinExist, SAP Easy Access
   Send {F8}
   Sleep (5000)
   Send ^+{F7}
-  Sleep (3000)
+  Sleep (3300)
   Send +{tab} {tab}
-  Sleep (2500)
+  Sleep (3500)
   Send, C:\RA-Apps\AP-Proc\INPUTS\marc{enter}
+  Sleep, 3500
 }
 
 IfWinExist, Data Browser: Table MARC Select Entries

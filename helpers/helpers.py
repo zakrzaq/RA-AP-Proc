@@ -39,9 +39,33 @@ def use_logger():
     logging.basicConfig(filename=os.path.join("logs", "log.txt"), level=logging.DEBUG)
 
 
-def output_msg(msg, *args):
+def output_msg(msg: str, *args: tuple[str]):
     print(msg)
     classes = "code-line "
     for a in args:
         classes += a + " "
     return f'<p class="{classes}">{msg}</p>\n'
+
+
+def format_pce_price_dates(x: str) -> str:
+    # print(x)
+    if str(x) == "comp":
+        return str(x)
+    elif str(x) == "nan":
+        return ""
+    elif len(str(x)) > 10:
+        if "-" in str(x):
+            x = str(x).replace("-", "/")
+        return str(x)[5:-9]
+    elif len(str(x)) == 10:
+        if "-" in str(x):
+            x = str(x).replace("-", "/")
+        return str(x)[5:]
+    else:
+        return str(x)
+
+
+def format_request_date(x: str) -> str:
+    if "-" in str(x):
+        x = str(x).replace("-", "/")
+    return str(x)[:-9]

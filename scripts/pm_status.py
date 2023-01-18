@@ -9,6 +9,7 @@ def pm_status(server=False):
         use_dotenv,
         use_logger,
         output_msg,
+        format_pce_price_dates,
     )
     from helpers.log import save_log, test_save, load_log
     from helpers.xlsm import populate_sheet_series
@@ -34,7 +35,7 @@ def pm_status(server=False):
     selected_active_view.loc[been_priced, "pricing request"] = "comp"
 
     # VERIFY PCE
-    been_pce_revied = (
+    been_pce_revived = (
         (selected_active_view["status"].str.contains("pending PCE review;"))
         & (
             selected_active_view["Regulatory Cert\n(Z62 Class)"].isin(
@@ -44,10 +45,10 @@ def pm_status(server=False):
         & (selected_active_view["Z62 characteristic\n(assigned in SAP)"].notna())
     )
 
-    selected_active_view.loc[been_pce_revied, "status"] = selected_active_view[
+    selected_active_view.loc[been_pce_revived, "status"] = selected_active_view[
         "status"
     ].str.replace("pending PCE review;", "")
-    selected_active_view.loc[been_priced, "PCE cert rev req'd"] = "comp"
+    selected_active_view.loc[been_pce_revived, "PCE cert rev req'd"] = "comp"
 
     # VERIFY GTS
     selected_active_view.loc[
@@ -118,8 +119,6 @@ def pm_status(server=False):
         )
     )
 
-    print(len(selected_active_view.loc[need_local]))
-
     selected_active_view.loc[need_local, "status"] = (
         selected_active_view["status"].astype(str).replace("nan", "")
         + "Localization required;"
@@ -133,11 +132,12 @@ def pm_status(server=False):
 
     # OUTPUTS
     status_output = selected_active_view["status"]
+
     pce_date_output = selected_active_view["PCE cert rev req'd"].map(
-        lambda x: str(x)[5:-9] if str(x) != "comp" else "comp"
+        format_pce_price_dates
     )
     price_date_output = selected_active_view["pricing request"].map(
-        lambda x: str(x)[5:-9] if str(x) != "comp" else "comp"
+        format_pce_price_dates
     )
 
     # TEST SAVE LOG

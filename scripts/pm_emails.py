@@ -51,7 +51,7 @@ def pm_emails(server=False):
                 "PCE cert rev req'd",
             ]
         ]
-        need_pce["New PCE Assessment"] = ""
+        need_pce["new PCE assessment"] = ""
         # need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
         #     'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)
         # need_pce['Date Added'] = need_pce['Date Added'].dt.strftime('%m/%d/%Y')
