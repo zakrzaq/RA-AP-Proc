@@ -144,7 +144,7 @@ def requests(server=False):
             try:
                 output += output_msg("Formatting request dates")
                 for r in range(2, ws_active_lastrow):
-                    ws_active[f"A{r}"].number_format = "mm-dd"
+                    ws_active[f"A{r}"].number_format = "mm/dd/yy;@"
             except:
                 output += output_msg("I could not extend format request dates", "red")
 
