@@ -54,6 +54,12 @@ def r_open_sap():
     return redirect("/")
 
 
+@app.route("/open_log")
+def r_open_log():
+    os.system(r"C:\RA-Apps\AP-Proc\sap\log.ahk")
+    return redirect("/")
+
+
 # DATA ROUTES
 
 

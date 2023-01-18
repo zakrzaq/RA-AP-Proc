@@ -36,7 +36,13 @@ def get_sap_data(server=False):
     material_list.to_clipboard(sep="\n", index=False)
 
     # RUN ALL DATA SCRIPTS
-    omitted_scripts = ["sap.ahk", "sales_text.ahk", "org_source.ahk", "upd_class.ahk"]
+    omitted_scripts = [
+        "sap.ahk",
+        "sales_text.ahk",
+        "org_source.ahk",
+        "upd_class.ahk",
+        "log.ahk",
+    ]
     scripts_List = []
     for filename in os.listdir(os.path.join(os.environ["DIR_APP"], "sap")):
         if filename not in omitted_scripts:
