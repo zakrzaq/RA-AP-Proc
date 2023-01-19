@@ -14,6 +14,7 @@ from scripts.requests import requests
 from scripts.reconcile_pce import reconcile_pce
 from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
+from scripts.single_sap_data import single_sap_data
 
 
 import os
@@ -21,6 +22,8 @@ import platform
 from helpers.helpers import use_logger
 
 use_logger()
+
+table_names = ["mara", "marc", "mvke", "ausp", "mlan", "price", "gts", "sales_text"]
 
 
 def clear():
@@ -55,7 +58,9 @@ def get_menu_choice():
         print("11)   UTILITY: Check for MIF/SOERF submitted")
         print("12)   UTILITY: Check for daily report uploaded to Sharepoint Repository")
         print("13)   UTILITY: Open SAP Instance")
-        print("13)   UTILITY: Open AP LOG file")
+        print("14)   UTILITY: Open AP LOG file")
+        print(78 * "-")
+        print("tbl)  UTILITY: SAP data from table")
         print(78 * "-")
         print("U)    Update program")
         print("X)    Close program")
@@ -113,9 +118,15 @@ def get_menu_choice():
         elif choice == "u" or choice == "U":
             os.system("git pull")
             clear()
+        elif choice == "u" or choice == "U":
+            os.system("git pull")
+            clear()
         elif choice == "x" or choice == "X":
-            print("Exiting...")
             loop = False
+            break
+        elif choice in table_names:
+            print(choice)
+            single_sap_data(choice)
         else:
             # Any inputs other than values 1-4 we print an error message
             input("Wrong menu selection. Enter any key to try again...")

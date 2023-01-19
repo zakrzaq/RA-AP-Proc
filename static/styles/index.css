@@ -7,6 +7,7 @@
   --orange: rgb(145, 129, 62);
   --white: #ffffff;
   --light-gray: rgb(242, 242, 242);
+  --v-dark-gray: rgb(48, 48, 48);
   --shadd: 0 0 11px rgba(33, 33, 33, 0.2);
 }
 
@@ -129,4 +130,32 @@ p.code-line {
 .title-text {
   font-weight: 300;
   text-align: left;
+}
+
+a.tag-option {
+  font-size: 12px;
+  padding: 3px 6px;
+  margin-bottom: 15px;
+  text-decoration: none;
+  background-color: var(--v-dark-gray);
+  color: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--v-dark-gray);
+  transition: 0.3s;
+  display: inline-block;
+  text-align: center;
+}
+
+a.tag-option:hover {
+  background-color: var(--white);
+  color: var(--v-dark-gray);
+  border: 1px solid var(--v-dark-gray);
+  transition: 0.3s;
+}
+
+.sap-scripts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
