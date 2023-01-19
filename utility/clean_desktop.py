@@ -100,10 +100,9 @@ def clean_desktop(server=False):
         if server == False:
             await_char()
         else:
-            return output
+            return Markup(output)
 
     if server == False:
         await_char()
     else:
-        print(output)
         return Markup(output)

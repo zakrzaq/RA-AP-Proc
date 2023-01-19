@@ -181,7 +181,6 @@ def requests(server=False):
             else:
                 save_log(log)
                 output += output_msg("LOG file saved")
-                return Markup(output)
 
         # MAKE LIST OF MATERIALS IN AP LOG
 
