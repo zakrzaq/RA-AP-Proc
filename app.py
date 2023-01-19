@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
@@ -14,6 +14,7 @@ from scripts.requests import requests
 from scripts.reconcile_pce import reconcile_pce
 from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
+from scripts.single_sap_data import single_sap_data
 
 server = True
 
@@ -123,3 +124,12 @@ def r_pm_emails(script="Generate PM CCC, Localization & GTS Requests"):
 def r_update():
     os.system("git pull")
     return render_template("index.html")
+
+
+# SINGLE SAP DATA ROUTES
+@app.route("/single_sap")
+def single_sap(script="Single Table SAP data"):
+    table = request.args.get("table")
+    print(table)
+    output = single_sap_data(table, server)
+    return render_template("output.html", script=script, output=output)

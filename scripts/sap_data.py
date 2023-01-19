@@ -1,6 +1,3 @@
-from helpers.helpers import await_char
-
-
 def get_sap_data(server=False):
     import time
     import pandas as pd
@@ -8,6 +5,7 @@ def get_sap_data(server=False):
     from markupsafe import Markup
 
     from helpers.helpers import use_dotenv, ignore_warnings, use_logger, output_msg
+    from helpers.helpers import await_char
 
     use_dotenv()
     use_logger()
