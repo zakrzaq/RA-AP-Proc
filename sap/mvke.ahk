@@ -30,7 +30,7 @@ IfWinExist, SAP Easy Access
   Send ^+{F7}
   Sleep (4000)
   Send +{tab} {tab}
-  Sleep, (2500)
+  Sleep, (3500)
   Send, C:\RA-Apps\AP-Proc\INPUTS\mvke{enter}
   Sleep, 2500
 }
