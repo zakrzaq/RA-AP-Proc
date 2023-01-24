@@ -58,7 +58,7 @@ CREATE VIEW log_view
         (SELECT DWERK FROM mvke 
 	    WHERE 
 	        mvke.MATNR = log.[SAP MATNR (from request form)] AND
-            mvke.VKORG = log.[target sorg]) as 'target sorg dchain',
+            mvke.VKORG = log.[target sorg]) as 'target sorg DWERK',
         (SELECT PRAT4 FROM mvke 
 	    WHERE 
 	        mvke.MATNR = log.[SAP MATNR (from request form)] AND
@@ -75,15 +75,36 @@ CREATE VIEW log_view
 	    WHERE 
 	        marc.MATNR = log.[SAP MATNR (from request form)] AND
             marc.WERKS = log.[target plant]) as 'target plant mrp type',
-        -- TODO: two bellow need nested qury to get parts DWERK
         (SELECT MMSTA FROM marc 
 	    WHERE 
 	        marc.MATNR = log.[SAP MATNR (from request form)] AND
-            marc.WERKS = log.[target plant]) as 'DWERK plant status',
+            marc.WERKS = (SELECT DWERK FROM mvke 
+                            WHERE 
+                                mvke.MATNR = log.[SAP MATNR (from request form)] AND
+                                mvke.VKORG = log.[target sorg])) as 'DWERK plant status',
         (SELECT DISMM FROM marc 
 	    WHERE 
 	        marc.MATNR = log.[SAP MATNR (from request form)] AND
-            marc.WERKS = log.[target plant]) as 'DWERK plant mrp type'
+            marc.WERKS = (SELECT DWERK FROM mvke 
+                            WHERE 
+                                mvke.MATNR = log.[SAP MATNR (from request form)] AND
+                                mvke.VKORG = log.[target sorg])) as 'DWERK plant mrp type',
+        CASE 
+            WHEN (
+            ((SELECT MMSTA FROM marc 
+                        WHERE 
+                            marc.MATNR = log.[SAP MATNR (from request form)] AND
+                            marc.WERKS = log.[target plant]) = 0) OR
+            ((SELECT DWERK FROM mvke 
+                        WHERE 
+                            mvke.MATNR = log.[SAP MATNR (from request form)] AND
+                            mvke.VKORG = log.[target sorg]) = 0) 
+            ) THEN 'x'
+            ELSE
+            null
+        END as 'mif/soerf check'                      
+    
+
     FROM log
     -- LEFT JOIN mara ON
     --     log.[SAP MATNR (from request form)] = mara.Material -- AND
