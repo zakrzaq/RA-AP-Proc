@@ -133,7 +133,7 @@ def am_status(server=False):
     populate_sheet_series(status_output, ws_active, 50, 2)
     populate_sheet_series(pce_date_output, ws_active, 49, 2)
     populate_sheet_series(price_date_output, ws_active, 48, 2)
-    test_save(log, "TEST_am_status")
+    test_save(log, "TEST_am_status", server)
     # ACTUAL
     if server == False:
         await_char(

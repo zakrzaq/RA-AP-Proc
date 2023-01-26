@@ -72,7 +72,7 @@ def reconcile_pce(server=False):
         extend_concats(ws_pce, last_row - 1, "A")
 
         # TEST SAVE
-        test_save(log, "TEST_pce_reconcile")
+        test_save(log, "TEST_pce_reconcile", server)
         # ACTUAL
         # TODO: update the ap log
         if server == False:

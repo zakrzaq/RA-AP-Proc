@@ -169,7 +169,7 @@ def requests(server=False):
 
         if ready_to_save:
             # TESTING
-            test_save(log, "TEST_requests")
+            test_save(log, "TEST_requests", server)
             # ACTUAL
             if server == False:
                 await_char(

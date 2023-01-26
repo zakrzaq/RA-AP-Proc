@@ -123,7 +123,7 @@ def proc_sap_data(server=False):
 
         # save test log
         output += output_msg("Save results")
-        test_save(log, "TEST_sap_data")
+        test_save(log, "TEST_sap_data", server)
         # save ACTUAL log
         if server == False:
             await_char(

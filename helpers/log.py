@@ -17,7 +17,8 @@ def save_log(log):
     print("AP LOG saved")
 
 
-def test_save(log, name="TEST_output"):
-    print("saving to OUTPUT folder...")
-    log.save(os.path.join(os.environ["DIR_OUT"], f"{name}.xlsm"))
-    print("test file saved")
+def test_save(log, name="TEST_output", server=False):
+    if server == False:
+        print("saving to OUTPUT folder...")
+        log.save(os.path.join(os.environ["DIR_OUT"], f"{name}.xlsm"))
+        print("test file saved")
