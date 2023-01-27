@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, json
 
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
@@ -20,6 +20,17 @@ server = True
 
 app = Flask(__name__)
 
+# FUNCTION
+
+
+def remove_html_tags(text):
+    import re
+
+    clean = re.compile("<.*?>")
+    tmp = re.sub(clean, "", text)
+    return tmp.split("\n")
+
+
 # HOME ROUTE
 
 
@@ -34,7 +45,14 @@ def r_index():
 @app.route("/check_daily_report")
 def r_check_daily_report(script="Check for daily report uploaded to Sharepoint"):
     output = check_daily_report(server)
-    return render_template("output.html", script=script, output=output)
+    render_template("output.html", script=script, output=output)
+    response = app.response_class(
+        response=json.dumps([script, remove_html_tags(output)]),
+        status=200,
+        mimetype="application/json",
+    )
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/clean_desktop")
@@ -130,6 +148,5 @@ def r_update():
 @app.route("/single_sap")
 def single_sap(script="Single Table SAP data"):
     table = request.args.get("table")
-    print(table)
     output = single_sap_data(table, server)
     return render_template("output.html", script=script, output=output)
