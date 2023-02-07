@@ -2,6 +2,7 @@ import os
 import dotenv
 import warnings
 import logging
+import platform
 
 
 def await_char(char="y", msg="", func=None, param=""):
@@ -69,3 +70,10 @@ def format_request_date(x: str) -> str:
     if "-" in str(x):
         x = str(x).replace("-", "/")
     return str(x)[:-9]
+
+
+def clear():
+    if platform.system() == "Windows":
+        return os.system("cls")
+    else:
+        return os.system("clear")

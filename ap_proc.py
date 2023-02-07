@@ -1,5 +1,5 @@
 import os
-import platform
+import sys
 
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
@@ -16,27 +16,19 @@ from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
 from scripts.single_sap_data import single_sap_data
 
+from helpers.helpers import use_logger, clear
 
-import os
-import platform
-from helpers.helpers import use_logger
+
+if sys.argv[1] in ["prod", "server"]:
+    server = True
+else:
+    server = False
 
 use_logger()
 
 table_names = ["mara", "marc", "mvke", "ausp", "mlan", "price", "gts", "sales_text"]
 
-
-def clear():
-    if platform.system() == "Windows":
-        return os.system("cls")
-    else:
-        return os.system("clear")
-
-
 clear()
-
-
-server = False
 
 
 def get_menu_choice():
