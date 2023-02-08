@@ -65,3 +65,29 @@ def get_selected_active():
         ]
     except:
         return pd.DataFrame()
+
+
+def handle_eod_report(file):
+    report = pd.read_excel(file)
+    print(report.head())
+    total = report.shape[0]
+    completed = report.loc[
+        report["status"].str.contains("complete", case=False) == False
+    ].shape[0]
+    cancelled = report.loc[
+        report["status"].str.contains("cancel", case=False) == False
+    ].shape[0]
+    on_hold = report.loc[
+        report["status"].str.contains("on hold", case=False) == False
+    ].shape[0]
+    in_progress = total - completed - cancelled - on_hold
+
+    output = {
+        "total": total,
+        "completed": completed,
+        "cancelled": cancelled,
+        "on_hold": on_hold,
+        "in_progress": in_progress,
+    }
+
+    return output

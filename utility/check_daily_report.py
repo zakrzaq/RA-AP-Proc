@@ -1,6 +1,9 @@
 def check_daily_report(server=False):
     import os
     import sys
+    import pandas as pd
+
+    from helpers.data_frames import handle_eod_report
 
     fpath = os.path.join(os.path.dirname(__file__), "utility")
     sys.path.append(fpath)
@@ -13,10 +16,7 @@ def check_daily_report(server=False):
     output = ""
     report_found = False
 
-    if platform.system() == "Linux":
-        report_directory = "/mnt/x/"
-    else:
-        report_directory = r"C:\Users\JZakrzewski\Rockwell Automation, Inc\Engineering Data Management - Material Master Service Request Updates"
+    report_directory = r"C:\Users\JZakrzewski\Rockwell Automation, Inc\Engineering Data Management - Material Master Service Request Updates"
 
     ap_materials_list = r"C:\Users\jzakrzewski\OneDrive - Rockwell Automation, Inc\Desktop\ap_materials.txt"
 
@@ -27,7 +27,11 @@ def check_daily_report(server=False):
         f = os.path.join(report_directory, filename)
         if os.path.isfile(f):
             if today in f:
-                output += output_msg(f"\t{filename}")
+                stats = handle_eod_report(f)
+                output += output_msg(f"\t{filename}", "bold")
+                for k, v in stats.items():
+                    key = k.capitalize().replace("_", " ")
+                    output += output_msg(f"{key}: {v}")
                 report_found = True
 
     if report_found != True:
