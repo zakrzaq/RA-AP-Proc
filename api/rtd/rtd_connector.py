@@ -1,7 +1,7 @@
 import oracledb
 import os
 
-from api.rtd.rtd_config import username, password, RTD
+from rtd_config import username, password, RTD
 
 
 def connect_rtd():
