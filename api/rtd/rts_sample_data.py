@@ -1,3 +1,5 @@
+# cSpell:disable
+
 matnrs = [
     ["5008", "5070", "varsha.rani", "PN-682946", "Plant extension"],
     ["5008", "5070", "varsha.rani", "PN-692326", "Plant and sales org extension"],

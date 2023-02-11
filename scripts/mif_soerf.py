@@ -11,15 +11,21 @@ def mif_soerf(server=False):
         output_msg,
     )
     from helpers.data_frames import get_selected_active
+    from api.rtd.rtd_mif_soerf import rtd_mif_soerf
+    from helpers.log import load_log, test_save, save_log
+    from helpers.xlsm import populate_sap_data_sheet, extend_concats
+    from helpers.datetime import today_dmy
 
     use_dotenv()
     use_logger()
     ignore_warnings()
 
+    today_dmy = today_dmy()
     selected_active_view = get_selected_active()
     output = ""
 
     # MIF / SOERF needed
+    output += output_msg("Generating materials needing extension")
     mif_soerf_view = selected_active_view[
         [
             "Date Added",
@@ -28,8 +34,6 @@ def mif_soerf(server=False):
             "email prefix\n(from request form)",
             "SAP MATNR\n(from request form)",
             "Service Requested\n(from request form)",
-            "Location\n(from request form)",
-            "status",
         ]
     ]
 
@@ -55,36 +59,63 @@ def mif_soerf(server=False):
         & (selected_active_view["mif/soerf check"].isin(["X"]))
         & (selected_active_view["MTART/GenItemCat"].isin(["ZTG", "ZFG"]))
     ]
+    output += output_msg("Complete")
 
-    mif_soerf["sql"] = (
-        "insert into AP_MM_SERVICE values('"
-        + mif_soerf["target sorg"]
-        + "', '"
-        + mif_soerf["target plant"]
-        + "', '"
-        + mif_soerf["email prefix\n(from request form)"]
-        + "', '"
-        + mif_soerf["SAP MATNR\n(from request form)"]
-        + "', '"
-        + mif_soerf["Service Requested\n(from request form)"]
-        + "');"
+    # PREPARE REQUEST DATA
+    output += output_msg("Preparing RTD input data")
+    mif_soerf_data = []
+    for index, row in mif_soerf.iterrows():
+        item = []
+        for x in row:
+            item.append(x)
+        mif_soerf_data.append(item)
+    output += output_msg("Complete")
+
+    # OBTAIN DATE FROM RTD DB
+    output += output_msg("Downloading data from RTD")
+    df_mif, df_log_mif, df_soerf, df_log_soerf, df_log_cancel = rtd_mif_soerf()
+    output += output_msg("Complete")
+
+    # OUTPUT MIF & SOERF
+    output += output_msg("Saving MIF & SOERF to OUTPUT DIR")
+    mif_xlsx = os.path.join(os.environ["DIR_OUT"], "AP_MIF.xlsx")
+    df_mif.to_excel(mif_xlsx, index=False)
+    soerf_xlsx = os.path.join(os.environ["DIR_OUT"], "AP_SOERF.xlsx")
+    df_soerf.to_excel(soerf_xlsx, index=False)
+    output += output_msg("Complete")
+
+    # HANDLE LOG INPUTS FOR MIF & SOERF
+    df_log_mif.to_excel(
+        os.path.join(os.environ["DIR_OUT"], "TEST_LOG_MIF.xlsx"), index=False
     )
+    df_log_soerf.to_excel(
+        os.path.join(os.environ["DIR_OUT"], "TEST_LOG_SOERF.xlsx"), index=False
+    )
+    df_log_cancel.to_excel(
+        os.path.join(os.environ["DIR_OUT"], "TEST_LOG_CANCEL.xlsx"), index=False
+    )
+    output += output_msg("Loading load file to update mif & soerf data")
+    log = load_log()
 
-    # OUTPUT TO SQL FILE
-    output_mif = mif_soerf["sql"]
-    output_str = ""
-    for ind in output_mif.index:
-        output_str = output_str + output_mif[ind] + "\n"
-    # print(output_str)
-    with open(os.path.join(os.environ["DIR_APP"], "sql", "full_mif_soerf.sql")) as file:
-        lines = file.readlines()
-        lines[5] = output_str
-    with open(os.path.join(os.environ["DIR_OUT"], "AP_MIF_SOERF.sql"), "w") as file:
-        file.writelines(lines)
+    output += output_msg("Processing mif data")
+    ws_mif = log["mif"]
+    mif_last_row = ws_mif.max_row + 1
+    ws_mif[f"D{mif_last_row}"] = today_dmy
+    populate_sap_data_sheet(df_log_mif, ws_mif, 0, mif_last_row)
+    extend_concats(ws_mif, mif_last_row - 1, "C")
+    extend_concats(ws_mif, mif_last_row, "d")
 
-    output += output_msg(f"Materials added to SQL query: {len(mif_soerf)}")
+    output += output_msg("Processing soerf data")
+    ws_soerf = log["soerf"]
+    soerf_last_row = ws_soerf.max_row + 1
+    ws_soerf[f"E{soerf_last_row}"] = today_dmy
+    populate_sap_data_sheet(df_log_soerf, ws_soerf, 0, soerf_last_row)
+    extend_concats(ws_soerf, soerf_last_row - 1, "D")
+    extend_concats(ws_soerf, soerf_last_row, "E")
+    output += output_msg("Complete")
 
     if server == False:
+        test_save(log, "TEST_AP_LOG")
         await_char()
     else:
         return Markup(output)

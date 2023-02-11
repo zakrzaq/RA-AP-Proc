@@ -1,3 +1,3 @@
-from api.rtd.rtd_mif_soerf import rtd_mif_soerf
+from scripts.mif_soerf import mif_soerf
 
-rtd_mif_soerf()
+mif_soerf()

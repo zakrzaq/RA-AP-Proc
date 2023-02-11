@@ -1,4 +1,6 @@
 import oracledb
+import os
+
 from api.rtd.rtd_config import username, password, RTD
 
 
@@ -13,7 +15,6 @@ def connect_rtd():
         print("Successfully connected to Oracle Database")
 
         cur = con.cursor()
-
         return con, cur
 
     except oracledb.DatabaseError as e:
