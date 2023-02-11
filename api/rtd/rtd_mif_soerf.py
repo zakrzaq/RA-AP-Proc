@@ -1,10 +1,9 @@
-def rtd_mif_soerf():
+def rtd_mif_soerf(ext_reqs):
     import os
     import pandas as pd
 
     from api.rtd.rtd_connector import connect_rtd, close_rtd
     from helpers.helpers import use_dotenv, use_logger, ignore_warnings
-    from api.rtd.rts_sample_data import matnrs as ext_reqs  # SAMPLE DATA
 
     use_dotenv()
     use_logger()

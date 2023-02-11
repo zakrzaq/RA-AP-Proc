@@ -73,7 +73,9 @@ def mif_soerf(server=False):
 
     # OBTAIN DATE FROM RTD DB
     output += output_msg("Downloading data from RTD")
-    df_mif, df_log_mif, df_soerf, df_log_soerf, df_log_cancel = rtd_mif_soerf()
+    df_mif, df_log_mif, df_soerf, df_log_soerf, df_log_cancel = rtd_mif_soerf(
+        mif_soerf_data
+    )
     output += output_msg("Complete")
 
     # OUTPUT MIF & SOERF
@@ -84,38 +86,51 @@ def mif_soerf(server=False):
     df_soerf.to_excel(soerf_xlsx, index=False)
     output += output_msg("Complete")
 
-    # HANDLE LOG INPUTS FOR MIF & SOERF
-    df_log_mif.to_excel(
-        os.path.join(os.environ["DIR_OUT"], "TEST_LOG_MIF.xlsx"), index=False
-    )
-    df_log_soerf.to_excel(
-        os.path.join(os.environ["DIR_OUT"], "TEST_LOG_SOERF.xlsx"), index=False
-    )
-    df_log_cancel.to_excel(
-        os.path.join(os.environ["DIR_OUT"], "TEST_LOG_CANCEL.xlsx"), index=False
-    )
+    # HANDLE LOG INPUTS FOR MIF, SOERF & CANCEL
     output += output_msg("Loading load file to update mif & soerf data")
     log = load_log()
 
-    output += output_msg("Processing mif data")
-    ws_mif = log["mif"]
-    mif_last_row = ws_mif.max_row + 1
-    ws_mif[f"D{mif_last_row}"] = today_dmy
-    populate_sap_data_sheet(df_log_mif, ws_mif, 0, mif_last_row)
-    extend_concats(ws_mif, mif_last_row - 1, "C")
-    extend_concats(ws_mif, mif_last_row, "d")
+    if not df_log_mif.empty:
+        output += output_msg("Processing mif data to log")
+        ws_mif = log["mif"]
+        mif_last_row = ws_mif.max_row + 1
+        ws_mif[f"D{mif_last_row}"] = today_dmy
+        populate_sap_data_sheet(df_log_mif, ws_mif, 0, mif_last_row)
+        extend_concats(ws_mif, mif_last_row - 1, "C")
+        extend_concats(ws_mif, mif_last_row, "d")
+    else:
+        output += output_msg("No mifs to process")
 
-    output += output_msg("Processing soerf data")
-    ws_soerf = log["soerf"]
-    soerf_last_row = ws_soerf.max_row + 1
-    ws_soerf[f"E{soerf_last_row}"] = today_dmy
-    populate_sap_data_sheet(df_log_soerf, ws_soerf, 0, soerf_last_row)
-    extend_concats(ws_soerf, soerf_last_row - 1, "D")
-    extend_concats(ws_soerf, soerf_last_row, "E")
-    output += output_msg("Complete")
+    if not df_log_soerf.empty:
+        output += output_msg("Processing soerf data to log")
+        ws_soerf = log["soerf"]
+        soerf_last_row = ws_soerf.max_row + 1
+        ws_soerf[f"E{soerf_last_row}"] = today_dmy
+        populate_sap_data_sheet(df_log_soerf, ws_soerf, 0, soerf_last_row)
+        extend_concats(ws_soerf, soerf_last_row - 1, "D")
+        extend_concats(ws_soerf, soerf_last_row, "E")
+        output += output_msg("Complete")
+    else:
+        output += output_msg("No soerfs to process")
 
+    if not df_log_cancel.empty:
+        output += output_msg("Saving cancelled extension to output folder")
+        df_log_cancel.to_excel(
+            os.path.join(os.environ["DIR_OUT"], "AP_CANCEL.xlsx"), index=False
+        )
+        output += output_msg("Complete")
+    else:
+        output += output_msg("No cancelled extensions to process")
+
+    # SAVE / END
     if server == False:
         test_save(log, "TEST_AP_LOG")
+        df_log_mif.to_excel(
+            os.path.join(os.environ["DIR_OUT"], "TEST_LOG_MIF.xlsx"), index=False
+        )
+        df_log_soerf.to_excel(
+            os.path.join(os.environ["DIR_OUT"], "TEST_LOG_SOERF.xlsx"), index=False
+        )
         await_char()
     else:
         return Markup(output)

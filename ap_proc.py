@@ -18,7 +18,8 @@ from scripts.single_sap_data import single_sap_data
 
 from helpers.helpers import use_logger, clear
 
-
+if sys.argv[1] in ["test"]:
+    server = False
 if sys.argv[1] in ["prod", "server"]:
     server = True
 else:
