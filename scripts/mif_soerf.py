@@ -79,12 +79,21 @@ def mif_soerf(server=False):
     output += output_msg("Complete")
 
     # OUTPUT MIF & SOERF
-    output += output_msg("Saving MIF & SOERF to OUTPUT DIR")
-    mif_xlsx = os.path.join(os.environ["DIR_OUT"], "AP_MIF.xlsx")
-    df_mif.to_excel(mif_xlsx, index=False)
-    soerf_xlsx = os.path.join(os.environ["DIR_OUT"], "AP_SOERF.xlsx")
-    df_soerf.to_excel(soerf_xlsx, index=False)
-    output += output_msg("Complete")
+    if not df_mif.empty:
+        output += output_msg("Saving MIF to OUTPUT DIR")
+        mif_xlsx = os.path.join(os.environ["DIR_OUT"], "AP_MIF.xlsx")
+        df_mif.to_excel(mif_xlsx, index=False)
+        output += output_msg("Complete")
+    else:
+        output += output_msg("NO MIFs TO GENERATE MIF FILE")
+
+    if not df_soerf.empty:
+        output += output_msg("Saving SOERF to OUTPUT DIR")
+        soerf_xlsx = os.path.join(os.environ["DIR_OUT"], "AP_SOERF.xlsx")
+        df_soerf.to_excel(soerf_xlsx, index=False)
+        output += output_msg("Complete")
+    else:
+        output += output_msg("NO MIFs TO GENERATE MIF FILE")
 
     # HANDLE LOG INPUTS FOR MIF, SOERF & CANCEL
     output += output_msg("Loading load file to update mif & soerf data")
@@ -115,8 +124,8 @@ def mif_soerf(server=False):
 
     if not df_log_cancel.empty:
         output += output_msg("Saving cancelled extension to output folder")
-        df_log_cancel.to_excel(
-            os.path.join(os.environ["DIR_OUT"], "AP_CANCEL.xlsx"), index=False
+        df_log_cancel.to_csv(
+            os.path.join(os.environ["DIR_OUT"], "AP_CANCEL.txt"), index=False, sep="\t"
         )
         output += output_msg("Complete")
     else:
