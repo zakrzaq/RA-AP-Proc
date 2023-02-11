@@ -23,13 +23,20 @@ python setup.py
 ```
 
 Edit corresponding lines in your `.env` using any text editor:
-\*\*file located in `C:\RA-Apps\AP-Proc`
+file located in `C:\RA-Apps\AP-Proc`
+
+```
+EDM_DRIVE='<your_end_drive_letter>:\Request Logs\Material Master Extension'
+EDM_APMM='<your_end_drive_letter>:\Request Logs\APMM'
+```
+
+Edit corresponding lines in your `.rtd_config.py` using any text editor:
+file located in `C:\RA-Apps\AP-Proc`
 
 ```
 RTD_USR='your_user_name'
 RTD_PSW='your_password'
-EDM_DRIVE='<your_end_drive_letter>:\Request Logs\Material Master Extension'
-EDM_APMM='<your_end_drive_letter>:\Request Logs\APMM'
+RTD_STR='rtd db connection string'
 ```
 
 ## USAGE
@@ -48,7 +55,11 @@ All new request will added to AP LOG
 
 ### Generate MIF / SOERF requests
 
-This will generate SQL Query file to your Desktop with name
+This will process SQL query and:
+
+- generate MIF & SOURF request files in `OUTPUTS` directory
+- add new mif, soerf data to AP LOG
+- generate file `AP_CANCEL` in `OUTPUTS` directory with additional extension and exceptions - **to be added to LOG manually**
 
 ### Update Material Statuses pre MM
 
@@ -56,7 +67,7 @@ This will generate SQL Query file to your Desktop with name
 
 ### Generate AM Price & PCE requests
 
-Will output request files for Pricing & PCE requests. THose will be located in `OUTPUTS` folder.
+Will output request files for Pricing & PCE requests. Those will be located in `OUTPUTS` folder.
 
 ### Reconcile PCE Requests / Update ORG SOURCE
 
@@ -74,7 +85,7 @@ Will output request files for GTS, Localization & CCC requests. THose will be lo
 
 All SAP data file to be saved in `OUTPUTS` folder.
 
-> **Leave your computer for 5 minutes while it runs**
+> **Leave your computer for ~5 minutes while it runs**
 
 REQUIRED FILES:
 
@@ -126,11 +137,32 @@ It says it on the tin.
 ## BUGFIXES
 
 - [ ] check for log being open on every script
-- [x] MKVE.ahk SAP error
+- [ ] archive PCE requests file name issue
+- [ ] am_status to handle PROD CERT by review date
+- [ ] MKVE|MARC.ahk SAP error/crash on large data loads
+- [ ] improve excel DATE FORMATS
 - [x] BIS only on PCE status finder
 - [x] PCE finder to include Prod Cert Review
 - [x] Flask: Check daily report server error
 - [x] Flask: clean server error
+
+## TODO 1.5
+
+- [ ] integrate proper front and with conditial style like AP Log
+- [ ] hosted db
+
+## TODO 1.0
+
+- [ ] SQLITE DB
+  - [x] sharepoint or ~~local~~?
+  - [x] data model to reflect AP LOG
+  - [ ] AP LOG VIEW - **WIP**
+  - [ ] search query and parameters
+  - [ ] fetch new request from data source
+  - [ ] archive new requests to data source
+  - [ ] find way to use templates and return data as same time in FLASK
+  - [ ] requests to db
+- [ ] BE able to run on milwaukee machine / ip address for vpn network
 
 ## TODO 0.5
 
@@ -142,7 +174,7 @@ It says it on the tin.
   - [ ] new request form and dat source
 - [x] Get current requests
 - [x] Generate MIF/SOERF SQL Query
-  - [ ] using CLI Oracle CS for query running and data
+  - [x] using CLI Oracle CS for query running and data
 - [x] Update Material Statuses pre MM:
   - [x] fix query result for price and PCE
   - [x] dates needing to be added to pce and price requests status updates
@@ -157,9 +189,9 @@ It says it on the tin.
   - [x] reconcile PCE - update ahk script
 - [x] Generate PM CCC, Localization & GTS Requests
 - [x] CLI GUI with menu
-- [ ] Error handling
+- [x] Error handling
   - [x] try / except v1
-  - [ ] try / except v2
+  - [x] try / except v2
   - [x] error logging for CLI
   - [x] error logging for API
 - [x] SAP data import
@@ -168,31 +200,12 @@ It says it on the tin.
 - [x] REST API using Flask
   - [x] user interface
   - [x] mechanics
-- [ ] SQLITE DB
-  - [ ] sharepoint or local?
-  - [ ] data model to reflect AP LOG
-  - [ ] search query and parameters
-  - [ ] fetch new request from data source
-  - [ ] archive new requests to data source
-
-## TODO 1.0
-
-- [ ] sqlite db for all data
-- [ ] query db api
-- [ ] BE able to run on milwaukee machine / ip address for vpn network
-- [ ] requests to db
-
-## TODO 1.5
-
-- [ ] integrate AgilePoint for Interface
-- [ ] hosted db
 
 ## MVP REQUIREMENTS:
 
 - Business logic works correctly
 - Training for some on operate CLI GUI in correct order // understanding the process
 - external system access: SAP, Oracle RTD
--
 
 ## Notes
 
