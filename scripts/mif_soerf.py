@@ -13,7 +13,7 @@ def mif_soerf(server=False):
     from helpers.data_frames import get_selected_active
     from api.rtd.rtd_mif_soerf import rtd_mif_soerf
     from helpers.log import load_log, test_save, save_log
-    from helpers.xlsm import populate_sap_data_sheet, extend_concats
+    from helpers.xlsm import populate_sap_data_sheet, extend_concats, extend_values
     from helpers.datetime import today_dmy
 
     use_dotenv()
@@ -28,7 +28,7 @@ def mif_soerf(server=False):
     output += output_msg("Generating materials needing extension")
     mif_soerf_view = selected_active_view[
         [
-            "Date Added",
+            # "Date Added",
             "target sorg",
             "target plant",
             "email prefix\n(from request form)",
@@ -104,9 +104,9 @@ def mif_soerf(server=False):
         ws_mif = log["mif"]
         mif_last_row = ws_mif.max_row + 1
         ws_mif[f"D{mif_last_row}"] = today_dmy
-        populate_sap_data_sheet(df_log_mif, ws_mif, 0, mif_last_row)
+        populate_sap_data_sheet(df_log_mif, ws_mif, 1, mif_last_row)
         extend_concats(ws_mif, mif_last_row - 1, "C")
-        extend_concats(ws_mif, mif_last_row, "d")
+        extend_values(ws_mif, mif_last_row, "D")
     else:
         output += output_msg("No mifs to process")
 
@@ -115,9 +115,9 @@ def mif_soerf(server=False):
         ws_soerf = log["soerf"]
         soerf_last_row = ws_soerf.max_row + 1
         ws_soerf[f"E{soerf_last_row}"] = today_dmy
-        populate_sap_data_sheet(df_log_soerf, ws_soerf, 0, soerf_last_row)
+        populate_sap_data_sheet(df_log_soerf, ws_soerf, 1, soerf_last_row)
         extend_concats(ws_soerf, soerf_last_row - 1, "D")
-        extend_concats(ws_soerf, soerf_last_row, "E")
+        extend_values(ws_soerf, soerf_last_row, "E")
         output += output_msg("Complete")
     else:
         output += output_msg("No soerfs to process")

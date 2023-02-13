@@ -141,6 +141,7 @@ It says it on the tin.
 - [ ] am_status to handle PROD CERT by review date
 - [ ] MKVE|MARC.ahk SAP error/crash on large data loads
 - [ ] improve excel DATE FORMATS
+- [ ] mif / sorf data bring incorrect date
 - [x] BIS only on PCE status finder
 - [x] PCE finder to include Prod Cert Review
 - [x] Flask: Check daily report server error

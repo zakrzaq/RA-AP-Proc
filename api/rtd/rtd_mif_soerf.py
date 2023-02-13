@@ -1,9 +1,11 @@
-def rtd_mif_soerf(ext_reqs):
+def rtd_mif_soerf(requests):
     import os
     import pandas as pd
 
     from api.rtd.rtd_connector import connect_rtd, close_rtd
     from helpers.helpers import use_dotenv, use_logger, ignore_warnings
+
+    # from api.rtd.rts_sample_data import matnrs as requests  # SAMPLE DATA
 
     use_dotenv()
     use_logger()
@@ -28,7 +30,7 @@ def rtd_mif_soerf(ext_reqs):
     cur.execute("TRUNCATE TABLE AP_MM_SERVICE")
 
     # INSERT NEW
-    for req in ext_reqs:
+    for req in requests:
         cur.execute(
             "insert into AP_MM_SERVICE values (:plant, :sorg, :req, :nr, :serv)",
             [req[0], req[1], req[2], req[3], req[4]],

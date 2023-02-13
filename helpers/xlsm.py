@@ -41,3 +41,13 @@ def extend_concats(sheet, start_row=100, col_letter="A"):
         sheet[f"{col_letter}{i}"] = Translator(
             formula, origin=f"{col_letter}2"
         ).translate_formula(f"{col_letter}{i}")
+
+
+def extend_values(sheet, start_row=100, col_letter="A"):
+    last_row = sheet.max_row
+    last_row_value = sheet[f"{col_letter}{last_row}"].value
+    print(last_row_value)
+    i = start_row
+    while i < last_row:
+        i += 1
+        sheet[f"{col_letter}{i}"].value = last_row_value
