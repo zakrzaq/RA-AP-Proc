@@ -5,6 +5,7 @@
 .env.test
 .env.prod
 env/
+venv/
 wsl-env/
 *_config.py
 
