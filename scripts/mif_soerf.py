@@ -142,4 +142,5 @@ def mif_soerf(server=False):
         )
         await_char()
     else:
+        save_log(log)
         return Markup(output)
