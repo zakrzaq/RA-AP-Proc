@@ -3,9 +3,10 @@ import dotenv
 import warnings
 import logging
 import platform
+from state.output import output
 
 
-def await_char(char="y", msg="", func=None, param=""):
+def await_char(char="y", msg="Press Y to continue", func=None, param=""):
     import keyboard
 
     if msg == "":
@@ -46,6 +47,12 @@ def output_msg(msg: str, *args: tuple[str]):
     for a in args:
         classes += a + " "
     return f'<p class="{classes}">{msg}</p>\n'
+
+
+def end_script(server):
+    if not server:
+        await_char()
+    return output.get_markup()
 
 
 def format_pce_price_dates(x: str) -> str:

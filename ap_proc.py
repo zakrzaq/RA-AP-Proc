@@ -120,11 +120,10 @@ def get_menu_choice():
         elif choice in table_names:
             print(choice)
             single_sap_data(choice)
+            clear()
         else:
-            # Any inputs other than values 1-4 we print an error message
             input("Wrong menu selection. Enter any key to try again...")
             clear()
-    # return [int_choice, choice]
 
 
 print(get_menu_choice())

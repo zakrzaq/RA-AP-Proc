@@ -1,12 +1,12 @@
 def pm_status(server=False):
     from helpers.helpers import (
-        await_char,
+        end_script,
         ignore_warnings,
         use_dotenv,
         use_logger,
         format_pce_price_dates,
     )
-    from helpers.log import save_log, test_save, load_log
+    from helpers.log import save_log, load_log
     from helpers.xlsm import populate_sheet_series
     from helpers.data_frames import get_selected_active
     import helpers.prompts as pr
@@ -17,9 +17,9 @@ def pm_status(server=False):
     ignore_warnings()
 
     log = load_log()
-    if log:
+    selected_active_view = get_selected_active()
+    if log and not selected_active_view.empty:
         ws_active = log["Active Materials"]
-        selected_active_view = get_selected_active()
         output.reset()
 
         # VERIFY PRICED
@@ -153,12 +153,6 @@ def pm_status(server=False):
         populate_sheet_series(price_date_output, ws_active, 48, 2)
 
         # SAVE
-        if server == False:
-            test_save(log, "TEST_pm_status", server)
-            await_char(
-                "y", "Press Y to save to live LOG file or C to cancel.", save_log, log
-            )
-        else:
-            save_log(log)
+        save_log(log)
 
-    return output.get_markup()
+    return end_script(server)
