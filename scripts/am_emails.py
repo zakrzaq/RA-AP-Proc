@@ -14,13 +14,15 @@ def am_emails(server=False):
     )
     from helpers.datetime import today_ymd
     from helpers.data_frames import get_active
+    import helpers.prompts as pr
+    from state.output import output
 
     use_dotenv()
     use_logger()
     ignore_warnings()
 
     today_file = today_ymd("-")
-    output = ""
+    output.reset()
     active = get_active()
 
     # PRICE REQUEST ALL
@@ -53,7 +55,7 @@ def am_emails(server=False):
         (price_view["status"].str.contains("needs price;", case=True) == True)
     ]
     if need_price.empty:
-        output += output_msg("NO PCE REQUESTS")
+        output.add(f"{pr.cncl}NO PRICE REQUESTS")
     else:
         need_price["Date Added"] = need_price["Date Added"].map(format_request_date)
         # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
@@ -65,7 +67,7 @@ def am_emails(server=False):
         #     "%m/%d/%Y"
         # )
 
-        output += output_msg(f"Needing price: {len(need_price)}")
+        output.add(f"{pr.info}Needing price: {len(need_price)}")
         # PRICE REQUEST FILE
         need_price_list_file = os.path.join(
             os.environ["DIR_OUT"],
@@ -79,7 +81,7 @@ def am_emails(server=False):
         & (~active["Regulatory Cert\n(Z62 Class)"].isin(["CCC"]))
     ]
     if active_wt_pce_req.empty:
-        output += output_msg("NO PCE REQUESTS")
+        output.add(f"{pr.cncl}NO PCE REQUESTS")
     else:
         need_pce = active_wt_pce_req[
             [
@@ -114,7 +116,7 @@ def am_emails(server=False):
         # need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
         #     '%m/%d/%Y')
 
-        output += output_msg(f"PCE requests: {len(active_wt_pce_req)}")
+        output.add(f"{pr.info}PCE requests: {len(active_wt_pce_req)}")
         # PCE REQUEST FILE - AM
         need_pce_file = os.path.join(
             os.environ["DIR_OUT"], f"{today_file} PCE ASSESSMENT REQUEST.xlsx"
@@ -124,4 +126,4 @@ def am_emails(server=False):
     if server == False:
         await_char()
     else:
-        return Markup(output)
+        return output.get_markup

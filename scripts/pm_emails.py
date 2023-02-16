@@ -12,6 +12,8 @@ def pm_emails(server=False):
         output_msg,
     )
     from helpers.data_frames import get_active
+    import helpers.prompts as pr
+    from state.output import output
 
     use_dotenv()
     use_logger()
@@ -19,7 +21,7 @@ def pm_emails(server=False):
 
     today = date.today().strftime("%m-%d-%Y")
     active = get_active()
-    output = ""
+    output.reset()
 
     # PCE REQUEST
     active_wt_pce_req = active.loc[
@@ -27,7 +29,7 @@ def pm_emails(server=False):
         & (active["Regulatory Cert\n(Z62 Class)"].isin(["CCC"]))
     ]
     if active_wt_pce_req.empty:
-        output += output_msg("NO CCC REQUESTS")
+        output.add(f"{pr.cncl}NO CCC REQUESTS")
     else:
         need_pce = active_wt_pce_req[
             [
@@ -60,7 +62,7 @@ def pm_emails(server=False):
         # need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
         #     '%m/%d/%Y')
 
-        output += output_msg(f"CCC requests: {len(active_wt_pce_req)}")
+        output.add(f"{pr.ok}CCC requests: {len(active_wt_pce_req)}")
         # PCE REQUEST FILE - AM
         need_pce_file = os.path.join(
             os.environ["DIR_OUT"], f"{today} CCC ASSESSMENT REQUEST.xlsx"
@@ -72,7 +74,7 @@ def pm_emails(server=False):
         (active["status"].str.contains("GST data needed;", case=True) == True)
     ]
     if active_wt_gts_req.empty:
-        output += output_msg("NO GTS REQUESTS")
+        output.add(f"{pr.cncl}NO GTS REQUESTS")
     else:
         need_gts = active_wt_gts_req[
             [
@@ -93,7 +95,7 @@ def pm_emails(server=False):
         need_gts["Date Added"] = need_gts["Date Added"].apply(pd.to_datetime)
         need_gts["Date Added"] = need_gts["Date Added"].dt.strftime("%m/%d/%Y")
 
-        output += output_msg(f"GTS requests: {len(active_wt_gts_req)}")
+        output.add(f"{pr.ok}GTS requests: {len(active_wt_gts_req)}")
         # GTS REQUEST FILE
         need_gts_file = os.path.join(
             os.environ["DIR_OUT"], f"INHTS request {today}.xlsx"
@@ -105,7 +107,7 @@ def pm_emails(server=False):
         (active["status"].str.contains("Localization required;", case=True) == True)
     ]
     if active_wt_local_req.empty:
-        output += output_msg("NO LOCALIZATION REQUESTS")
+        output.add(f"{pr.cncl}NO LOCALIZATION REQUESTS")
     else:
         need_local = active_wt_local_req[
             [
@@ -153,7 +155,7 @@ def pm_emails(server=False):
             need_local["SOERF Submitted"], errors="coerce"
         ).dt.strftime("%m/%d")
 
-        output += output_msg(f"LOCALIZATION requests: {len(active_wt_local_req)}")
+        output.add(f"{pr.ok}LOCALIZATION requests: {len(active_wt_local_req)}")
         # GTS REQUEST FILE
         need_local_file = os.path.join(
             os.environ["DIR_OUT"], f"India localization required {today}.xlsx"
@@ -163,4 +165,4 @@ def pm_emails(server=False):
     if server == False:
         await_char()
     else:
-        return Markup(output)
+        return output.get_markup()

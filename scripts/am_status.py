@@ -7,11 +7,12 @@ from helpers.helpers import (
     use_dotenv,
     ignore_warnings,
     use_logger,
-    output_msg,
     format_pce_price_dates,
 )
 from helpers.datetime import today_ymd
 from helpers.data_frames import get_selected_active
+import helpers.prompts as pr
+from state.output import output
 
 
 def am_status(server=False):
@@ -19,7 +20,7 @@ def am_status(server=False):
     use_logger()
     ignore_warnings()
 
-    output = ""
+    output.reset()
     today = today_ymd()[-5:]
 
     # LOAD LOG
@@ -28,10 +29,10 @@ def am_status(server=False):
         ws_active = log["Active Materials"]
         selected_active_view = get_selected_active()
         if selected_active_view.empty:
-            output += output_msg("Unable to obtaind data from LOG")
-            return Markup(output)
+            output.add(f"{pr.cncl}Unable to obtain data from LOG")
+            return output.get_markup()
         else:
-            output += output_msg("LOG data loaded")
+            output.add(f"{pr.ok}LOG data loaded")
     except:
         if server == False:
             await_char(
@@ -39,10 +40,11 @@ def am_status(server=False):
                 "Unable to load AP LOG, please close the excel file and press Y to continue",
             )
         else:
-            output += output_msg(
-                "Unable to load AP LOG, please close the excel file.", "red"
+            output.add(
+                f"{pr.cncl}Unable to load AP LOG, please close the excel file.",
+                ["code-line", "red"],
             )
-            return Markup(output)
+            return output.get_markup
 
     # MATNRs PRICE NEEDED
     need_price = (
@@ -68,7 +70,7 @@ def am_status(server=False):
     price_requested = selected_active_view.loc[
         (selected_active_view["status"].str.contains("needs price;") == True)
     ]
-    output += output_msg(f"Materials NEEDING PRICE in AP LOG: {len(price_requested)}")
+    output.add(f"{pr.file}Materials NEEDING PRICE in AP LOG: {len(price_requested)}")
 
     # MATNRs PCE NEEDED
     done_status = "|".join(["cancel", "complete", "on hold", "pending PCE review"])
@@ -118,7 +120,7 @@ def am_status(server=False):
     pce_requested = selected_active_view.loc[
         (selected_active_view["status"].str.contains("pending PCE review;") == True)
     ]
-    output += output_msg(f"Materials NEEDING PCE in AP LOG: {len(pce_requested)}")
+    output.add(f"{pr.file}Materials NEEDING PCE in AP LOG: {len(pce_requested)}")
 
     # OUTPUTS
     status_output = selected_active_view["status"]
@@ -136,10 +138,8 @@ def am_status(server=False):
     test_save(log, "TEST_am_status", server)
     # ACTUAL
     if server == False:
-        await_char(
-            "y", "Press Y to save to live LOG file or C to cancel.", save_log, log
-        )
+        await_char()
     else:
         save_log(log)
-        output += output_msg("LOG file saved")
-        return Markup(output)
+        output.add(f"{pr.ok}LOG file saved")
+        return output.get_markup()
