@@ -4,14 +4,15 @@ def single_sap_data(table: str, server=False):
     import os
     from markupsafe import Markup
 
-    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, output_msg
-    from helpers.helpers import await_char
+    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
+    import helpers.prompts as pr
+    from state.output import output
 
     use_dotenv()
     use_logger()
     ignore_warnings()
 
-    output = ""
+    output.reset()
     file_name = table + ".xls" if table == "sales_text" else table + ".XLSX"
     script_name = table + ".ahk"
     file = os.path.join(os.environ["DIR_IN"], file_name)
@@ -25,20 +26,19 @@ def single_sap_data(table: str, server=False):
         os.remove(file)
 
     # OPEN SAP INSTANCE
+    output.add(f"{pr.info}Opening SAP Instance")
     os.system(f"{f_sap}")
     time.sleep(sleep_time)
 
     # READ LIST OF MATERIALS
+    output.add(f"{pr.info}Loading current material list")
     material_list = pd.read_csv(f_materials_list, header=None)
-    output += output_msg(f"Material in list today: {len(material_list)}")
+    output.add(f"{pr.ok}Material in list today: {len(material_list)}")
     material_list.to_clipboard(sep="\n", index=False)
 
     # RUN DATA SCRIPT
-    output += output_msg(f"Fetching {table} data")
+    output.add(f"{pr.file}Fetching {table} data")
     os.system(f"{f_script}")
-    output += output_msg(f"{script_name} data file exists: {os.path.isfile(file)}")
+    output.add(f"{pr.done}{script_name} data file exists: {os.path.isfile(file)}")
 
-    if server:
-        return Markup(output)
-    else:
-        await_char("y", f"SAP {script_name} data downloaded, press Y to continue")
+    end_script(server)

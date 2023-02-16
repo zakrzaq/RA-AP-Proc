@@ -2,16 +2,11 @@ def requests(server=False):
     import pandas as pd
     import os
     from openpyxl.formula.translate import Translator
-    from flask import Markup
 
-    from helpers.helpers import (
-        await_char,
-        use_dotenv,
-        ignore_warnings,
-        use_logger,
-        output_msg,
-    )
-    from helpers.log import save_log, load_log, test_save
+    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
+    from helpers.log import save_log, load_log
+    import helpers.prompts as pr
+    from state.output import output
 
     use_dotenv()
     use_logger()
@@ -19,31 +14,28 @@ def requests(server=False):
 
     # VARIABLES
     ready_to_save = False
-    output = ""
+    output.reset()
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-    output += output_msg("Reading log file")
-    try:
-        log = load_log()
+    log = load_log()
+    if log:
         ws_active = log["Active Materials"]
-
         # IMPORT REQUESTS FORM DESKTOP
-        output += output_msg("Reading request files")
+        output.add(f"{pr.file}Reading request files")
         directory = os.environ["DIR_IN"]
         requests = pd.DataFrame()
-
         for filename in os.listdir(directory):
             if filename.endswith(".xlsm"):
                 if "AP_Material_Master_Service_Request_Form" in filename:
                     file = os.path.join(directory, filename)
-                    output += output_msg("\t" + filename)
+                    output.add("\t" + filename)
                     df = pd.read_excel(file, 2)
                     df = df.iloc[1:, :]
                     requests = pd.concat([requests, df])
 
         # cleanup data
-        output += output_msg(server, "Cleaning the data")
         if not requests.empty:
+            output.add(f"{pr.info}Cleaning the incoming data")
             requests["Unnamed: 3"] = requests["Unnamed: 3"].str.strip()
             requests["Unnamed: 2"] = requests["Unnamed: 2"].str.replace(
                 "@rockwellautomation.com", ""
@@ -55,142 +47,112 @@ def requests(server=False):
             requests.insert(0, "Date", pd.to_datetime("today").strftime("%d/%m/%Y"))
 
             # POPULATE REQUEST TO LOG
-            output += output_msg("Transferring to LOG")
-            try:
-                # last populated row
-                for cell in ws_active["B"]:
-                    # print(cell.value)
-                    if cell.value is None:
-                        # print(cell.row)
-                        ws_active_firstrow = cell.row
-                        break
+            output.add(f"{pr.info}Transferring to LOG")
+            for cell in ws_active["B"]:
+                if cell.value is None:
+                    ws_active_firstrow = cell.row
+                    break
 
-                requests = requests.fillna("")
-                requests_output = []
-                for index, row in requests.iterrows():
-                    # print(row.values.tolist())
-                    requests_output.append(row.values.tolist())
-                # print(requests_output)
+            requests = requests.fillna("")
+            requests_output = []
+            for index, row in requests.iterrows():
+                requests_output.append(row.values.tolist())
 
-                for rowy, row in enumerate(requests_output, start=ws_active_firstrow):
-                    for colx, value in enumerate(row, start=1):
-                        ws_active.cell(column=colx, row=rowy, value=value)
+            for rowy, row in enumerate(requests_output, start=ws_active_firstrow):
+                for colx, value in enumerate(row, start=1):
+                    ws_active.cell(column=colx, row=rowy, value=value)
 
-                for cell in ws_active["B"]:
-                    if cell.value is None:
-                        ws_active_lastrow = cell.row
-                        break
-            except:
-                output += output_msg("I could not populate data", "red")
+            for cell in ws_active["B"]:
+                if cell.value is None:
+                    ws_active_lastrow = cell.row
+                    break
 
             # EXTEND FORMULAS By Col / Rows
-            output += output_msg("Data formatting")
-            try:
-                column_list = [
-                    "O",
-                    "P",
-                    "Q",
-                    "R",
-                    "S",
-                    "T",
-                    "U",
-                    "V",
-                    "W",
-                    "Y",
-                    "X",
-                    "Z",
-                    "AA",
-                    "AB",
-                    "AC",
-                    "AD",
-                    "AE",
-                    "AF",
-                    "AG",
-                    "AH",
-                    "AI",
-                    "AJ",
-                    "AK",
-                    "AL",
-                    "AM",
-                    "AN",
-                    "AO",
-                    "AP",
-                    "AQ",
-                    "AR",
-                    "AS",
-                    "AT",
-                    "AU",
-                    "AY",
-                    "AZ",
-                    "BA",
-                    "BB",
-                    "BC",
-                    "BD",
-                    "BE",
-                ]
-                ws_active_lastrow -= 1
-                for x in column_list:
-                    i = ws_active_firstrow - 1
-                    while i < ws_active_lastrow:
-                        i += 1
-                        formula = ws_active[f"{x}2"].value
-                        ws_active[f"{x}{i}"] = Translator(
-                            formula, origin=f"{x}2"
-                        ).translate_formula(f"{x}{i}")
-            except:
-                output += output_msg("I could not extend formulas", "red")
+            output.add(f"{pr.info}LOG data formatting")
+            column_list = [
+                "O",
+                "P",
+                "Q",
+                "R",
+                "S",
+                "T",
+                "U",
+                "V",
+                "W",
+                "Y",
+                "X",
+                "Z",
+                "AA",
+                "AB",
+                "AC",
+                "AD",
+                "AE",
+                "AF",
+                "AG",
+                "AH",
+                "AI",
+                "AJ",
+                "AK",
+                "AL",
+                "AM",
+                "AN",
+                "AO",
+                "AP",
+                "AQ",
+                "AR",
+                "AS",
+                "AT",
+                "AU",
+                "AY",
+                "AZ",
+                "BA",
+                "BB",
+                "BC",
+                "BD",
+                "BE",
+            ]
+            ws_active_lastrow -= 1
+            for x in column_list:
+                i = ws_active_firstrow - 1
+                while i < ws_active_lastrow:
+                    i += 1
+                    formula = ws_active[f"{x}2"].value
+                    ws_active[f"{x}{i}"] = Translator(
+                        formula, origin=f"{x}2"
+                    ).translate_formula(f"{x}{i}")
 
-            # FORMAT REQUEST DATES
-            try:
-                output += output_msg("Formatting request dates")
-                for r in range(2, ws_active_lastrow):
-                    ws_active[f"A{r}"].number_format = "mm/dd/yy;@"
-            except:
-                output += output_msg("I could not extend format request dates", "red")
+            # FORMAT REQUESTS DATES
+            output.add(f"{pr.info}Formatting request dates")
+            for r in range(2, ws_active_lastrow):
+                ws_active[f"A{r}"].number_format = "mm/dd/yy;@"
 
             # CREATE SORT
-            try:
-                sort_count = ws_active_lastrow + 1
-                # print(sort_count)
-                i = 2
-                while i < sort_count:
-                    if i == 1:
-                        continue
-                    # print(i)
-                    ws_active[f"BF{i}"].value = i - 1
-                    i += 1
-            except:
-                output += output_msg("I could not create sort order", "red")
+            output.add(f"{pr.info}Creating sort order")
+            sort_count = ws_active_lastrow + 1
+            i = 2
+            while i < sort_count:
+                if i == 1:
+                    continue
+                ws_active[f"BF{i}"].value = i - 1
+                i += 1
 
             ready_to_save = True
 
         else:
-            output += output_msg("No request files found", "red")
+            output.add(f"{pr.cncl}No request files found", ["code-line", "red"])
 
         if ready_to_save:
-            # TESTING
-            test_save(log, "TEST_requests", server)
-            # ACTUAL
-            if server == False:
-                await_char(
-                    "y",
-                    "Press Y to save to live LOG file or C to cancel.",
-                    save_log,
-                    log,
-                )
-            else:
-                save_log(log)
-                output += output_msg("LOG file saved")
+            save_log(log)
 
         # MAKE LIST OF MATERIALS IN AP LOG
-
+        output.add(f"{pr.info}Saving material list")
         active_matnr_list_file = os.path.join(os.environ["DIR_OUT"], "AP materials.txt")
 
         if os.path.exists(active_matnr_list_file):
             os.remove(active_matnr_list_file)
-            output += output_msg("material list redone")
+            output.add("material list redone")
         else:
-            output += output_msg("material list created")
+            output.add("material list created")
 
         active_matnr_list = ""
         with open(active_matnr_list_file, "w") as file:
@@ -202,26 +164,9 @@ def requests(server=False):
                         active_matnr_list += "000000000000000000" + row[4].value + "\n"
                     else:
                         active_matnr_list += row[4].value + "\n"
-            # print(active_matnr_list)
             file.write(active_matnr_list)
             file.close()
             material_count = active_matnr_list.count("\n")
-            output = output_msg(f"{material_count} materials in the LOG")
+            output.add(f"{pr.file}Material list saved with {material_count} materials")
 
-        if server == False:
-            await_char("y", "", "Requests have bene processed. Press Y to continue")
-        else:
-            output += output_msg("Requests have bene processed.")
-            return Markup(output)
-
-    except:
-        if server == False:
-            return await_char(
-                "y",
-                "Unable to load AP LOG, please close the excel file and press Y to continue",
-            )
-        else:
-            output += output_msg(
-                "Unable to load AP LOG, please close the excel file.", "red"
-            )
-            return Markup(output)
+    return end_script(server)

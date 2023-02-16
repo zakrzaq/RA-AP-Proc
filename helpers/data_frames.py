@@ -2,15 +2,19 @@ import os
 import pandas as pd
 
 from helpers.helpers import use_dotenv
+import helpers.prompts as pr
+from state.output import output
 
 use_dotenv()
 
 
 def get_active(sheet_name="Active Materials"):
     try:
-        output = pd.read_excel(os.environ["AP_LOG"], sheet_name=sheet_name, dtype=str)
-        return output
+        output.add(f"{pr.ok} LOG data obtained")
+        df = pd.read_excel(os.environ["AP_LOG"], sheet_name=sheet_name, dtype=str)
+        return df
     except:
+        output.add(f"{pr.cncl} LOG data failed to download")
         return pd.DataFrame()
 
 
@@ -64,6 +68,7 @@ def get_selected_active():
             ]
         ]
     except:
+        output.add("Failed getting Selected Active View")
         return pd.DataFrame()
 
 
