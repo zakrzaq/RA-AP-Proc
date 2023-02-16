@@ -2,7 +2,6 @@ def single_sap_data(table: str, server=False):
     import time
     import pandas as pd
     import os
-    from markupsafe import Markup
 
     from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
     import helpers.prompts as pr
@@ -41,4 +40,4 @@ def single_sap_data(table: str, server=False):
     os.system(f"{f_script}")
     output.add(f"{pr.done}{script_name} data file exists: {os.path.isfile(file)}")
 
-    end_script(server)
+    return end_script(server)
