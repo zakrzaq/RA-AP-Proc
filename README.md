@@ -168,6 +168,7 @@ It says it on the tin.
   - [ ] find way to use templates and return data as same time in FLASK
   - [ ] requests to db
 - [ ] BE able to run on milwaukee machine / ip address for vpn network
+- [ ] email notification for PCE, CC, PRICE, INHTS, LOCAL requests
 
 ## TODO 0.5
 
