@@ -12,6 +12,9 @@ def am_emails(server=False):
     from helpers.data_frames import get_active
     import helpers.prompts as pr
     from state.output import output
+    from state.email import email
+    from helpers.emails import send_email
+    from data.email_notifications import pce_email, price_email
 
     use_dotenv()
     use_logger()
@@ -119,5 +122,12 @@ def am_emails(server=False):
                 os.environ["DIR_OUT"], f"{today_file} PCE ASSESSMENT REQUEST.xlsx"
             )
             need_pce.to_excel(need_pce_file, index=False)
+
+            # SEND EMAILS
+            email.set(pce_email)
+            send_email(need_pce_file)
+
+            email.set(price_email)
+            send_email(need_price_list_file)
 
     return end_script(server)
