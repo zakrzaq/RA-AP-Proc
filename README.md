@@ -35,7 +35,7 @@ file located in `C:\RA-Apps\AP-Proc`
 
 ```
 RTD_USR='your_user_name'
-RTD_PSW='your_password'w
+RTD_PSW='your_password'
 RTD_STR='rtd db connection string'
 ```
 
