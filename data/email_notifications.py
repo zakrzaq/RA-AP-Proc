@@ -33,7 +33,7 @@ price_email = {
     "body": "Hello",
 }
 
-PCE_email = {
+pce_email = {
     "to": "RMcKee@ra.rockwell.com; dlnachtigall@ra.rockwell.com;",
     "cc": "",
     "subject": "APMM - PCE Assessment Request",
