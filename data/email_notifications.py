@@ -6,7 +6,7 @@ test_email = {
 }
 
 inhts_email = {
-    "to": "aanand1@ra.rockwell.com; Anupma.Singh@rockwellautomation.com; classificationrequest@ra.rockwell.com; SGUPTA22@ra.rockwell.com vsaini@ra.rockwell.com;",
+    "to": "aanand1@ra.rockwell.com; Anupma.Singh@rockwellautomation.com; classificationrequest@ra.rockwell.com; SGUPTA22@ra.rockwell.com; vsaini@ra.rockwell.com;",
     "cc": "",
     "subject": "APMM-  Classification Request",
     "body": "Hello",
@@ -21,7 +21,7 @@ local_email = {
 
 ccc_email = {
     "to": "MZhai3@ra.rockwell.com; RMcKee@ra.rockwell.com;",
-    "cc": "llpan@ra.rockwell.com",
+    "cc": "llpan@ra.rockwell.com;",
     "subject": "APMM - CCC Certification Assessment Request",
     "body": "Hello",
 }
