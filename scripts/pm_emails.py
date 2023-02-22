@@ -12,6 +12,9 @@ def pm_emails(server=False):
     from helpers.data_frames import get_active
     import helpers.prompts as pr
     from state.output import output
+    from state.email import email
+    from helpers.emails import send_email
+    from data.email_notifications import ccc_email, inhts_email, local_email
 
     use_dotenv()
     use_logger()
@@ -160,5 +163,15 @@ def pm_emails(server=False):
                 os.environ["DIR_OUT"], f"India localization required {today}.xlsx"
             )
             need_local.to_excel(need_local_file, index=False)
+
+            # SEND EMAILS
+            email.set(ccc_email)
+            send_email(need_pce_file)
+
+            email.set(inhts_email)
+            send_email(need_gts_file)
+
+            email.set(local_email)
+            send_email(need_local_file)
 
     return end_script(server)

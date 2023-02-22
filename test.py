@@ -1,15 +1,22 @@
-from helpers.helpers import output_msg
-from helpers.log import load_log
-from state.output import output
-from test_mod import test_mod
+import os
+from state.email import email
+from helpers.emails import send_email
+from data.email_notifications import ccc_email, inhts_email, local_email, test_email
 
-try:
-    log = load_log()
-    output.add("LOG loaded")
-except:
-    output.add("LOG failed")
+readme = need_local_file = need_gts_file = need_pce_file = os.path.join(
+    os.getcwd(), "README.md"
+)
+
+email.set(test_email)
+send_email(readme)
+
+email.set(ccc_email)
+send_email(readme)
 
 
-test_mod()
+email.set(inhts_email)
+send_email(readme)
 
-print(output.get_html())
+
+email.set(localemail)
+send_email(readme)

@@ -139,6 +139,7 @@ It says it on the tin.
 - [x] check for log being open on every script
 - [ ] archive PCE requests file name issue
 - [ ] am_status to handle PROD CERT by review date
+- [ ] status messages on SAP data script
 - [x] MKVE|MARC.ahk SAP error/crash on large data loads
   - [x] AHK reliability SE16
   - [ ] AHK reliability rest
@@ -152,7 +153,7 @@ It says it on the tin.
 
 ## TODO 1.5
 
-- [ ] integrate proper front and with conditial style like AP Log
+- [ ] integrate proper front and with conditional style like AP Log
 - [ ] hosted db
 
 ## TODO 1.0
@@ -167,6 +168,7 @@ It says it on the tin.
   - [ ] find way to use templates and return data as same time in FLASK
   - [ ] requests to db
 - [ ] BE able to run on milwaukee machine / ip address for vpn network
+- [ ] email notification for PCE, CC, PRICE, INHTS, LOCAL requests
 
 ## TODO 0.5
 
