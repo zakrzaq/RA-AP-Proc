@@ -16,4 +16,4 @@ def send_email(file):
     mail.Send()
 
     email_state.reset()
-    output.add(f"{pr.email}email message sent")
+    output.add(f"{pr.email}Email {email['subject']} sent")
