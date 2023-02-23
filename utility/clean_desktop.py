@@ -1,11 +1,11 @@
 def clean_desktop(server=False):
     import os
     import shutil
-    from markupsafe import Markup
 
-    from helpers.helpers import await_char, output_msg
+    from helpers.helpers import end_script
+    from state.output import output
+    import helpers.prompts as pr
 
-    output = ""
     report_directory = os.environ["EDM_APMM"]
     output_directory = os.environ["DIR_OUT"]
     input_directory = os.environ["DIR_IN"]
@@ -20,89 +20,67 @@ def clean_desktop(server=False):
         os.environ["DIR_DESKTOP"], "AP Process", "AP Requests"
     )
 
-    # archive desktop folder to shared edm drive
-    try:
-        for dir in process_dirs:
-            output += output_msg(f"Folder processed: {dir}", "bold")
-            for filename in os.listdir(dir):
-                f = os.path.join(dir, filename)
-                if os.path.isfile(f):
-                    # pce requests
-                    if " ASSESSMENT REQUEST.xlsx" in f:
-                        output += output_msg("- " + filename)
-                        dest = os.path.join(dir_pce_requests, filename)
-                        if os.path.exists(dest):
-                            os.remove(dest)
-                        shutil.copy2(f, dir_pce_requests)
-                        os.remove(os.path.join(output_directory, f))
-                    # pce feedback
-                    if " ASSESSMENT REQUEST" in f:
-                        output += output_msg("- " + filename)
-                        dest = os.path.join(dir_pce_feedback, filename)
-                        if os.path.exists(dest):
-                            os.remove(dest)
-                        shutil.copy2(f, dir_pce_feedback)
-                        os.remove(os.path.join(output_directory, f))
-                    # pricing requests
-                    if "AP pricing needed with active demand" in f:
-                        output += output_msg("- " + filename)
-                        dest = os.path.join(dir_pricing, filename)
-                        if os.path.exists(dest):
-                            os.remove(dest)
-                        shutil.copy2(f, dir_pricing)
-                        os.remove(os.path.join(output_directory, f))
-                    # inhts requests
-                    if "INHTS request " in f:
-                        output += output_msg("- " + filename)
-                        dest = os.path.join(dir_inhts, filename)
-                        if os.path.exists(dest):
-                            os.remove(dest)
-                        shutil.copy2(f, dir_inhts)
-                        os.remove(os.path.join(output_directory, f))
-                    # localization requests
-                    if "India localization required" in f:
-                        output += output_msg("- " + filename)
-                        dest = os.path.join(dir_local, filename)
-                        if os.path.exists(dest):
-                            os.remove(dest)
-                        shutil.copy2(f, dir_local)
-                        os.remove(os.path.join(output_directory, f))
-                    # AP requests
-                    if (
-                        ("AP_Material_Master_Service_Request_Form" in f)
-                        or ("_AP form ") in f
-                        or ("AP form " in f)
-                        or ("ap form " in f)
-                    ):
-                        output += output_msg("- " + filename)
-                        dest = os.path.join(dir_ap_req_archive, filename)
-                        if os.path.exists(dest):
-                            os.remove(dest)
-                        shutil.copy2(f, dir_ap_req_archive)
-                        os.remove(os.path.join(output_directory, f))
-                    if (
-                        ("mara" in f)
-                        or ("marc" in f)
-                        or ("mvke" in f)
-                        or ("ausp" in f)
-                        or ("mlan" in f)
-                        or ("price" in f)
-                        or ("gts" in f)
-                        or ("sales_text" in f)
-                    ):
-                        output += output_msg("- " + f)
-                        os.remove(f)
-                    if "UPDATES TO Z62" in f:
-                        output += output_msg("\t" + f)
-                        os.remove(f)
-    except:
-        output += output_msg("Something went wrong :/ \nRun me again, please!")
-        if server == False:
-            await_char()
-        else:
-            return Markup(output)
+    def handle_archive(f, output):
+        try:
+            filename = os.path.basename(f)
+            dest = os.path.join(output, filename)
+            if os.path.exists(dest):
+                os.remove(dest)
+            shutil.copy2(f, output)
+            os.remove(os.path.join(output_directory, f))
+            output.add(f"{pr.file}{filename}")
+        except:
+            output.add(f"{pr.cncl}{filename}")
 
-    if server == False:
-        await_char()
-    else:
-        return Markup(output)
+    def handle_remove(f):
+        filename = os.path.basename(f)
+        try:
+            os.remove(f)
+            output.add(f"{pr.file}{filename}")
+        except:
+            output.add(f"{pr.cn}{filename}")
+
+    # archive desktop folder to shared edm drive
+    for dir in process_dirs:
+        output.add(f"Folder processed: {dir}", ["code-line", "bold"])
+        for filename in os.listdir(dir):
+            f = os.path.join(dir, filename)
+            if os.path.isfile(f):
+                # pce requests
+                if " ASSESSMENT REQUEST.xlsx" in f:
+                    handle_archive(f, dir_pce_requests)
+                # pce feedback
+                if " ASSESSMENT REQUEST" in f:
+                    handle_archive(f, dir_pce_feedback)
+                # pricing requests
+                if "AP pricing needed with active demand" in f:
+                    handle_archive(f, dir_pricing)
+                # inhts requests
+                if "INHTS request " in f:
+                    handle_archive(f, dir_inhts)
+                # localization requests
+                if "India localization required" in f:
+                    handle_archive(f, dir_local)
+                # AP requests
+                if (
+                    ("AP_Material_Master_Service_Request_Form" in f)
+                    or ("_AP form ") in f
+                    or ("AP form " in f)
+                    or ("ap form " in f)
+                ):
+                    handle_archive(f, dir_ap_req_archive)
+                if (
+                    ("mara" in f)
+                    or ("marc" in f)
+                    or ("mvke" in f)
+                    or ("ausp" in f)
+                    or ("mlan" in f)
+                    or ("price" in f)
+                    or ("gts" in f)
+                    or ("sales_text" in f)
+                ):
+                    handle_remove(f)
+                if "UPDATES TO Z62" in f:
+                    handle_remove(f)
+
+    return end_script(server)

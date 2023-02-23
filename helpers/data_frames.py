@@ -10,11 +10,11 @@ use_dotenv()
 
 def get_active(sheet_name="Active Materials"):
     try:
-        output.add(f"{pr.ok} LOG data obtained")
         df = pd.read_excel(os.environ["AP_LOG"], sheet_name=sheet_name, dtype=str)
+        output.add(f"{pr.ok}LOG data obtained")
         return df
     except:
-        output.add(f"{pr.cncl} LOG data failed to download")
+        output.add(f"{pr.cncl}LOG data failed to download")
         return pd.DataFrame()
 
 
@@ -68,7 +68,67 @@ def get_selected_active():
             ]
         ]
     except:
-        output.add("Failed getting Selected Active View")
+        output.add(f"{pr.cncl}Failed getting Selected Active View")
+        return pd.DataFrame()
+
+
+def get_archive(sheet_name="archive starting 3-15-2014"):
+    try:
+        df = pd.read_excel(os.environ["ARC_LOG"], sheet_name=sheet_name, dtype=str)
+        output.add(f"{pr.ok}ARCHIVE data obtained")
+        return df
+    except:
+        output.add(f"{pr.cncl}ARCHIVE data failed to download")
+        return pd.DataFrame()
+
+
+def get_selected_archive():
+    try:
+        active = get_archive()
+        return active[
+            [
+                "Date Added",
+                "target sorg",
+                "target plant",
+                "email prefix\n(from request form)",
+                "SAP MATNR\n(from request form)",
+                "Service Requested\n(from request form)",
+                "Location\n(from request form)",
+                "Catalog",
+                "Ser",
+                "MTART/GenItemCat",
+                " sorg1k dchain",
+                " sorg1k cs",
+                "sorg1k price",
+                " sorg4k dchain",
+                " sorg4k cs",
+                "PGC",
+                "target sorg price",
+                "target sorg dchain",
+                "target sorg DWERK",
+                "target sorg cs",
+                "target sorg pub",
+                "target plant status",
+                "target plant mrp type",
+                "DWERK Plant Status",
+                "DWERK Plant Code",
+                "mif/soerf check",
+                "Sales Text",
+                "Regulatory Cert\n(Z62 Class)",
+                "Regulatory Cert\n(Z62 Characteristic)",
+                "Z62 characteristic\n(assigned in SAP)",
+                "PCE Assessment\n(received)",
+                "Date of PCE review",
+                "MIF Submitted",
+                "SOERF Submitted",
+                "pricing request",
+                "PCE cert rev req'd",
+                "status",
+                "sort order",
+            ]
+        ]
+    except:
+        output.add(f"{pr.cncl}Failed getting Selected Archive View")
         return pd.DataFrame()
 
 

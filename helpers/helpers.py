@@ -41,14 +41,6 @@ def use_logger():
     logging.basicConfig(filename=os.path.join("logs", "log.txt"), level=logging.DEBUG)
 
 
-def output_msg(msg: str, *args: tuple[str]):
-    print(msg)
-    classes = "code-line "
-    for a in args:
-        classes += a + " "
-    return f'<p class="{classes}">{msg}</p>\n'
-
-
 def end_script(server):
     if not server:
         await_char()

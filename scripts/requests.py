@@ -28,7 +28,7 @@ def requests(server=False):
             if filename.endswith(".xlsm"):
                 if "AP_Material_Master_Service_Request_Form" in filename:
                     file = os.path.join(directory, filename)
-                    output.add("\t" + filename)
+                    output.add(f"{pr.file}filename")
                     df = pd.read_excel(file, 2)
                     df = df.iloc[1:, :]
                     requests = pd.concat([requests, df])
@@ -150,9 +150,9 @@ def requests(server=False):
 
         if os.path.exists(active_matnr_list_file):
             os.remove(active_matnr_list_file)
-            output.add("material list redone")
+            output.add(f"{pr.ok}material list redone")
         else:
-            output.add("material list created")
+            output.add(f"{pr.ok}material list created")
 
         active_matnr_list = ""
         with open(active_matnr_list_file, "w") as file:
