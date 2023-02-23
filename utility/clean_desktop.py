@@ -6,6 +6,7 @@ def clean_desktop(server=False):
     from state.output import output
     import helpers.prompts as pr
 
+    output.reset()
     report_directory = os.environ["EDM_APMM"]
     output_directory = os.environ["DIR_OUT"]
     input_directory = os.environ["DIR_IN"]

@@ -23,6 +23,13 @@ def pm_emails(server=False):
     today = date.today().strftime("%m-%d-%Y")
     active = get_active()
     output.reset()
+    need_pce_file = os.path.join(
+        os.environ["DIR_OUT"], f"{today} CCC ASSESSMENT REQUEST.xlsx"
+    )
+    need_gts_file = os.path.join(os.environ["DIR_OUT"], f"INHTS request {today}.xlsx")
+    need_local_file = os.path.join(
+        os.environ["DIR_OUT"], f"India localization required {today}.xlsx"
+    )
 
     if not active.empty:
         # PCE REQUEST
@@ -66,9 +73,6 @@ def pm_emails(server=False):
 
             output.add(f"{pr.ok}CCC requests: {len(active_wt_pce_req)}")
             # PCE REQUEST FILE - AM
-            need_pce_file = os.path.join(
-                os.environ["DIR_OUT"], f"{today} CCC ASSESSMENT REQUEST.xlsx"
-            )
             need_pce.to_excel(need_pce_file, index=False)
 
         # GTS REQUESTS
@@ -99,9 +103,7 @@ def pm_emails(server=False):
 
             output.add(f"{pr.ok}GTS requests: {len(active_wt_gts_req)}")
             # GTS REQUEST FILE
-            need_gts_file = os.path.join(
-                os.environ["DIR_OUT"], f"INHTS request {today}.xlsx"
-            )
+
             need_gts.to_excel(need_gts_file, index=False)
 
         # ### LOCAL REQUESTS
@@ -159,19 +161,19 @@ def pm_emails(server=False):
 
             output.add(f"{pr.ok}LOCALIZATION requests: {len(active_wt_local_req)}")
             # GTS REQUEST FILE
-            need_local_file = os.path.join(
-                os.environ["DIR_OUT"], f"India localization required {today}.xlsx"
-            )
             need_local.to_excel(need_local_file, index=False)
 
             # SEND EMAILS
-            email.set(ccc_email)
-            send_email(need_pce_file)
+            if os.path.isfile(need_pce_file):
+                email.set(ccc_email)
+                send_email(need_pce_file)
 
-            email.set(inhts_email)
-            send_email(need_gts_file)
+            if os.path.isfile(need_gts_file):
+                email.set(inhts_email)
+                send_email(need_gts_file)
 
-            email.set(local_email)
-            send_email(need_local_file)
+            if os.path.isfile(need_local_file):
+                email.set(local_email)
+                send_email(need_local_file)
 
     return end_script(server)

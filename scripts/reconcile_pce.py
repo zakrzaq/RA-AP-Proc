@@ -43,7 +43,7 @@ def reconcile_pce(server=False):
     for filename in os.listdir("C:\RA-Apps\AP-Proc\INPUTS"):
         file = os.path.join("C:\RA-Apps\AP-Proc\INPUTS", filename)
         if " ASSESSMENT REQUEST" in filename:
-            output.add("\t" + file)
+            output.add(f"{pr.file}{file}")
             df = pd.read_excel(file)
             pce_feedback = pd.concat([pce_feedback, df])
     output.add(f"{pr.done}Found {pce_feedback.shape[0]} materials to reconcile")
@@ -51,7 +51,7 @@ def reconcile_pce(server=False):
     # PCE FEEDBACK TO LOG
     log = load_log()
     if (pce_feedback.shape[0] > 0) and log:
-        output.add("Processing PCE Reconciliation")
+        output.add(f"{pr.info}Processing PCE Reconciliation")
         ws_pce = log["pce"]
         last_row = ws_pce.max_row + 1
 
@@ -98,10 +98,10 @@ def reconcile_pce(server=False):
             ]
         ]
         for_upd.to_csv(upd_file, header=None, index=False, sep="\t")
-        output.add(f"Processing PCE SAP Update for {for_upd.shape[0]}")
+        output.add(f"{pr.info}Processing PCE SAP Update for {for_upd.shape[0]} parts")
         os.system(f"{f_sap}")
         time.sleep(7)
         os.system(f"{f_upd_class}")
-        output.add(f"Finished PCE Z62 SAP Update")
+        output.add(f"{pr.done}Finished PCE Z62 SAP Update")
 
     return end_script(server)
