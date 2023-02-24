@@ -27,7 +27,7 @@ def mif_soerf_check(server=False):
                 tmp_df = pd.read_excel(f)
                 mifs_submitted = pd.concat([mifs_submitted, tmp_df])
     if mifs_submitted.empty:
-        output.add(f"{pr.cn}No MIF have been submitted by you")
+        output.add(f"{pr.cncl}No MIF have been submitted by you")
     else:
         mifs_submitted = mifs_submitted.iloc[:, [1, 2, 3, 4]]
         for index, row in mifs_submitted.iterrows():
@@ -49,7 +49,7 @@ def mif_soerf_check(server=False):
                 tmp_df = pd.read_excel(f)
                 soerfs_submitted = pd.concat([soerfs_submitted, tmp_df])
     if soerfs_submitted.empty:
-        output.add(f"{pr.cn}No SOERF have been submitted by you")
+        output.add(f"{pr.cncl}No SOERF have been submitted by you")
     else:
         soerfs_submitted = soerfs_submitted.iloc[:, [1, 2, 3, 4]]
         for index, row in soerfs_submitted.iterrows():

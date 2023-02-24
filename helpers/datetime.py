@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 
 def today_ymd(sep="/"):
@@ -13,4 +13,9 @@ def today_dmy(sep="/"):
 
 def today_mdy(sep="/"):
     today = date.today()
-    return today.strftime(f"%m{sep}%m{sep}%Y")
+    return today.strftime(f"%m{sep}%d{sep}%Y")
+
+
+def mif_date():
+    now = datetime.now()
+    return now.strftime("%m%d%Y_%H%M%S")
