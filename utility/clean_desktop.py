@@ -21,13 +21,13 @@ def clean_desktop(server=False):
         os.environ["DIR_DESKTOP"], "AP Process", "AP Requests"
     )
 
-    def handle_archive(f, output):
+    def handle_archive(f, output_dir):
         try:
             filename = os.path.basename(f)
-            dest = os.path.join(output, filename)
+            dest = os.path.join(output_dir, filename)
             if os.path.exists(dest):
                 os.remove(dest)
-            shutil.copy2(f, output)
+            shutil.copy2(f, output_dir)
             os.remove(os.path.join(output_directory, f))
             output.add(f"{pr.file}{filename}")
         except:

@@ -68,13 +68,13 @@ def get_sap_data(server=False):
             output.add(
                 f"{pr.ok}{script_name}"
                 if os.path.isfile(output_file)
-                else f"{pr.cn}{script_name}"
+                else f"{pr.cncl}{script_name}"
             )
             time.sleep(sleep_time)
         output.add(
             f"{pr.ok}{script_name}"
             if os.path.isfile(os.path.join(os.environ["DIR_OUT"], "sales_text.xls"))
-            else f"{pr.cn}{script_name}"
+            else f"{pr.cncl}{script_name}"
         )
 
     return end_script(server)

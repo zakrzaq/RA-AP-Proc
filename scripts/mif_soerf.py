@@ -14,6 +14,7 @@ def mif_soerf(server=False):
     from helpers.xlsm import populate_sap_data_sheet, extend_concats, extend_values
     from helpers.datetime import today_dmy
     import helpers.prompts as pr
+    from helpers.send_extensions import send_extensions
 
     use_dotenv()
     use_logger()
@@ -137,6 +138,10 @@ def mif_soerf(server=False):
         # SAVE / END
         if not df_log_mif.empty or not df_log_soerf.empty or not df_log_cancel.empty:
             save_log(log)
+
+            # SEND EXTENSIONS TO EDM DRIVE
+            send_extensions()
+
             if not server:
                 df_log_mif.to_excel(
                     os.path.join(os.environ["DIR_OUT"], "TEST_LOG_MIF.xlsx"),
