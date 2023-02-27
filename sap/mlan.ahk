@@ -21,13 +21,13 @@ IfWinExist, SAP Easy Access
   Sleep (1000)
   ; select variant
   Send +{F5}
-  Sleep (2500)
+  Sleep (1000)
   Send {down}
-  Sleep (2500)
+  Sleep (1000)
   Send {up}
-  Sleep (2500)
+  Sleep (1000)
   Send {F2}
-  Sleep (2500)
+  Sleep (1000)
   ; paste parts from clipoard
   Send {TAB 2}
   Send {enter}

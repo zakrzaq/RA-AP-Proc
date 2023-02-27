@@ -3,7 +3,7 @@ from helpers.data_frames import get_selected_active, get_selected_archive
 import pandas as pd
 from helpers.helpers import use_dotenv
 
-
+use_dotenv()
 active = get_selected_active()
 archive = get_selected_archive()
 
