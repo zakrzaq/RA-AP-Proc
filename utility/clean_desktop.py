@@ -39,7 +39,7 @@ def clean_desktop(server=False):
             os.remove(f)
             output.add(f"{pr.file}{filename}")
         except:
-            output.add(f"{pr.cn}{filename}")
+            output.add(f"{pr.cncl}{filename}")
 
     # archive desktop folder to shared edm drive
     for dir in process_dirs:
