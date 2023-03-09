@@ -71,14 +71,14 @@ def clean_desktop(server=False):
                 ):
                     handle_archive(f, dir_ap_req_archive)
                 if (
-                    ("mara" in f)
-                    or ("marc" in f)
-                    or ("mvke" in f)
-                    or ("ausp" in f)
-                    or ("mlan" in f)
-                    or ("price" in f)
-                    or ("gts" in f)
-                    or ("sales_text" in f)
+                    ("mara" in f.casefold())
+                    or ("marc" in f.casefold())
+                    or ("mvke" in f.casefold())
+                    or ("ausp" in f.casefold())
+                    or ("mlan" in f.casefold())
+                    or ("price" in f.casefold())
+                    or ("gts" in f.casefold())
+                    or ("sales_text" in f.casefold())
                 ):
                     handle_remove(f)
                 if "UPDATES TO Z62" in f:
