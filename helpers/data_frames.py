@@ -137,13 +137,13 @@ def handle_eod_report(file):
     print(report.head())
     total = report.shape[0]
     completed = report.loc[
-        report["status"].str.contains("complete", case=False) == False
+        report["status"].str.contains("complete", case=False) == True
     ].shape[0]
     cancelled = report.loc[
-        report["status"].str.contains("cancel", case=False) == False
+        report["status"].str.contains("cancel", case=False) == True
     ].shape[0]
     on_hold = report.loc[
-        report["status"].str.contains("on hold", case=False) == False
+        report["status"].str.contains("on hold", case=False) == True
     ].shape[0]
     in_progress = total - completed - cancelled - on_hold
 

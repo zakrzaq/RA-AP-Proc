@@ -65,16 +65,16 @@ def get_sap_data(server=False):
             os.system(f"{f_sap}")
             output.add(f"{pr.info}Fetching {script_name} data")
             os.system(f"{script}")
-            output.add(
-                f"{pr.ok}{script_name}"
-                if os.path.isfile(output_file)
-                else f"{pr.cncl}{script_name}"
-            )
+            if os.path.isfile(output_file):
+                output.add(f"{pr.ok}{script_name}")
+            else:
+                output.add(f"{pr.cncl}{script_name}")
             time.sleep(sleep_time)
-        output.add(
-            f"{pr.ok}{script_name}"
-            if os.path.isfile(os.path.join(os.environ["DIR_OUT"], "sales_text.xls"))
-            else f"{pr.cncl}{script_name}"
-        )
+
+    if os.path.isfile(os.path.join(os.environ["DIR_IN"], "sales_text.xls")):
+        output.add(f"{pr.ok}sales_text.xls")
+    else:
+        output.add(f"{pr.ok}sales_text.xls")
+        os.system(f"{f_sales_text}")
 
     return end_script(server)
