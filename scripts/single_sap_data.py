@@ -39,7 +39,7 @@ def single_sap_data(table: str, server=False):
     output.add(f"{pr.file}Fetching {table} data")
     os.system(f"{f_script}")
     output.add(
-        f"{pr.ok}{script_name}" if os.path.isfile(file) else f"{pr.cn}{script_name}"
+        f"{pr.ok}{script_name}" if os.path.isfile(file) else f"{pr.cncl}{script_name}"
     )
 
     return end_script(server)

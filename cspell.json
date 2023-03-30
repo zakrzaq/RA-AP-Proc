@@ -7,8 +7,12 @@
   "language": "en",
   // words - list of words to be always considered correct
   "words": [
+    "apmm",
+    "aprox",
     "cncl",
     "dotenv",
+    "executescript",
+    "hypercare",
     "isin",
     "isna",
     "iterrows",
@@ -27,7 +31,9 @@
     "serv",
     "soerf",
     "sorg",
-    "visualstudio"
+    "timeframe",
+    "visualstudio",
+    "Zakrzewski"
   ],
   // flagWords - list of words to be always considered incorrect
   // This is useful for offensive words and common spelling errors.
