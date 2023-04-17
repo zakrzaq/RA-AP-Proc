@@ -30,6 +30,7 @@ IfWinExist, SAP Easy Access
   WinWaitActive, Export / Import Classification Report
   Sleep (1000)
   ; save
+  Sleep (1000)
   Send ^{F2}
   Sleep (4000)
   Send +{tab} {tab}
