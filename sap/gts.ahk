@@ -4,6 +4,11 @@ SendMode, Input
 SetBatchLines, -1
 SetWorkingDir, %A_ScriptDir%
 
+table := "GTS"
+path := "C:\RA-Apps\AP-Proc\INPUTS\"
+out_file := % path table
+
+
 ;GST
 IfWinExist, SAP Easy Access
 {
@@ -30,13 +35,24 @@ IfWinExist, SAP Easy Access
   WinWaitActive, Export / Import Classification Report
   Sleep (1000)
   ; save
-  Sleep (1000)
-  Send ^{F2}
-  Sleep (4000)
+  Sleep (2500)
+  ; Send ^{F2}
+  Send {AppsKey}
+  Sleep (1500)
+  Send {up} {enter}
+  Sleep (2500)
+  Send {enter}
+  Sleep (3000)
   Send +{tab} {tab}
-  Sleep (3000)
+  Sleep (1500)
   Send, %out_file%{enter}
-  Sleep (3000)
-  WinClose, Export / Import Classification Report
-  Return
+  Sleep (2500)
+  ; Send ^{F2}
+  ; Sleep (4000)
+  ; Send +{tab} {tab}
+  ; Sleep (3000)
+  ; Send, %out_file%{enter}
+  ; Sleep (3000)
+  ; WinClose, Export / Import Classification Report
+  ; Return
 }

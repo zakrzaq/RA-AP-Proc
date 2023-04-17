@@ -30,8 +30,9 @@ IfWinExist, SAP Easy Access
   WinWaitActive, Display Material: Material List
   Sleep (1000)
   ; save
-  Send +{F10}
-  Sleep (2500)
+  ; Send +{F10}
+  Send {AppsKey}
+  Sleep (1500)
   Send {up} {enter}
   Sleep (2500)
   Send {enter}

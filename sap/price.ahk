@@ -33,15 +33,16 @@ IfWinExist, SAP Easy Access
   WinWaitActive, Multiple Selection for MATNR
   Sleep (1500)
   Send +{F12}
-  Sleep (1500)
+  Sleep (2500)
   Send {F8}
-  Sleep (1500)
+  Sleep (2500)
   ; esecute
   Send {F8}
   WinWaitActive, AP_LIST_PRICE
-  Sleep (1000)
+  Sleep (2000)
   ; save
-  Send +{F10}
+  ; Send +{F10}
+  Send {AppsKey}
   Sleep (1500)
   Send {up} {enter}
   Sleep (1500)
