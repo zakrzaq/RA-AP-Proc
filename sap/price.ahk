@@ -4,13 +4,19 @@ SendMode, Input
 SetBatchLines, -1
 SetWorkingDir, %A_ScriptDir%
 
+table := "PRICE"
+path := "C:\RA-Apps\AP-Proc\INPUTS\"
+out_file := % path table
+
 ;LIST PRICE
 IfWinExist, SAP Easy Access
 {
   WinActivate, SAP Easy Access
   Sleep (1500)
   Send {/}osqvi {enter}
-  Sleep (7000)
+  WinWaitActive, QuickViewer: Initial Screen
+  Sleep (1000)
+  ; select variant
   Send LIST_PRICE {F8}
   Sleep (1000)
   Send +{F5}
@@ -21,15 +27,20 @@ IfWinExist, SAP Easy Access
   Sleep (1500)
   Send {F2}
   Sleep (1500)
+  ; paste parts from cliboard
   Send {TAB 2}
   Send {enter}
+  WinWaitActive, Multiple Selection for MATNR
   Sleep (1500)
   Send +{F12}
   Sleep (1500)
   Send {F8}
   Sleep (1500)
+  ; esecute
   Send {F8}
-  Sleep (10000)
+  WinWaitActive, AP_LIST_PRICE
+  Sleep (1000)
+  ; save
   Send +{F10}
   Sleep (1500)
   Send {up} {enter}
@@ -40,7 +51,7 @@ IfWinExist, SAP Easy Access
   Sleep (1000)
   Send {tab}
   Sleep (2000)
-  Send, C:\RA-Apps\AP-Proc\INPUTS\price{enter}
+  Send, %out_file%{enter}
 }
 
 IfWinExist, AP_LIST_PRICE
