@@ -1,11 +1,11 @@
-setup:
+setup: requirements.txt
 	python -m venv venv
 	.\venv\Scripts\Activate.ps1
 	pip install -r requirements.txt
 
 setup-lin:
 	python -m venv env
-	./env/Scripts/activate
+	source ./env/Scripts/activate
 	pip install -r requirements.txt
 
 run-test:
