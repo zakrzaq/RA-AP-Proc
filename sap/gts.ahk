@@ -27,7 +27,7 @@ IfWinExist, SAP Easy Access
   Send {enter}
   Sleep (1500)
   Send +{F12}
-  Sleep (1500)
+  Sleep (3500)
   Send {F8}
   Sleep (1500)
   ; execute
@@ -52,7 +52,7 @@ IfWinExist, SAP Easy Access
   ; Send +{tab} {tab}
   ; Sleep (3000)
   ; Send, %out_file%{enter}
-  ; Sleep (3000)
-  ; WinClose, Export / Import Classification Report
-  ; Return
+  Sleep (3000)
+  WinClose, Export / Import Classification Report
+  Return
 }

@@ -15,7 +15,7 @@ IfWinExist, SAP Easy Access
   Sleep (1500)
   Send {/}osqvi {enter}
   WinWaitActive, QuickViewer: Initial Screen
-  Sleep (1000)
+  Sleep (2000)
   ; select variant
   Send LIST_PRICE {F8}
   Sleep (1000)
@@ -30,7 +30,7 @@ IfWinExist, SAP Easy Access
   ; paste parts from cliboard
   Send {TAB 2}
   Send {enter}
-  WinWaitActive, Multiple Selection for MATNR
+  WinWaitActive, Multiple Selection for Material Number
   Sleep (1500)
   Send +{F12}
   Sleep (2500)
