@@ -21,6 +21,7 @@ def connect_rtd():
 
     except oracledb.DatabaseError as e:
         output.add(f"{pr.conn}RTD disconnected")
+        output.add(f"{pr.conn}{e}")
         return None
 
 

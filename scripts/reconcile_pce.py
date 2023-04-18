@@ -68,17 +68,12 @@ def reconcile_pce(server=False):
         extend_concats(ws_pce, last_row - 1, "A")
         # SAVE
         save_log(log)
-    else:
-        output.add(
-            f"{pr.cncl}Unable to load the LOG to update PCE or no materials to reconcile"
-        )
-
-    # PCE FEEDBACK TO SAP
-    output.add(f"{pr.info}Z62 updates in SAP")
-    if pce_feedback.empty:
-        output.add(f"{pr.cncl}No PCE feedback to process")
-    else:
-        output.add(f"{pr.info}Preparing PCE SAP Update")
+        # PCE FEEDBACK TO SAP
+        output.add(f"{pr.info}Z62 updates in SAP")
+        if pce_feedback.empty:
+            output.add(f"{pr.cncl}No PCE feedback to process")
+        else:
+            output.add(f"{pr.info}Preparing PCE SAP Update")
         for_upd = pce_feedback.iloc[:, [4, 12, 13, 18]]
         for_upd = for_log[for_log["new PCE assessment"].notna()]
         for_upd["SAP Table"] = "MARA"
@@ -86,22 +81,27 @@ def reconcile_pce(server=False):
         for_upd["Blank 1"] = ""
         for_upd["Blank 2"] = ""
         for_upd = for_upd[
-            [
-                "SAP Table",
-                "SAP MATNR\n(from request form)",
-                "Class",
-                "Regulatory Cert\n(Z62 Class)",
-                "Blank 1",
-                "Blank 2",
-                "Regulatory Cert\n(Z62 Characteristic)",
-                "new PCE assessment",
-            ]
-        ]
+                [
+                    "SAP Table",
+                    "SAP MATNR\n(from request form)",
+                    "Class",
+                    "Regulatory Cert\n(Z62 Class)",
+                    "Blank 1",
+                    "Blank 2",
+                    "Regulatory Cert\n(Z62 Characteristic)",
+                    "new PCE assessment",
+                    ]
+                ]
         for_upd.to_csv(upd_file, header=None, index=False, sep="\t")
         output.add(f"{pr.info}Processing PCE SAP Update for {for_upd.shape[0]} parts")
         os.system(f"{f_sap}")
         time.sleep(7)
         os.system(f"{f_upd_class}")
         output.add(f"{pr.done}Finished PCE Z62 SAP Update")
+    else:
+        output.add(
+            f"{pr.cncl}Unable to load the LOG to update PCE or no materials to reconcile"
+        )
+
 
     return end_script(server)
