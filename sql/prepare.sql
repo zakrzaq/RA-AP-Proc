@@ -214,7 +214,7 @@ INSERT INTO ap_mm_service (
         || ' for assistance.'
         FROM
             sapecc_dly_librarian.mara,
-            sapecc_dly_librarian.zcmk_mat_prodh zcmk_mat_prodh
+            sapecc_librarian.zcmk_mat_prodh zcmk_mat_prodh
         WHERE
                 mara.mandt = '400'
             AND zcmk_mat_prodh.mandt = mara.mandt
