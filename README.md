@@ -142,10 +142,10 @@ It says it on the tin.
 - [ ] status messages on SAP data script
 - [x] MKVE|MARC.ahk SAP error/crash on large data loads
   - [x] AHK reliability SE16
-  - [ ] AHK reliability rest
-- [ ] get SAP data lower/upper case file name issue
+  - [x] AHK reliability rest
+- [x] get SAP data lower/upper case file name issue
 - [ ] improve excel DATE FORMATS
-- [] mif / sorf data bring incorrect date
+- [ ] mif / sorf data bring incorrect date
 - [x] BIS only on PCE status finder
 - [x] PCE finder to include Prod Cert Review
 - [x] Flask: Check daily report server error

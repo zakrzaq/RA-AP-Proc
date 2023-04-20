@@ -22,8 +22,8 @@ def clean_desktop(server=False):
     )
 
     def handle_archive(f, output_dir):
+        filename = os.path.basename(f)
         try:
-            filename = os.path.basename(f)
             dest = os.path.join(output_dir, filename)
             if os.path.exists(dest):
                 os.remove(dest)

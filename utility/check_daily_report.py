@@ -1,7 +1,6 @@
 def check_daily_report(server=False):
     import os
     import sys
-    import pandas as pd
 
     from helpers.data_frames import handle_eod_report
     from state.output import output

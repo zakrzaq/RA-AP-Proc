@@ -8,7 +8,7 @@ env/
 venv/
 wsl-env/
 *_config.py
-config/
+configs/
 
 # python
 __pycache__/
@@ -31,7 +31,7 @@ tx.sap
 test*.ahk
 test*.py
 **/log.txt
-cSpell.json
+
 
 # Node Specific
 node_modules

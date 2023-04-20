@@ -23,7 +23,7 @@ def pm_emails(server=False):
     today = date.today().strftime("%m-%d-%Y")
     active = get_active()
     output.reset()
-    need_pce_file = os.path.join(
+    need_ccc_file = os.path.join(
         os.environ["DIR_OUT"], f"{today} CCC ASSESSMENT REQUEST.xlsx"
     )
     need_gts_file = os.path.join(os.environ["DIR_OUT"], f"INHTS request {today}.xlsx")
@@ -73,7 +73,7 @@ def pm_emails(server=False):
 
             output.add(f"{pr.ok}CCC requests: {len(active_wt_pce_req)}")
             # PCE REQUEST FILE - AM
-            need_pce.to_excel(need_pce_file, index=False)
+            need_pce.to_excel(need_ccc_file, index=False)
 
         # GTS REQUESTS
         active_wt_gts_req = active.loc[
@@ -164,9 +164,9 @@ def pm_emails(server=False):
             need_local.to_excel(need_local_file, index=False)
 
             # SEND EMAILS
-            if os.path.isfile(need_pce_file):
+            if os.path.isfile(need_ccc_file):
                 email.set(ccc_email)
-                send_email(need_pce_file)
+                send_email(need_ccc_file)
 
             if os.path.isfile(need_gts_file):
                 email.set(inhts_email)

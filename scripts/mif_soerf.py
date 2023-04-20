@@ -112,7 +112,7 @@ def mif_soerf(server=False):
         else:
             output.add(f"{pr.cncl}No mifs to process")
 
-        if not df_log_soerf.empty:
+        if not df_log_soerf.empty and log:
             output.add(f"{pr.info}Processing soerf data to log")
             ws_soerf = log["soerf"]
             soerf_last_row = ws_soerf.max_row + 1
