@@ -7,7 +7,7 @@ sql_dir = os.path.join(os.getcwd(), "api", "apmm", "sql")
 
 
 def create_log():
-    con, cur = con_apmm()
+    con = con_apmm()[0]
     if con:
         log = get_active()
 
@@ -18,14 +18,14 @@ def create_log():
         with open(os.path.join(sql_dir, "create_log.sql")) as f:
             con.executescript(f.read())
 
-        sel1.to_sql("log", con, if_exists="replace", index=False)
+        sel.to_sql("log", con, if_exists="replace", index=False)
         con.commit()
 
         close_apmm(con)
 
 
 def create_log_view():
-    con, cur = con_apmm()
+    con = con_apmm()[0]
 
     if con:
         with open(os.path.join(sql_dir, "drop_log_view.sql")) as f:

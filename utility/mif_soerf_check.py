@@ -32,6 +32,7 @@ def mif_soerf_check(server=False):
         mifs_submitted = mifs_submitted.iloc[:, [1, 2, 3, 4]]
         for index, row in mifs_submitted.iterrows():
             r = row.apply(str).values
+            r[0] = "MIF"
             output.add(f"{pr.prmt}{r}")
         output.add(f"{pr.done}You have submitted {mifs_submitted.shape[0]} MIFs today.")
     output.add(f"{pr.info}MIFs Requests in the submission folder: {mif_count} \n")
@@ -54,6 +55,7 @@ def mif_soerf_check(server=False):
         soerfs_submitted = soerfs_submitted.iloc[:, [1, 2, 3, 4]]
         for index, row in soerfs_submitted.iterrows():
             r = row.apply(str).values
+            r[1] = "SOERF"
             output.add(f"{pr.prmt}{r}")
         output.add(
             f"{pr.done}You have submitted {soerfs_submitted.shape[0]} SOERFs today."
