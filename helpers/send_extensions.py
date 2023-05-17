@@ -12,7 +12,7 @@ user = os.environ["USER_NAME"]
 mif_in = os.path.join(os.environ["DIR_OUT"], "AP_MIF.xlsx")
 soerf_in = os.path.join(os.environ["DIR_OUT"], "AP_SOERF.xlsx")
 mif_out = rf"\\usmkevfile002\dev-compinfo\EDM\Request Logs\Material Master Extension\MIFs awaiting processing\{user} MIF_{mif_date()}_V38.xls"
-soerf_out = rf"\\usmkevfile002\dev-compinfo\EDM\Request Logs\Material Master Extension\SOERFs awaiting processing\{user} SOERF_{mif_date()}_V11.xls"
+soerf_out = rf"\\usmkevfile002\dev-compinfo\EDM\Request Logs\Material Master Extension\SOERFs awaiting processing\{user} SOERF_{mif_date()}_V12.xls"
 
 
 def extension_xlsx_to_xls(file, new_file):
