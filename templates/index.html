@@ -39,7 +39,11 @@
         </h2>
       </div>
       <div class="title">
+        {% if output %}
+        <h2 class="title-text">{{ script }}</h2>
+        {% else %}
         <h2 class="title-text">Main menu</h2>
+        {% endif %}
       </div>
     </header>
     <section>
@@ -73,7 +77,7 @@
     <div class="container-md d-flex justify-content-center flex-column mb-30">
       <div class="row mt-20">
         <div class="col">
-          <h2>AM Run:</h2>
+          <h3>AM Run:</h3>
           <a href="/requests" class="menu-option">Get current requests</a>
           <a href="/mif_soerf" class="menu-option"
             >Generate MIF / SOERF requests</a
@@ -86,35 +90,29 @@
           >
         </div>
         <div class="col">
-          <h2>PM Run:</h2>
-          <a href="/reconcile_pce" class="menu-option"
+          <h3>PM Run:</h3>
+          <a href="/reconcile_pce" class="menu-option menu-option-red"
             >Reconcile PCE / Update ORG Source</a
           >
-          <a href="/pm_status" class="menu-option"
+          <a href="/pm_status" class="menu-option menu-option-red"
             >Update Material Statuses post MM</a
           >
-          <a href="/pm_emails" class="menu-option"
+          <a href="/pm_emails" class="menu-option menu-option-red"
             >Generate PM CCC, Localization & GTS Requests</a
           >
         </div>
-      </div>
-      <div class="row mt-20">
         <div class="col">
-          <h3>Data:</h3>
+          <h3>Utility:</h3>
           <a href="/get_sap_data" class="menu-option menu-option-green"
             >Download SAP Data</a
           >
           <a href="/proc_sap_data" class="menu-option menu-option-green"
             >Bring SAP Data</a
           >
-          <h3>Application:</h3>
+          <!-- <h3>Application:</h3>
           <a href="/update" class="menu-option menu-option-red"
             >Update program</a
-          >
-          <!-- <li>Close program</li> -->
-        </div>
-        <div class="col">
-          <h3>Utility:</h3>
+          > -->
           <a href="/clean_desktop" class="menu-option menu-option-orange"
             >Archive Requests / working dir</a
           >
@@ -131,6 +129,8 @@
             >Open AP LOG file</a
           > -->
         </div>
+      </div>
+        
       </div>
     </div>
 
