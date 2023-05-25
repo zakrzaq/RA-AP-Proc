@@ -33,17 +33,45 @@
   <body>
     <header class="header">
       <div class="logo">
-        <h1>
+        <h2>
           APMM <br />
           Process
-        </h1>
+        </h2>
       </div>
       <div class="title">
         <h2 class="title-text">Main menu</h2>
       </div>
     </header>
+    <section>
+      <div class="row mt-20">
+        <div class="col sap-scripts">
+          <a href="/single_sap?table=sales_text" class="tag-option"
+            >SALES_TEXT</a
+          >
+          <a href="/single_sap?table=mara" class="tag-option">MARA</a>
+          <a href="/single_sap?table=marc" class="tag-option">MARC</a>
+          <a href="/single_sap?table=mvke" class="tag-option">MVKE</a>
+          <a href="/single_sap?table=ausp" class="tag-option">AUSP</a>
+          <a href="/single_sap?table=mlan" class="tag-option">MLAN</a>
+          <a href="/single_sap?table=price" class="tag-option">PRICE</a>
+          <a href="/single_sap?table=gts" class="tag-option">GTS</a>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container-md d-flex justify-content-center flex-column mb-30">
+        <div class="row">
+          <div class="col">
+            {% if output %}
+            <div class="code-output">{{ output }}</div>
+            <a href="/" class="menu-option">Return</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
     <div class="container-md d-flex justify-content-center flex-column mb-30">
-      <div class="row mt-30">
+      <div class="row mt-20">
         <div class="col">
           <h2>AM Run:</h2>
           <a href="/requests" class="menu-option">Get current requests</a>
@@ -96,26 +124,12 @@
           <a href="/check_daily_report" class="menu-option menu-option-orange">
             Check for daily report uploaded to Sharepoint Repository
           </a>
-          <a href="/open_sap" class="menu-option menu-option-orange"
+          <!-- <a href="/open_sap" class="menu-option menu-option-orange"
             >Open SAP Instance</a
           >
           <a href="/open_log" class="menu-option menu-option-orange"
             >Open AP LOG file</a
-          >
-        </div>
-      </div>
-      <div class="row mt-20">
-        <div class="col sap-scripts">
-          <a href="/single_sap?table=sales_text" class="tag-option"
-            >SALES_TEXT</a
-          >
-          <a href="/single_sap?table=mara" class="tag-option">MARA</a>
-          <a href="/single_sap?table=marc" class="tag-option">MARC</a>
-          <a href="/single_sap?table=mvke" class="tag-option">MVKE</a>
-          <a href="/single_sap?table=ausp" class="tag-option">AUSP</a>
-          <a href="/single_sap?table=mlan" class="tag-option">MLAN</a>
-          <a href="/single_sap?table=price" class="tag-option">PRICE</a>
-          <a href="/single_sap?table=gts" class="tag-option">GTS</a>
+          > -->
         </div>
       </div>
     </div>
