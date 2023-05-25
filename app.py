@@ -34,19 +34,19 @@ def r_index():
 @app.route("/check_daily_report")
 def r_check_daily_report(script="Check for daily report uploaded to Sharepoint"):
     output = check_daily_report(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/clean_desktop")
 def r_clean_desktop(script="Clean working folder & archive request files"):
     output = clean_desktop(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/mif_soerf_check")
 def r_mif_soerf_check(script="Check for MIF/SOERF submitted"):
     output = mif_soerf_check(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/open_sap")
@@ -67,56 +67,56 @@ def r_open_log():
 @app.route("/get_sap_data")
 def r_get_sap_data(script="Download SAP Data"):
     output = get_sap_data(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/proc_sap_data")
 def r_proc_sap_data(script="Bring SAP Data"):
     output = proc_sap_data(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 # SCRIPT ROUTES
 @app.route("/requests")
 def r_requests(script="Get current requests"):
     output = requests(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/mif_soerf")
 def r_mif_soerf(script="Generate MIF / SOERF requests"):
     output = mif_soerf(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/am_status")
 def r_am_status(script="Update Material Statuses pre MM"):
     output = am_status(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/am_emails")
 def r_am_emails(script="Generate AM Price & PCE requests"):
     output = am_emails(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/reconcile_pce")
 def r_reconcile_pce(script="Reconcile PCE / Update ORG Source"):
     output = reconcile_pce(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/pm_status")
 def r_pm_status(script="Update Material Statuses post MM Extension"):
     output = pm_status(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 @app.route("/pm_emails")
 def r_pm_emails(script="Generate PM CCC, Localization & GTS Requests"):
     output = pm_emails(server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)
 
 
 # SYS ROUTES
@@ -132,4 +132,4 @@ def single_sap(script="Single Table SAP data"):
     table = request.args.get("table")
     print(table)
     output = single_sap_data(table, server)
-    return render_template("output.html", script=script, output=output)
+    return render_template("index.html", script=script, output=output)

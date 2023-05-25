@@ -7,8 +7,19 @@
   "language": "en",
   // words - list of words to be always considered correct
   "words": [
+    "apmm",
+    "aprox",
+    "ATINN",
+    "ATWRT",
+    "ausp",
     "cncl",
+    "dchain",
+    "DISMM",
     "dotenv",
+    "DWERK",
+    "executescript",
+    "hypercare",
+    "iloc",
     "isin",
     "isna",
     "iterrows",
@@ -19,7 +30,10 @@
     "mif",
     "mifs",
     "mkeudb",
+    "MMSTA",
     "MTART",
+    "mvke",
+    "OBJEK",
     "openpyxl",
     "oracledb",
     "raint",
@@ -27,7 +41,12 @@
     "serv",
     "soerf",
     "sorg",
-    "visualstudio"
+    "timeframe",
+    "visualstudio",
+    "VKORG",
+    "VMSTA",
+    "WERKS",
+    "Zakrzewski"
   ],
   // flagWords - list of words to be always considered incorrect
   // This is useful for offensive words and common spelling errors.

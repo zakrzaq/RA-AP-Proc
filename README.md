@@ -14,7 +14,7 @@ Install Python on your local machine. Version `3.10` and up recommended.
 
 Execute following commands from `Command Prompt`:
 
-```
+```bash
 git clone <this repository key>
 cd C:\RA-Apps
 REN "RA-RA-AP-Proc" "AP-Proc"
