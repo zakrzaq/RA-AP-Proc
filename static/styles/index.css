@@ -142,7 +142,7 @@ a.tag-option {
   text-decoration: none;
   background-color: var(--v-dark-gray);
   color: var(--white);
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid var(--v-dark-gray);
   transition: 0.3s;
   display: inline-block;
@@ -154,6 +154,17 @@ a.tag-option:hover {
   color: var(--v-dark-gray);
   border: 1px solid var(--v-dark-gray);
   transition: 0.3s;
+}
+
+a.tag-option-red {
+  background-color: var(--red);
+  color: var(--light-gray);
+  border: var(--red) 1px solid;
+}
+a.tag-option-red:hover {
+  background-color: var(--light-gray);
+  color: var(--red);
+  border: var(--red) 1px solid;
 }
 
 .sap-scripts {

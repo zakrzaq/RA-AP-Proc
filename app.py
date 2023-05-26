@@ -15,6 +15,7 @@ from scripts.reconcile_pce import reconcile_pce
 from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
 from scripts.single_sap_data import single_sap_data
+from sap.open import open_sap
 
 server = True
 
@@ -47,18 +48,6 @@ def r_clean_desktop(script="Clean working folder & archive request files"):
 def r_mif_soerf_check(script="Check for MIF/SOERF submitted"):
     output = mif_soerf_check(server)
     return render_template("index.html", script=script, output=output)
-
-
-@app.route("/open_sap")
-def r_open_sap():
-    os.system(r"C:\RA-Apps\AP-Proc\sap\sap.ahk")
-    return redirect("/")
-
-
-@app.route("/open_log")
-def r_open_log():
-    os.system(r"C:\RA-Apps\AP-Proc\sap\log.ahk")
-    return redirect("/")
 
 
 # DATA ROUTES
@@ -124,6 +113,18 @@ def r_pm_emails(script="Generate PM CCC, Localization & GTS Requests"):
 def r_update():
     os.system("git pull")
     return render_template("index.html")
+
+
+@app.route("/open_sap")
+def r_open_sap():
+    open_sap()
+    return render_template("index.html")
+
+
+@app.route("/open_log")
+def r_open_log():
+    os.system(r"C:\RA-Apps\AP-Proc\sap\log.ahk")
+    return redirect("/")
 
 
 # SINGLE SAP DATA ROUTES
