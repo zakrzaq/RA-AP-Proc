@@ -39,25 +39,25 @@ def ih09(table="MARA"):
             ahk.win_wait_active("Display Material: Material List")
             time.sleep(2)
             # save
-            # ahk.send("^+{F7}")
-            # ahk.win_wait_active("Save As")
-            # time.sleep(2)
-            # ahk.send("+{tab} {tab}")
-            # time.sleep(2)
-            # ahk.send(f"{out_file}")
-            # ahk.send("{Enter}")
-            # time.sleep(2)
-            # # close excel results
-            # excel = ahk.win_wait_active(f"{table}.XLSX - Excel")
-            # if ahk.win_exists(f"{table}.XLSX - Excel"):
-            #     ahk.send("^w")
-            #     excel.minimize()
-            # # close sap results
-            # sap_results = ahk.win_wait_active(
-            #     f"Data Browser: Table {table} Select Entries"
-            # )
-            # if sap_results.exist:
-            #     sap_results.close()
+            ahk.send("^+{F7}")
+            ahk.win_wait_active("Save As")
+            time.sleep(2)
+            ahk.send("+{tab} {tab}")
+            time.sleep(2)
+            ahk.send(f"{out_file}")
+            ahk.send("{Enter}")
+            time.sleep(2)
+            # close excel results
+            excel = ahk.win_wait_active(f"{table}.XLSX - Excel")
+            if ahk.win_exists(f"{table}.XLSX - Excel"):
+                ahk.send("^w")
+                excel.minimize()
+            # close sap results
+            sap_results = ahk.win_wait_active(
+                f"Data Browser: Table {table} Select Entries"
+            )
+            if sap_results.exist:
+                sap_results.close()
 
     except TimeoutError:
         print("failed to launch SAP!")

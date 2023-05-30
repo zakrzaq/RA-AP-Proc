@@ -50,7 +50,7 @@ def sqvi(table="PRICE", transaction="LIST_PRICE"):
             # execute
             ahk.send("{F8}")
             ahk.win_wait_active("AP_LIST_PRICE")
-            time.sleep(2)
+            time.sleep(4)
             # save
             ahk.send("{AppsKey}")
             time.sleep(1)
