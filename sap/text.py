@@ -30,8 +30,11 @@ def text(table="SALES_TEXT"):
             ahk.send("{F8}")
             time.sleep(1)
             # paste parts
-            # TODO: tab not choosing correct button
-            ahk.send("{Tab} {Tab} {Tab} {Tab} {Tab}")
+            ahk.send("{Tab}")
+            ahk.send("{Tab}")
+            ahk.send("{Tab}")
+            ahk.send("{Tab}")
+            ahk.send("{Tab}")
             ahk.send("{Enter}")
             ahk.win_wait_active("Multiple Selection for Material Number")
             time.sleep(1)
