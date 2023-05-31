@@ -37,9 +37,25 @@ def ih09(table="MARA"):
             # execute
             ahk.send("{F8}")
             ahk.win_wait_active("Display Material: Material List")
-            time.sleep(2)
+            time.sleep(4)
             # save
-            ahk.send("^+{F7}")
+            # NOTE: old save // issues
+            # ahk.send("^+{F7}")
+            # ahk.win_wait_active("Save As")
+            # time.sleep(2)
+            # ahk.send("+{tab} {tab}")
+            # time.sleep(2)
+            # ahk.send(f"{out_file}")
+            # ahk.send("{Enter}")
+            # time.sleep(2)
+            #  NOTE: new save
+            ahk.send("{AppsKey}")
+            time.sleep(1)
+            ahk.send("{up}")
+            time.sleep(1)
+            ahk.send("{Enter}")
+            time.sleep(1)
+            ahk.send("{Enter}")
             ahk.win_wait_active("Save As")
             time.sleep(2)
             ahk.send("+{tab} {tab}")
@@ -53,9 +69,7 @@ def ih09(table="MARA"):
                 ahk.send("^w")
                 excel.minimize()
             # close sap results
-            sap_results = ahk.win_wait_active(
-                f"Data Browser: Table {table} Select Entries"
-            )
+            sap_results = ahk.win_wait_active(f"Display Material: Material List")
             if sap_results.exist:
                 sap_results.close()
 
