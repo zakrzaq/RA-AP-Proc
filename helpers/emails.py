@@ -6,7 +6,12 @@ def send_email(file):
 
     email = email_state.get()
 
-    outlook = win32.Dispatch("outlook.application")
+    try:
+        outlook = win32.GetActiveObject('Outlook.Application')
+    except:
+        outlook = win32.Dispatch('Outlook.Application')
+
+    # outlook = win32.Dispatch("outlook.application")
     mail = outlook.CreateItem(0)
     mail.To = email["to"]
     mail.cc = email["cc"]
