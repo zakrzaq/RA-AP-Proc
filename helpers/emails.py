@@ -11,16 +11,18 @@ def send_email(file=None):
     except:
         outlook = win32.Dispatch("Outlook.Application")
 
-    # outlook = win32.Dispatch("outlook.application")
-    mail = outlook.CreateItem(0)
-    mail.To = email["to"]
-    mail.cc = email["cc"]
-    mail.Subject = email["subject"]
-    mail.body = email["body"]
-    if file != None:
-        mail.Attachments.Add(file)
-    mail.Send()
-    outlook.Quit()
+    if outlook:
+        mail = outlook.CreateItem(0)
+        mail.To = email["to"]
+        mail.cc = email["cc"]
+        mail.Subject = email["subject"]
+        mail.body = email["body"]
+        if file != None:
+            mail.Attachments.Add(file)
+        mail.Send()
+        outlook.Quit()
 
-    email_state.reset()
-    output.add(f"{pr.email}Email {email['subject']} sent")
+        email_state.reset()
+        output.add(f"{pr.email}Email {email['subject']} sent")
+    else:
+        output.add(f"{pr.cncl}Failed to connect to Outlook")

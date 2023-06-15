@@ -1,6 +1,5 @@
 def pm_emails(server=False):
     import os
-    import pythoncom
     import pandas as pd
     from datetime import date
 
@@ -9,6 +8,7 @@ def pm_emails(server=False):
         end_script,
         use_dotenv,
         use_logger,
+        coinit,
     )
     from helpers.data_frames import get_active
     import helpers.prompts as pr
@@ -20,7 +20,7 @@ def pm_emails(server=False):
     use_dotenv()
     use_logger()
     ignore_warnings()
-    pythoncom.CoInitialize()
+    coinit()
 
     today = date.today().strftime("%m-%d-%Y")
     active = get_active()
@@ -65,6 +65,10 @@ def pm_emails(server=False):
                 ]
             ]
             need_pce["new PCE assessment"] = ""
+            # remove duplicates
+            need_pce.drop_duplicates(
+                subset=["SAP MATNR\n(from request form)", "target sorg"], keep="last"
+            )
             # need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
             #     'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)
             # need_pce['Date Added'] = need_pce['Date Added'].dt.strftime('%m/%d/%Y')
