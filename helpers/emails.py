@@ -1,4 +1,4 @@
-def send_email(file):
+def send_email(file=None):
     import win32com.client as win32
     from state.email import email as email_state
     from state.output import output
@@ -7,11 +7,9 @@ def send_email(file):
     email = email_state.get()
 
     try:
-        outlook = win32.GetActiveObject('Outlook.Application')
-        print('got outlook')
+        outlook = win32.GetActiveObject("Outlook.Application")
     except:
-        outlook = win32.Dispatch('Outlook.Application')
-        print('create new instance')
+        outlook = win32.Dispatch("Outlook.Application")
 
     # outlook = win32.Dispatch("outlook.application")
     mail = outlook.CreateItem(0)
@@ -19,8 +17,10 @@ def send_email(file):
     mail.cc = email["cc"]
     mail.Subject = email["subject"]
     mail.body = email["body"]
-    mail.Attachments.Add(file)
+    if file != None:
+        mail.Attachments.Add(file)
     mail.Send()
+    outlook.Quit()
 
     email_state.reset()
     output.add(f"{pr.email}Email {email['subject']} sent")
