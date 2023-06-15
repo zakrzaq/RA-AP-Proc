@@ -8,8 +8,10 @@ def send_email(file):
 
     try:
         outlook = win32.GetActiveObject('Outlook.Application')
+        print('got outlook')
     except:
         outlook = win32.Dispatch('Outlook.Application')
+        print('create new instance')
 
     # outlook = win32.Dispatch("outlook.application")
     mail = outlook.CreateItem(0)
