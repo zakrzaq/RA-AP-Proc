@@ -10,7 +10,7 @@ from scripts.pm_status import pm_status
 from scripts.am_emails import am_emails
 from scripts.am_status import am_status
 from scripts.mif_soerf import mif_soerf
-from scripts.requests import requests
+from scripts.requests import get_requests
 from scripts.reconcile_pce import reconcile_pce
 from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
@@ -67,7 +67,7 @@ def get_menu_choice():
         print("\n")
 
         if choice == "1":
-            requests(server)
+            get_requests(server)
             clear()
         elif choice == "2":
             mif_soerf(server)

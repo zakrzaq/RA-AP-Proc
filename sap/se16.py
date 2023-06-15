@@ -4,13 +4,14 @@ import time
 import os
 from sap.open import get_sap
 from helpers.helpers import use_dotenv
+from helpers.data_frames import get_single_sap
 
 ahk = AHK(directives=[NoTrayIcon])
 # ahk.set_detect_hidden_windows(True)
 # ahk.set_title_match_mode(("RegEx", "Slow"))
 
 
-def se16(table="MVKE"):
+def se16(table="MVKE", copy_result=False):
     use_dotenv()
     out_file = os.path.join(os.environ["DIR_IN"], f"{table}.XLSX")
 
@@ -78,6 +79,10 @@ def se16(table="MVKE"):
             )
             if sap_results.exist:
                 sap_results.close()
+
+            if copy_result:
+                df = get_single_sap(table)
+                df.to_clipboard(index=False)
 
     except TimeoutError:
         print("failed to launch SAP!")

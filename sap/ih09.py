@@ -4,13 +4,14 @@ import time
 import os
 from sap.open import get_sap
 from helpers.helpers import use_dotenv
+from helpers.data_frames import get_single_sap
 
 ahk = AHK(directives=[NoTrayIcon])
-# ahk.set_detect_hidden_windows(True)
-# ahk.set_title_match_mode(("RegEx", "Slow"))
+ahk.set_detect_hidden_windows(True)
+ahk.set_title_match_mode(("RegEx", "Slow"))
 
 
-def ih09(table="MARA"):
+def ih09(table="MARA", copy_result=False):
     use_dotenv()
     out_file = os.path.join(os.environ["DIR_IN"], f"{table}.XLSX")
 
@@ -49,7 +50,7 @@ def ih09(table="MARA"):
             # ahk.send("{Enter}")
             # time.sleep(2)
             #  NOTE: new save
-            ahk.send("{AppsKey}")
+            ahk.send("+{F10}")
             time.sleep(1)
             ahk.send("{up}")
             time.sleep(1)
@@ -72,6 +73,10 @@ def ih09(table="MARA"):
             sap_results = ahk.win_wait_active(f"Display Material: Material List")
             if sap_results.exist:
                 sap_results.close()
+
+            if copy_result:
+                df = get_single_sap(table)
+                df.to_clipboard(index=False)
 
     except TimeoutError:
         print("failed to launch SAP!")

@@ -1,4 +1,4 @@
-def get_sap_data(server=False):
+def get_sap_data(server=False, mode="all"):
     import time
     import pandas as pd
     import os
@@ -29,12 +29,18 @@ def get_sap_data(server=False):
     material_list.to_clipboard(sep="\n", index=False)
 
     # RUN ALL DATA SCRIPTS
-    text.text()
-    ih09.ih09()
-    tables = ["MARC", "MVKE", "AUSP", "MLAN"]
-    for t in tables:
-        se16.se16(t)
-    sqvi.sqvi()
-    gts.gts()
+    if mode == "all":
+        text.text()
+        ih09.ih09()
+        tables = ["MARC", "MVKE", "AUSP", "MLAN"]
+        for t in tables:
+            se16.se16(t)
+        sqvi.sqvi()
+        gts.gts()
+    elif mode == "refresh":
+        text.text()
+        se16.se16("MARC")
+        se16.se16("MVKE")
+        se16.se16("AUSP")
 
     return end_script(server)

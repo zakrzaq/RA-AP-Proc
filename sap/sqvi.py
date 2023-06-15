@@ -2,15 +2,17 @@ from ahk import AHK
 from ahk.directives import NoTrayIcon
 import time
 import os
+
 from sap.open import get_sap
 from helpers.helpers import use_dotenv
+from helpers.data_frames import get_single_sap
 
 ahk = AHK(directives=[NoTrayIcon])
-# ahk.set_detect_hidden_windows(True)
-# ahk.set_title_match_mode(("RegEx", "Slow"))
+ahk.set_detect_hidden_windows(True)
+ahk.set_title_match_mode(("RegEx", "Slow"))
 
 
-def sqvi(table="PRICE", transaction="LIST_PRICE"):
+def sqvi(table="PRICE", transaction="LIST_PRICE", copy_result=False):
     use_dotenv()
     out_file = os.path.join(os.environ["DIR_IN"], f"{table}.XLSX")
 
@@ -50,9 +52,9 @@ def sqvi(table="PRICE", transaction="LIST_PRICE"):
             # execute
             ahk.send("{F8}")
             ahk.win_wait_active("AP_LIST_PRICE")
-            time.sleep(4)
+            time.sleep(5)
             # save
-            ahk.send("{AppsKey}")
+            ahk.send("+{F10}")
             time.sleep(1)
             ahk.send("{up}")
             time.sleep(1)
@@ -75,6 +77,10 @@ def sqvi(table="PRICE", transaction="LIST_PRICE"):
             sap_results = ahk.win_wait_active("AP_LIST_PRICE")
             if sap_results.exist:
                 sap_results.close()
+
+            if copy_result:
+                df = get_single_sap(table)
+                df.to_clipboard(index=False)
 
     except TimeoutError:
         print("failed to launch SAP!")

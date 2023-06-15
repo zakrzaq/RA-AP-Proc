@@ -8,6 +8,17 @@ from state.output import output
 use_dotenv()
 
 
+def df_to_list(df):
+    print(df)
+    out = []
+    for i, r in df.iterrows():
+        row = []
+        for n in r.values:
+            row.append(n)
+        out.append(row)
+    return out
+
+
 def get_active(sheet_name="Active Materials"):
     try:
         df = pd.read_excel(os.environ["AP_LOG"], sheet_name=sheet_name, dtype=str)
@@ -70,6 +81,17 @@ def get_selected_active():
     except:
         output.add(f"{pr.cncl}Failed getting Selected Active View")
         return pd.DataFrame()
+
+
+def get_active_requests():
+    df = get_active()
+    df["Date Added"] = pd.to_datetime(df["Date Added"], errors="coerce").dt.strftime(
+        "%d/%m/%Y"
+    )
+    df = df.fillna("")
+    df = df.iloc[:, :14]
+    out = df_to_list(df)
+    return out if len(out) > 0 else []
 
 
 def get_archive(sheet_name="archive starting 3-15-2014"):
@@ -156,3 +178,8 @@ def handle_eod_report(file):
     }
 
     return output
+
+
+def get_single_sap(table: str):
+    filename = table + ".xls" if table == "sales_text" else table + ".xlsx"
+    return pd.read_excel(os.path.join(os.environ["DIR_IN"], filename))

@@ -4,13 +4,14 @@ import time
 import os
 from sap.open import get_sap
 from helpers.helpers import use_dotenv
+from helpers.data_frames import get_single_sap
 
 ahk = AHK(directives=[NoTrayIcon])
-# ahk.set_detect_hidden_windows(True)
-# ahk.set_title_match_mode(("RegEx", "Slow"))
+ahk.set_detect_hidden_windows(True)
+ahk.set_title_match_mode(("RegEx", "Slow"))
 
 
-def gts(table="GTS"):
+def gts(table="GTS", copy_result=False):
     use_dotenv()
     out_file = os.path.join(os.environ["DIR_IN"], f"{table}.XLSX")
 
@@ -44,12 +45,27 @@ def gts(table="GTS"):
             ahk.win_wait_active("Export / Import Classification Report")
             time.sleep(5)
             # save
-            ahk.send("^{F2}")
+            ahk.send("+{F10}")
+            time.sleep(1)
+            ahk.send("{up}")
+            time.sleep(1)
+            ahk.send("{Enter}")
+            time.sleep(1)
+            ahk.send("{Enter}")
+            ahk.win_wait_active("Save As")
             time.sleep(2)
             ahk.send("+{tab} {tab}")
             time.sleep(2)
             ahk.send(f"{out_file}")
             ahk.send("{Enter}")
+            time.sleep(2)
+            # OLD
+            # ahk.send("^{F2}")
+            # time.sleep(2)
+            # ahk.send("+{tab} {tab}")
+            # time.sleep(2)
+            # ahk.send(f"{out_file}")
+            # ahk.send("{Enter}")
             time.sleep(2)
             # close excel results
             excel = ahk.win_wait_active(f"{table}.XLSX - Excel")
@@ -60,6 +76,10 @@ def gts(table="GTS"):
             gts_results = ahk.win_wait_active("Export / Import Classification Report")
             if gts_results.exist:
                 gts_results.close()
+
+            if copy_result:
+                df = get_single_sap(table)
+                df.to_clipboard(index=False)
 
     except TimeoutError:
         print("failed to launch SAP!")

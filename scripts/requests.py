@@ -1,4 +1,4 @@
-def requests(server=False):
+def get_requests(server=False):
     import pandas as pd
     import os
     from openpyxl.formula.translate import Translator
@@ -52,6 +52,7 @@ def requests(server=False):
                 if cell.value is None:
                     ws_active_firstrow = cell.row
                     break
+            # TODO: set date format to excel column
 
             requests = requests.fillna("")
             requests_output = []

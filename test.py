@@ -1,47 +1,79 @@
-# from sap.se16 import se16
-# from sap.gts import gts
-# from sap.ih09 import ih09
-# from sap.sqvi import sqvi
-# from sap.text import text
-
-# tables = ["MARC", "MVKE", "AUSP", "MLAN"]
-
-# text()
-# ih09()
-# for t in tables:
-#     se16(t)
-# sqvi()
-# gts()
-
 import os
-from helpers.helpers import ignore_warnings, use_dotenv
-
-import polars as pl
 import pandas as pd
+
+from helpers.helpers import use_dotenv
+from api.apmm.apmm_connector import con_apmm, close_apmm
 
 use_dotenv()
 
-mara = pd.read_excel(os.path.join(os.environ["DIR_IN"], "MARA.XLSX"))
-mara.to_csv(os.path.join(os.environ["DIR_IN"], "mara.csv"))
-mara = pl.read_excel(os.path.join(os.environ["DIR_IN"], "MARA.XLSX"))
+files = {
+    "data": os.path.join(os.environ["DIR_OUT"], "TEST_sap_load.xlsx"),
+    "ap_log": os.environ["AP_LOG"],
+}
 
-marc = pd.read_excel(os.path.join(os.environ["DIR_IN"], "MARC.XLSX"))
-marc.to_csv(os.path.join(os.environ["DIR_IN"], "marc.csv"))
-marc = pl.read_excel(os.path.join(os.environ["DIR_IN"], "MARC.XLSX"))
+table = "log"
+sheet = "log"
 
-# mvke = pl.read_excel(os.path.join(os.environ["DIR_IN"], "MVKE.XLSX"))
+df = pd.DataFrame()
+df = pd.read_excel(files["data"])
+# df = pd.read_excel(files["ap_log"], sheet)
 
-# ausp = pl.read_excel(os.path.join(os.environ["DIR_IN"], "AUSP.XLSX"))
+if not df.empty:
+    print(list(df.columns))
+    print(df.dtypes)
 
-# mlan = pl.read_excel(os.path.join(os.environ["DIR_IN"], "MLAN.XLSX"))
+match table:
+    case "mif":
+        columns = ["matnr", "dwerk", "concat", "date"]
+        df.columns = columns
+        df = df.drop(columns=["concat"])
+        df["matnr"] = df["matnr"].astype("str")
+        df["dwerk"] = df["dwerk"].map(lambda x: str(x)[:-2])
+        df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
+    case "soerf":
+        columns = ["matnr", "cat_no", "vkorg", "concat", "date"]
+        df.columns = columns
+        df = df.drop(columns=["concat"])
+        df["matnr"] = df["matnr"].astype("str")
+        df["cat_no"] = df["cat_no"].astype("str")
+        df["vkorg"] = df["vkorg"].map(lambda x: str(x)[:-2])
+        df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
+    case "pce":
+        columns = [
+            "concat",
+            "matnr",
+            "klart",
+            "certification",
+            "assesment",
+            "date",
+            "assesor",
+        ]
+        df.columns = columns
+        df = df.drop(columns=["concat", "assesor"])
+        df["matnr"] = df["matnr"].astype("str")
+        df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
+    case "pce_archive":
+        columns = [
+            "concat",
+            "matnr",
+            "klart",
+            "certification",
+            "assesment",
+            "date",
+            "assesor",
+        ]
+        df.columns = columns
+        df = df.drop(columns=["concat", "assesor"])
+        df["matnr"] = df["matnr"].astype("str")
+        df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
+    case _:
+        print("no table matched")
 
-# gts = pl.read_excel(os.path.join(os.environ["DIR_IN"], "GTS.XLSX"))
-
-# price = pl.read_excel(os.path.join(os.environ["DIR_IN"], "PRICE.XLSX"))
-
-# text = pl.read_excel(os.path.join(os.environ["DIR_IN"], "sales_text.XLS"))
+con, cur = con_apmm()
+if con and not df.empty:
+    df.to_sql(table, con=con, index=False)
 
 
-# dfs = [mara, marc, mvke, ausp, mlan, gts, price, text]
-# for df in dfs:
-#     print(df.head())
+from api.queries import get_json_data
+
+print(get_json_data("select_all"))

@@ -27,19 +27,19 @@ def single_sap_data(table: str | None, server=False):
 
         match table:
             case "mara":
-                ih09.ih09()
+                ih09.ih09("MARA", True)
             case "marc":
-                se16.se16("MARC")
+                se16.se16("MARC", True)
             case "mvke":
-                se16.se16("MVKE")
+                se16.se16("MVKE", True)
             case "ausp":
-                se16.se16("AUSP")
+                se16.se16("AUSP", True)
             case "mlan":
-                se16.se16("MLAN")
+                se16.se16("MLAN", True)
             case "gts":
-                gts.gts()
+                gts.gts("GTS", True)
             case "price":
-                sqvi.sqvi()
+                sqvi.sqvi(copy_result=True)
             case "text":
                 text.text()
             case _:
