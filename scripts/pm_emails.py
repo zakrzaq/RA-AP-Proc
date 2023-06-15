@@ -1,5 +1,6 @@
 def pm_emails(server=False):
     import os
+    import pythoncom
     import pandas as pd
     from datetime import date
 
@@ -19,6 +20,7 @@ def pm_emails(server=False):
     use_dotenv()
     use_logger()
     ignore_warnings()
+    pythoncom.CoInitialize()
 
     today = date.today().strftime("%m-%d-%Y")
     active = get_active()
