@@ -3,15 +3,12 @@ setup: requirements.txt
 	.\venv\Scripts\Activate.ps1
 	pip install -r requirements.txt
 
-setup-lin:
+setup-lin: requirements.txt
 	python -m venv env
 	source ./env/Scripts/activate
 	pip install -r requirements.txt
 
-run-test:
-	python ap_proc.py test
-
-run-prod:
+run-cli:
 	python ap_proc.py test
 
 run-server:
