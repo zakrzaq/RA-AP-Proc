@@ -5,6 +5,8 @@ import os
 from sap.open import get_sap
 from helpers.helpers import use_dotenv
 from helpers.data_frames import get_single_sap
+from state.output import output
+import helpers.prompts as pr
 
 ahk = AHK(directives=[NoTrayIcon])
 ahk.set_detect_hidden_windows(True)
@@ -17,7 +19,9 @@ def ih09(table="MARA", copy_result=False):
 
     try:
         sap = get_sap()
+        output.add(f"{pr.conn}Connected to SAP")
         if sap:
+            output.add(f"Downloading {table} from SAP")
             if os.path.exists(out_file):
                 os.remove(out_file)
             sap.activate()
@@ -68,6 +72,7 @@ def ih09(table="MARA", copy_result=False):
             excel = ahk.win_wait_active(f"{table}.XLSX - Excel")
             if ahk.win_exists(f"{table}.XLSX - Excel"):
                 ahk.send("^w")
+                time.sleep(1)
                 excel.minimize()
             # close sap results
             sap_results = ahk.win_wait_active(f"Display Material: Material List")
@@ -78,5 +83,8 @@ def ih09(table="MARA", copy_result=False):
                 df = get_single_sap(table)
                 df.to_clipboard(index=False)
 
+            output.add(f"{pr.ok}{table} data downloaded")
+
     except TimeoutError:
-        print("failed to launch SAP!")
+        output.add("failed to launch SAP!")
+

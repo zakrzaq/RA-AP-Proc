@@ -4,6 +4,8 @@ import time
 import os
 from sap.open import get_sap
 from helpers.helpers import use_dotenv
+from state.output import output
+import helpers.prompts as pr
 
 ahk = AHK(directives=[NoTrayIcon])
 # ahk.set_detect_hidden_windows(True)
@@ -16,6 +18,7 @@ def text(table="SALES_TEXT"):
 
     try:
         sap = get_sap()
+        output.add(f"{pr.conn}Connected to SAP")
         if sap:
             if os.path.exists(out_file):
                 os.remove(out_file)
@@ -45,5 +48,7 @@ def text(table="SALES_TEXT"):
             # execute
             ahk.send("{F8}")
 
+            output.add(f"{pr.ok}{table} data downloaded")
+
     except TimeoutError:
-        print("failed to launch SAP!")
+        output.add("failed to launch SAP!")

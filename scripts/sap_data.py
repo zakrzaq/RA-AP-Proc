@@ -29,6 +29,7 @@ def get_sap_data(server=False, mode="all"):
     material_list.to_clipboard(sep="\n", index=False)
 
     # RUN ALL DATA SCRIPTS
+    output.add(f"{pr.info}Download {mode} SAP data")
     if mode == "all":
         text.text()
         ih09.ih09()
