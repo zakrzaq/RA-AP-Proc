@@ -70,17 +70,17 @@ def clean_desktop(server=False):
                     or ("ap form " in f)
                 ):
                     handle_archive(f, dir_ap_req_archive)
-                if (
-                    ("mara" in f.casefold())
-                    or ("marc" in f.casefold())
-                    or ("mvke" in f.casefold())
-                    or ("ausp" in f.casefold())
-                    or ("mlan" in f.casefold())
-                    or ("price" in f.casefold())
-                    or ("gts" in f.casefold())
-                    or ("sales_text" in f.casefold())
-                ):
-                    handle_remove(f)
+                # if (
+                #     ("mara" in f.casefold())
+                #     or ("marc" in f.casefold())
+                #     or ("mvke" in f.casefold())
+                #     or ("ausp" in f.casefold())
+                #     or ("mlan" in f.casefold())
+                #     or ("price" in f.casefold())
+                #     or ("gts" in f.casefold())
+                #     or ("sales_text" in f.casefold())
+                # ):
+                #     handle_remove(f)
                 if "UPDATES TO Z62" in f:
                     handle_remove(f)
 

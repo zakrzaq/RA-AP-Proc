@@ -1,4 +1,4 @@
-def requests(server=False):
+def get_requests(server=False):
     import pandas as pd
     import os
     from openpyxl.formula.translate import Translator
@@ -52,6 +52,7 @@ def requests(server=False):
                 if cell.value is None:
                     ws_active_firstrow = cell.row
                     break
+            # TODO: set date format to excel column
 
             requests = requests.fillna("")
             requests_output = []
@@ -161,7 +162,8 @@ def requests(server=False):
                     if "SAP MATNR" in row[4].value:
                         continue
                     elif row[4].value.isnumeric():
-                        active_matnr_list += "000000000000000000" + row[4].value + "\n"
+                        numeric_matnr = (18 - len(row[4])) * '0' + str(row[4].value)
+                        active_matnr_list += numeric_matnr + "\n"
                     else:
                         active_matnr_list += row[4].value + "\n"
             file.write(active_matnr_list)

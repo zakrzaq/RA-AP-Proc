@@ -51,3 +51,9 @@ def extend_values(sheet, start_row=100, col_letter="A"):
     while i < last_row:
         i += 1
         sheet[f"{col_letter}{i}"].value = last_row_value
+
+
+def get_last_row(worksheet, col):
+    for row in worksheet.iter_rows():
+        if row[0].value == None:
+            empty_row = row[0].row

@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, Response
+from flask_cors import CORS, cross_origin
 
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
@@ -10,15 +11,17 @@ from scripts.pm_status import pm_status
 from scripts.am_emails import am_emails
 from scripts.am_status import am_status
 from scripts.mif_soerf import mif_soerf
-from scripts.requests import requests
+from scripts.requests import get_requests
 from scripts.reconcile_pce import reconcile_pce
 from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
 from scripts.single_sap_data import single_sap_data
+from sap.open import open_sap
 
 server = True
 
 app = Flask(__name__)
+CORS(app)
 
 # HOME ROUTE
 
@@ -49,18 +52,6 @@ def r_mif_soerf_check(script="Check for MIF/SOERF submitted"):
     return render_template("index.html", script=script, output=output)
 
 
-@app.route("/open_sap")
-def r_open_sap():
-    os.system(r"C:\RA-Apps\AP-Proc\sap\sap.ahk")
-    return redirect("/")
-
-
-@app.route("/open_log")
-def r_open_log():
-    os.system(r"C:\RA-Apps\AP-Proc\sap\log.ahk")
-    return redirect("/")
-
-
 # DATA ROUTES
 
 
@@ -79,7 +70,7 @@ def r_proc_sap_data(script="Bring SAP Data"):
 # SCRIPT ROUTES
 @app.route("/requests")
 def r_requests(script="Get current requests"):
-    output = requests(server)
+    output = get_requests(server)
     return render_template("index.html", script=script, output=output)
 
 
@@ -126,6 +117,18 @@ def r_update():
     return render_template("index.html")
 
 
+@app.route("/open_sap")
+def r_open_sap():
+    open_sap()
+    return render_template("index.html")
+
+
+@app.route("/open_log")
+def r_open_log():
+    os.system(r"C:\RA-Apps\AP-Proc\sap\log.ahk")
+    return redirect("/")
+
+
 # SINGLE SAP DATA ROUTES
 @app.route("/single_sap")
 def single_sap(script="Single Table SAP data"):
@@ -133,3 +136,14 @@ def single_sap(script="Single Table SAP data"):
     print(table)
     output = single_sap_data(table, server)
     return render_template("index.html", script=script, output=output)
+
+
+# API ROUTES
+from api.queries import get_json_data
+
+
+@app.route("/api/all")
+@cross_origin()
+def api_all():
+    response = Response(get_json_data("select_all"))
+    return response

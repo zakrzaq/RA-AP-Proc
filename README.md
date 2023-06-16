@@ -8,6 +8,9 @@ Developed for RA-INT to support extension of Material Master items with current 
 
 `Python` 3.10 and up
 
+'make' command for terminal
+> Google 'install make on windows' and follow the guide
+
 ## SETUP
 
 Install Python on your local machine. Version `3.10` and up recommended.
@@ -31,7 +34,7 @@ EDM_APMM='<your_end_drive_letter>:\Request Logs\APMM'
 ```
 
 Edit corresponding lines in your `.rtd_config.py` using any text editor:
-file located in `C:\RA-Apps\AP-Proc`
+file located in `C:\RA-Apps\AP-Proc\configs`
 
 ```
 RTD_USR='your_user_name'
@@ -39,11 +42,21 @@ RTD_PSW='your_password'
 RTD_STR='rtd db connection string'
 ```
 
+Edit corresponding lines in your `.sap.py` using any text editor:
+file located in `C:\RA-Apps\AP-Proc\configs`
+
+<!-- TODO: to be changed-->
+<!-- ``` -->
+<!-- RTD_USR='your_user_name' -->
+<!-- RTD_PSW='your_password' -->
+<!-- RTD_STR='rtd db connection string' -->
+<!-- ``` -->
+
 ## USAGE
 
-Execute via `ap_proc.bat` for CLI Interface
+Execute via `make run-cli` for CLI Interface
 
-Execute via `ap_serv.bat` for web interface accessible on [here](http://localhost:5000)
+Execute via `make run-server` for web interface accessible on [here](http://localhost:5000)
 
 **IMPORTANT:** AP LOG file has to be closed on local machine to execute any scripts.
 
@@ -102,7 +115,7 @@ sales_text.xlsx
 
 ### DATA: Bring SAP Data
 
-Will bring SAP data to AP LOG.
+Will bring SAP data from files fetched in previous step to AP LOG.
 
 ### UTILITY: Clean working folder & archive request files
 
@@ -136,20 +149,11 @@ It says it on the tin.
 
 ## BUGFIXES
 
-- [x] check for log being open on every script
 - [ ] archive PCE requests file name issue
 - [ ] am_status to handle PROD CERT by review date
 - [ ] status messages on SAP data script
-- [x] MKVE|MARC.ahk SAP error/crash on large data loads
-  - [x] AHK reliability SE16
-  - [x] AHK reliability rest
-- [x] get SAP data lower/upper case file name issue
 - [ ] improve excel DATE FORMATS
 - [ ] mif / sorf data bring incorrect date
-- [x] BIS only on PCE status finder
-- [x] PCE finder to include Prod Cert Review
-- [x] Flask: Check daily report server error
-- [x] Flask: clean server error
 
 ## TODO 1.5
 
@@ -201,8 +205,8 @@ It says it on the tin.
   - [x] error logging for CLI
   - [x] error logging for API
 - [x] SAP data import
-  - [ ] LRF? current 8 scripts / on LFR will 10 + 2
   - [x] AutoHotKey
+  - [ ] more repliable solution needed
 - [x] REST API using Flask
   - [x] user interface
   - [x] mechanics
@@ -215,4 +219,3 @@ It says it on the tin.
 
 ## Notes
 
-> Tyler Luoma for CR // is he Python?

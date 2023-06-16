@@ -12,17 +12,12 @@ def proc_sap_data(server=False):
     from helpers.xlsm import populate_sap_data_sheet, extend_concats
     import helpers.prompts as pr
     from state.output import output
-    from api.apmm.apmm_connector import con_apmm
-    from api.apmm.apmm_log import create_log, create_log_view
 
     use_dotenv()
     use_logger()
     ignore_warnings()
 
     output.reset()
-    sql_dir = os.path.join(os.getcwd(), "api", "apmm", "sql")
-
-    con, cur = con_apmm()
 
     log = load_log()
     if log:
@@ -79,23 +74,6 @@ def proc_sap_data(server=False):
             gts = pd.read_excel(fl_gts)
         if os.path.exists(fl_text):
             text = pd.read_csv(fl_text, sep="\t", encoding="utf-16")
-
-        if con:
-            output.add(f"{pr.conn}Uploading to APMM")
-            try:
-                mara.to_sql("mara", con, if_exists="replace", index=False)
-                marc.to_sql("marc", con, if_exists="replace", index=False)
-                mvke.to_sql("mvke", con, if_exists="replace", index=False)
-                ausp.to_sql("ausp", con, if_exists="replace", index=False)
-                mlan.to_sql("mlan", con, if_exists="replace", index=False)
-                gts.to_sql("gts", con, if_exists="replace", index=False)
-                text.to_sql("sales_text", con, if_exists="replace", index=False)
-                create_log()
-                create_log_view()
-                output.add(f"{pr.done}APMM updated")
-
-            except:
-                output.add(f"{pr.cncl}APMM failed to update")
 
         inputs_list = [mara, marc, mvke, ausp, mlan, price, gts, text]
 
