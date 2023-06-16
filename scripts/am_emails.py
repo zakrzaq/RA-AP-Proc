@@ -107,6 +107,10 @@ def am_emails(server=False):
             ]
             need_pce["new PCE assessment"] = ""
             need_pce["Date Added"] = need_pce["Date Added"].map(format_request_date)
+            # remove duplicates
+            need_pce.drop_duplicates(
+                subset=["SAP MATNR\n(from request form)", "target sorg"], keep="last"
+            )
             # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
             # need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
             #     'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)

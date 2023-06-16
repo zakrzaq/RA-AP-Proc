@@ -3,6 +3,8 @@ import dotenv
 import warnings
 import logging
 import platform
+import pythoncom
+
 from state.output import output
 
 
@@ -76,3 +78,7 @@ def clear():
         return os.system("cls")
     else:
         return os.system("clear")
+
+
+def coinit():
+    pythoncom.CoInitialize()
