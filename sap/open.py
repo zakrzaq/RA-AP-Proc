@@ -33,7 +33,6 @@ def open_sap():
 def get_sap():
     win = ahk.find_window(title="SAP Easy Access")
     if win:
-        output.add(f"{pr.conn}SAP instance already running")
         return win
     else:
         open_sap()

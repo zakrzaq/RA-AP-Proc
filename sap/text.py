@@ -18,7 +18,6 @@ def text(table="SALES_TEXT"):
 
     try:
         sap = get_sap()
-        output.add(f"{pr.conn}Connected to SAP")
         if sap:
             if os.path.exists(out_file):
                 os.remove(out_file)

@@ -19,7 +19,6 @@ def se16(table="MVKE", copy_result=False):
 
     try:
         sap = get_sap()
-        output.add(f"{pr.conn}Connected to SAP")
         if sap:
             output.add(f"Downloading {table} from SAP")
             if os.path.exists(out_file):
