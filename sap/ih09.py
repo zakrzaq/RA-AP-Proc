@@ -2,6 +2,8 @@ from ahk import AHK
 from ahk.directives import NoTrayIcon
 import time
 import os
+
+from numpy import count_nonzero
 from sap.open import get_sap
 from helpers.helpers import use_dotenv
 from helpers.data_frames import get_single_sap
@@ -20,7 +22,7 @@ def ih09(table="MARA", copy_result=False):
     try:
         sap = get_sap()
         if sap:
-            output.add(f"Downloading {table} from SAP")
+            output.add(f"{pr.info}Downloading {table} from SAP")
             if os.path.exists(out_file):
                 os.remove(out_file)
             sap.activate()
@@ -85,4 +87,4 @@ def ih09(table="MARA", copy_result=False):
             output.add(f"{pr.ok}{table} data downloaded")
 
     except TimeoutError:
-        output.add("failed to launch SAP!")
+        output.add(f"{pr.cncl}failed to launch SAP!")

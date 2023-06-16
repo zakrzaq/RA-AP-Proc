@@ -21,7 +21,7 @@ def sqvi(table="PRICE", transaction="LIST_PRICE", copy_result=False):
     try:
         sap = get_sap()
         if sap:
-            output.add(f"Downloading {table} from SAP")
+            output.add(f"{pr.info}Downloading {table} from SAP")
             if os.path.exists(out_file):
                 os.remove(out_file)
             sap.activate()
@@ -88,4 +88,4 @@ def sqvi(table="PRICE", transaction="LIST_PRICE", copy_result=False):
             output.add(f"{pr.ok}{table} data downloaded")
 
     except TimeoutError:
-        output.add("failed to launch SAP!")
+        output.add(f"{pr.cncl}failed to launch SAP!")

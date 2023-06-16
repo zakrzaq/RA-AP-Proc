@@ -18,7 +18,7 @@ def single_sap_data(table: str | None, server=False):
     # READ LIST OF MATERIALS
     output.add(f"{pr.info}Loading current material list")
     material_list = pd.read_csv(f_materials_list, header=None)
-    output.add(f"{pr.ok}Material in list today: {len(material_list)}")
+    output.add(f"{pr.info}Material in list today: {len(material_list)}")
     material_list.to_clipboard(sep="\n", index=False)
 
     if table:

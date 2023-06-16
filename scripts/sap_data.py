@@ -25,7 +25,7 @@ def get_sap_data(server=False, mode="all"):
 
     # READ LIST OF MATERIALS
     material_list = pd.read_csv(f_materials_list, header=None)
-    output.add(f"{pr.prmt}Material in list today: {len(material_list)}")
+    output.add(f"{pr.info}Material in list today: {len(material_list)}")
     material_list.to_clipboard(sep="\n", index=False)
 
     # RUN ALL DATA SCRIPTS

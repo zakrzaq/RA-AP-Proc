@@ -27,7 +27,7 @@ def open_sap():
         ahk.send_input("{Enter}")
         output.add(f"{pr.conn}SAP instance running")
     except TimeoutError:
-        output.add("failed to launch SAP!")
+        output.add(f"{pr.cncl}failed to launch SAP!")
 
 
 def get_sap():

@@ -19,6 +19,7 @@ def text(table="SALES_TEXT"):
     try:
         sap = get_sap()
         if sap:
+            output.add(f"{pr.info}Downloading {table} from SAP")
             if os.path.exists(out_file):
                 os.remove(out_file)
             sap.activate()
@@ -47,7 +48,7 @@ def text(table="SALES_TEXT"):
             # execute
             ahk.send("{F8}")
 
-            output.add(f"{pr.ok}{table} data downloaded")
+            output.add(f"{pr.ok}{table} data download in progress")
 
     except TimeoutError:
-        output.add("failed to launch SAP!")
+        output.add(f"{pr.cncl}failed to launch SAP!")
