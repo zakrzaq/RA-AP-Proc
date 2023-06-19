@@ -8,7 +8,6 @@ def pm_emails(server=False):
         end_script,
         use_dotenv,
         use_logger,
-        coinit,
     )
     from helpers.data_frames import get_active
     import helpers.prompts as pr
@@ -20,7 +19,6 @@ def pm_emails(server=False):
     use_dotenv()
     use_logger()
     ignore_warnings()
-    coinit()
 
     today = date.today().strftime("%m-%d-%Y")
     active = get_active()
