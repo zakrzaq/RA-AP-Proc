@@ -23,10 +23,10 @@ def am_status(server=False):
 
     # LOAD LOG
     log = load_log()
-    ws_active = log["Active Materials"]
     selected_active_view = get_selected_active()
 
     if log and not selected_active_view.empty:
+        ws_active = log["Active Materials"]
         # MATNRs PRICE NEEDED
         need_price = (
             (selected_active_view["target sorg price"].isna())

@@ -9,8 +9,6 @@ def reconcile_pce(server=False):
     from helpers.data_frames import get_active
     from helpers.xlsm import (
         populate_sap_data_sheet,
-        extend_concats,
-        get_first_empty_row,
     )
     import helpers.prompts as pr
     from state.output import output
@@ -44,8 +42,8 @@ def reconcile_pce(server=False):
     # FIND PCE REQUEST
     output.add(f"{pr.info}PCE Reconciliation")
     pce_feedback = pd.DataFrame()
-    for filename in os.listdir("C:\RA-Apps\AP-Proc\INPUTS"):
-        file = os.path.join("C:\RA-Apps\AP-Proc\INPUTS", filename)
+    for filename in os.listdir(r"C:\RA-Apps\AP-Proc\INPUTS"):
+        file = os.path.join(r"C:\RA-Apps\AP-Proc\INPUTS", filename)
         if " ASSESSMENT REQUEST" in filename:
             output.add(f"{pr.file}{filename}")
             df = pd.read_excel(file)
@@ -79,16 +77,16 @@ def reconcile_pce(server=False):
         for_log = for_log.drop_duplicates(subset=["concat"], keep="last")
         updated_pce_df = pd.concat([log_pce_df, for_log])
         updated_pce_df.reset_index()
-        dupplicated_df = updated_pce_df.loc[
+        duplicated_df = updated_pce_df.loc[
             updated_pce_df.duplicated(subset=["concat"], keep="last")
         ]
-        output.add(f"{pr.info}Assessments to archive: {dupplicated_df.shape[0]}")
+        output.add(f"{pr.info}Assessments to archive: {duplicated_df.shape[0]}")
         updated_pce_df = updated_pce_df.drop_duplicates(subset=["concat"], keep="last")
 
         populate_sap_data_sheet(updated_pce_df, ws_pce, 1, 2)
         last_row = ws_archived_pce.max_row + 1
         populate_sap_data_sheet(
-            dupplicated_df,
+            duplicated_df,
             ws_archived_pce,
             1,
             last_row,
@@ -122,7 +120,7 @@ def reconcile_pce(server=False):
                 "new PCE assessment",
             ]
         ]
-        for_upd.to_csv(upd_file, header=None, index=False, sep="\t")
+        for_upd.to_csv(upd_file, header=False, index=False, sep="\t")
         output.add(f"{pr.info}Processing PCE SAP Update for {for_upd.shape[0]} parts")
         os.system(f"{f_sap}")
         time.sleep(7)

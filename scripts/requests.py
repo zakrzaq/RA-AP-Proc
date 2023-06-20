@@ -5,6 +5,7 @@ def get_requests(server=False):
 
     from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
     from helpers.log import save_log, load_log
+    from helpers.xlsm import get_first_empty_row
     import helpers.prompts as pr
     from state.output import output
 
@@ -48,25 +49,21 @@ def get_requests(server=False):
 
             # POPULATE REQUEST TO LOG
             output.add(f"{pr.info}Transferring to LOG")
-            for cell in ws_active["B"]:
-                if cell.value is None:
-                    ws_active_firstrow = cell.row
-                    break
             # TODO: set date format to excel column
 
             requests = requests.fillna("")
             requests_output = []
             for index, row in requests.iterrows():
-                requests_output.append(row.values.tolist())
+                requests_output.append(list(row.values))
 
-            for rowy, row in enumerate(requests_output, start=ws_active_firstrow):
+            start_row = get_first_empty_row(ws_active, "B")
+            for rowy, row in enumerate(
+                requests_output, start=start_row if start_row else 1000
+            ):
                 for colx, value in enumerate(row, start=1):
                     ws_active.cell(column=colx, row=rowy, value=value)
 
-            for cell in ws_active["B"]:
-                if cell.value is None:
-                    ws_active_lastrow = cell.row
-                    break
+            start_row = get_first_empty_row(ws_active, "B")
 
             # EXTEND FORMULAS By Col / Rows
             output.add(f"{pr.info}LOG data formatting")
@@ -112,30 +109,31 @@ def get_requests(server=False):
                 "BD",
                 "BE",
             ]
-            ws_active_lastrow -= 1
-            for x in column_list:
-                i = ws_active_firstrow - 1
-                while i < ws_active_lastrow:
+            if start_row:
+                last_row = start_row - 1
+                for x in column_list:
+                    i = last_row - 1
+                    while i < last_row:
+                        i += 1
+                        formula = ws_active[f"{x}2"].value
+                        ws_active[f"{x}{i}"] = Translator(
+                            formula, origin=f"{x}2"
+                        ).translate_formula(f"{x}{i}")
+
+                # FORMAT REQUESTS DATES
+                output.add(f"{pr.info}Formatting request dates")
+                for r in range(2, start_row - 1):
+                    ws_active[f"A{r}"].number_format = "mm/dd/yy;@"
+
+                # CREATE SORT
+                output.add(f"{pr.info}Creating sort order")
+                sort_count = last_row + 1
+                i = 2
+                while i < sort_count:
+                    if i == 1:
+                        continue
+                    ws_active[f"BF{i}"].value = i - 1
                     i += 1
-                    formula = ws_active[f"{x}2"].value
-                    ws_active[f"{x}{i}"] = Translator(
-                        formula, origin=f"{x}2"
-                    ).translate_formula(f"{x}{i}")
-
-            # FORMAT REQUESTS DATES
-            output.add(f"{pr.info}Formatting request dates")
-            for r in range(2, ws_active_lastrow):
-                ws_active[f"A{r}"].number_format = "mm/dd/yy;@"
-
-            # CREATE SORT
-            output.add(f"{pr.info}Creating sort order")
-            sort_count = ws_active_lastrow + 1
-            i = 2
-            while i < sort_count:
-                if i == 1:
-                    continue
-                ws_active[f"BF{i}"].value = i - 1
-                i += 1
 
             ready_to_save = True
 
@@ -157,17 +155,17 @@ def get_requests(server=False):
 
         active_matnr_list = ""
         with open(active_matnr_list_file, "w") as file:
-            for row in ws_active:
+            for row in ws_active.iter_rows():
                 if row[4].value != None:
                     if type(row[4].value) is int:
                         numeric_matnr = (18 - len(str(row[4].value))) * "0" + str(
                             row[4].value
                         )
                         active_matnr_list += numeric_matnr + "\n"
-                    elif "SAP MATNR" in row[4].value:
+                    elif "SAP MATNR" in str(row[4].value):
                         continue
                     else:
-                        active_matnr_list += row[4].value + "\n"
+                        active_matnr_list += str(row[4].value) + "\n"
             file.write(active_matnr_list)
             file.close()
             material_count = active_matnr_list.count("\n")

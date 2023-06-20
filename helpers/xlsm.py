@@ -10,7 +10,7 @@ def populate_sheet_series(df, sheet, col=2, row=2):
 
     if isinstance(df, pd.DataFrame):
         for index, row in df.iterrows():
-            output.append(row.values.tolist())
+            output.append(list(row.values))
         for rowy, row in enumerate(output, start=start_row):
             for colx, value in enumerate(row, start=start_col):
                 sheet.cell(column=colx, row=rowy, value=value)

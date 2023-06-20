@@ -82,7 +82,8 @@ def gts(table="GTS", copy_result=False):
 
             if copy_result:
                 df = get_single_sap(table)
-                df.to_clipboard(index=False)
+                if df != None:
+                    df.to_clipboard(index=False)
 
             output.add(f"{pr.ok}{table} data downloaded")
 

@@ -16,7 +16,7 @@ def open_sap():
         output.add(f"{pr.info}Openning SAP instance")
         if ahk.win_get(title="SAP Logon Pad 750"):
             sap_logon = ahk.win_get(title="SAP Logon Pad 750")
-            sap_logon.activate()
+            sap_logon.activate()  # type: ignore
         else:
             subprocess.Popen(path)
             sap_logon = ahk.win_wait(title="SAP Logon Pad 750")

@@ -14,7 +14,7 @@ target_sorgs = []
 f = open("test.txt", "w")
 for line in archive.columns:
     line = f'"{line}"'
-f.write("; ".join(archive.columns))
+f.write("; ".join(archive.columns))  # type: ignore
 f.close()
 
 if len(target_sorgs) < 1:
