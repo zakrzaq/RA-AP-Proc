@@ -1,12 +1,13 @@
 import os
 import time
 import win32com.client as win32
-from helpers.helpers import use_dotenv
+from helpers.helpers import use_dotenv, use_coinit
 from helpers.datetime import mif_date
 import helpers.prompts as pr
 from state.output import output
 
 use_dotenv()
+use_coinit()
 
 user = os.environ["USER_NAME"]
 mif_in = os.path.join(os.environ["DIR_OUT"], "AP_MIF.xlsx")
@@ -16,7 +17,7 @@ soerf_out = rf"\\usmkevfile002\dev-compinfo\EDM\Request Logs\Material Master Ext
 
 
 def extension_xlsx_to_xls(file, new_file):
-    if ("AP_SOERF.xlsx" in file) or ("AP_MIF.xlsx"):
+    if ("AP_SOERF.xlsx" in file) or ("AP_MIF.xlsx" in file):
         xlApp = win32.Dispatch("Excel.Application")
         output.add(f"{pr.file}{file}")
         xlWb = xlApp.Workbooks.Open(file)

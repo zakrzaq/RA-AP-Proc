@@ -78,3 +78,7 @@ def clear():
         return os.system("cls")
     else:
         return os.system("clear")
+
+
+def use_coinit():
+    pythoncom.CoInitialize()

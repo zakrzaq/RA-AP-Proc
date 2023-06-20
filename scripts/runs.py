@@ -14,7 +14,7 @@ from scripts.pm_emails import pm_emails
 from helpers.ap_data import make_ap_data
 from helpers.data_frames import get_active_requests
 from helpers.ap_data import get_ext_cancelled
-from helpers.xlsm import populate_sap_data_sheet, get_last_row
+from helpers.xlsm import populate_sap_data_sheet, get_first_empty_row
 from helpers.log import load_log
 from helpers.files import sap_data_files
 
@@ -64,7 +64,7 @@ def pm_run(server=False):
         ws_active = log["Active Materials"]
         df = pd.DataFrame(log_data)
         df = df.iloc[:, 1:]
-        row = get_last_row(ws_active, "A")
+        row = get_first_empty_row(ws_active, "A")
         populate_sap_data_sheet(df, ws_active, start_col=2, start_row=row)
 
         pm_status(server)

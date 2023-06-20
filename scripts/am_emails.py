@@ -58,14 +58,6 @@ def am_emails(server=False):
             output.add(f"{pr.cncl}NO PRICE REQUESTS")
         else:
             need_price["Date Added"] = need_price["Date Added"].map(format_request_date)
-            # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
-            # need_price[["Date Added", "pricing request"]] = need_price[
-            #     ["Date Added", "pricing request"]
-            # ].apply(pd.to_datetime)
-            # need_price["Date Added"] = need_price["Date Added"].dt.strftime("%m/%d/%Y")
-            # need_price["pricing request"] = need_price["pricing request"].dt.strftime(
-            #     "%m/%d/%Y"
-            # )
 
             output.add(f"{pr.info}Needing price: {len(need_price)}")
             # PRICE REQUEST FILE
@@ -74,6 +66,11 @@ def am_emails(server=False):
                 f"AP pricing needed with active demand {today_file}.xlsx",
             )
             need_price.to_excel(need_price_list_file, index=False)
+
+            # SEND EMAIL
+            if os.path.isfile(need_price_list_file):
+                email.set(price_email)
+                send_email(need_price_list_file)
 
         # PCE REQUEST
         active_wt_pce_req = active.loc[
@@ -111,14 +108,6 @@ def am_emails(server=False):
             need_pce.drop_duplicates(
                 subset=["SAP MATNR\n(from request form)", "target sorg"], keep="last"
             )
-            # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
-            # need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
-            #     'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)
-            # need_pce['Date Added'] = need_pce['Date Added'].dt.strftime('%m/%d/%Y')
-            # need_pce['Date of PCE review'] = need_pce['Date of PCE review'].dt.strftime(
-            #     '%m/%d/%Y')
-            # need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
-            #     '%m/%d/%Y')
 
             output.add(f"{pr.info}PCE requests: {len(active_wt_pce_req)}")
             # PCE REQUEST FILE - AM
@@ -127,11 +116,9 @@ def am_emails(server=False):
             )
             need_pce.to_excel(need_pce_file, index=False)
 
-            # SEND EMAILS
-            email.set(pce_email)
-            send_email(need_pce_file)
-
-            email.set(price_email)
-            send_email(need_price_list_file)
+            # SEND EMAIL
+            if os.path.isfile(need_pce_file):
+                email.set(pce_email)
+                send_email(need_pce_file)
 
     return end_script(server)

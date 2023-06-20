@@ -151,8 +151,6 @@ def pm_emails(server=False):
                     "SOERF Submitted",
                 ]
             ]
-            # need_local[['Date Added', 'MIF Submitted', 'SOERF Submitted']] = need_local[[
-            #     'Date Added', 'MIF Submitted', 'SOERF Submitted']].apply(pd.to_datetime(errors='coerce'))
             need_local["Date Added"] = pd.to_datetime(
                 need_local["Date Added"], errors="coerce"
             ).dt.strftime("%m/%d/%Y")

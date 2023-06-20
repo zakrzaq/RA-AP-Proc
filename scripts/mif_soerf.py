@@ -11,7 +11,12 @@ def mif_soerf(server=False):
     from helpers.data_frames import get_selected_active
     from api.rtd.rtd_mif_soerf import rtd_mif_soerf
     from helpers.log import load_log, save_log
-    from helpers.xlsm import populate_sap_data_sheet, extend_concats, extend_values
+    from helpers.xlsm import (
+        populate_sap_data_sheet,
+        extend_concats,
+        extend_values,
+        get_first_empty_row,
+    )
     from helpers.datetime import today_dmy
     import helpers.prompts as pr
     from helpers.send_extensions import send_extensions
@@ -101,26 +106,32 @@ def mif_soerf(server=False):
         output.add(f"{pr.info}Loading load file to update mif & soerf data")
         log = load_log()
 
-        if not df_log_mif.empty:
+        if not df_log_mif.empty and log != None:
             output.add(f"{pr.info}Processing mif data to log")
             ws_mif = log["mif"]
-            mif_last_row = ws_mif.max_row + 1
-            ws_mif[f"D{mif_last_row}"] = today_dmy
-            populate_sap_data_sheet(df_log_mif, ws_mif, 1, mif_last_row)
-            extend_concats(ws_mif, mif_last_row - 1, "C")
-            extend_values(ws_mif, mif_last_row, "D")
+            mif_last_row = get_first_empty_row(ws_mif, "A")
+            if mif_last_row:
+                ws_mif[f"D{mif_last_row}"] = today_dmy
+                populate_sap_data_sheet(df_log_mif, ws_mif, 1, mif_last_row)
+                extend_concats(ws_mif, mif_last_row - 1, "C")
+                extend_values(ws_mif, mif_last_row, "D")
+            else:
+                output.add(f"{pr.cncl}Could not populate mifs to Log")
         else:
             output.add(f"{pr.cncl}No mifs to process")
 
-        if not df_log_soerf.empty and log:
+        if not df_log_soerf.empty and log != None:
             output.add(f"{pr.info}Processing soerf data to log")
             ws_soerf = log["soerf"]
-            soerf_last_row = ws_soerf.max_row + 1
-            ws_soerf[f"E{soerf_last_row}"] = today_dmy
-            populate_sap_data_sheet(df_log_soerf, ws_soerf, 1, soerf_last_row)
-            extend_concats(ws_soerf, soerf_last_row - 1, "D")
-            extend_values(ws_soerf, soerf_last_row, "E")
-            output.add(f"{pr.done}Complete")
+            soerf_last_row = get_first_empty_row(ws_soerf, "A")
+            if soerf_last_row != None:
+                ws_soerf[f"E{soerf_last_row}"] = today_dmy
+                populate_sap_data_sheet(df_log_soerf, ws_soerf, 1, soerf_last_row)
+                extend_concats(ws_soerf, soerf_last_row - 1, "D")
+                extend_values(ws_soerf, soerf_last_row, "E")
+                output.add(f"{pr.done}Complete")
+            else:
+                output.add(f"{pr.cncl}Could not populate soerfs to Log")
         else:
             output.add(f"{pr.cncl}No soerfs to process")
 

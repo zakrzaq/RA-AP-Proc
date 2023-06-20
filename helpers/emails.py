@@ -1,15 +1,16 @@
 def send_email(file=None):
     import win32com.client as win32
+
     from state.email import email as email_state
     from state.output import output
     import helpers.prompts as pr
+    from helpers.helpers import use_coinit
+
+    use_coinit()
 
     email = email_state.get()
 
-    try:
-        outlook = win32.GetActiveObject("Outlook.Application")
-    except:
-        outlook = win32.Dispatch("Outlook.Application")
+    outlook = win32.Dispatch("Outlook.application")
 
     if outlook:
         mail = outlook.CreateItem(0)
@@ -20,7 +21,6 @@ def send_email(file=None):
         if file != None:
             mail.Attachments.Add(file)
         mail.Send()
-        outlook.Quit()
 
         email_state.reset()
         output.add(f"{pr.email}Email {email['subject']} sent")

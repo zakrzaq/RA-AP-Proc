@@ -53,7 +53,9 @@ def extend_values(sheet, start_row=100, col_letter="A"):
         sheet[f"{col_letter}{i}"].value = last_row_value
 
 
-def get_last_row(worksheet, col):
+def get_first_empty_row(worksheet, col):
     for row in worksheet.iter_rows():
         if row[0].value == None:
-            empty_row = row[0].row
+            return row[0].row
+        else:
+            return 0
