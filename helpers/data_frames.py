@@ -187,7 +187,7 @@ def handle_eod_report(file):
     return output
 
 
-def get_single_sap(table: str) -> pd.DataFrame | None:
+def get_single_sap(table: str) -> pd.DataFrame:
     """Loads SAP table Excel data from file in INPUTS dir.
 
     Args:
@@ -196,6 +196,12 @@ def get_single_sap(table: str) -> pd.DataFrame | None:
     Returns:
     Pandas DataFrame | None"""
 
+    table = table.lower()
     filename = table + ".xls" if table == "sales_text" else table + ".xlsx"
-    df = pd.read_excel(os.path.join(os.environ["DIR_IN"], filename))
-    return df if not df.empty else None
+    if table == "sales_text":
+        df = pd.read_csv(
+            os.path.join(os.environ["DIR_IN"], filename), sep="\t", encoding="utf-16"
+        )
+    else:
+        df = pd.read_excel(os.path.join(os.environ["DIR_IN"], filename))
+    return df if not df.empty else pd.DataFrame()
