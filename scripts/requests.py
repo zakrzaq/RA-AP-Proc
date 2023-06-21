@@ -27,9 +27,12 @@ def get_requests(server=False):
         requests = pd.DataFrame()
         for filename in os.listdir(directory):
             if filename.endswith(".xlsm"):
-                if "AP_Material_Master_Service_Request_Form" in filename:
+                if (
+                    "AP_Material_Master_Service_Request_Form" in filename
+                    or "ZX%20Block" in filename
+                ):
                     file = os.path.join(directory, filename)
-                    output.add(f"{pr.file}filename")
+                    output.add(f"{pr.file}{filename}")
                     df = pd.read_excel(file, 2)
                     df = df.iloc[1:, :]
                     requests = pd.concat([requests, df])
@@ -140,10 +143,7 @@ def get_requests(server=False):
         else:
             output.add(f"{pr.cncl}No request files found", ["code-line", "red"])
 
-        if ready_to_save:
-            log.save()
-
-        # MAKE LIST OF MATERIALS IN AP LOG
+        # MAKE LIST OF MATERIxALS IN AP LOG
         output.add(f"{pr.info}Saving material list")
         active_matnr_list_file = os.path.join(os.environ["DIR_OUT"], "AP materials.txt")
 
@@ -170,5 +170,8 @@ def get_requests(server=False):
             file.close()
             material_count = active_matnr_list.count("\n")
             output.add(f"{pr.file}Material list saved with {material_count} materials")
+
+        if ready_to_save:
+            log.save()
 
     return end_script(server)

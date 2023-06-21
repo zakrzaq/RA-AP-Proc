@@ -68,6 +68,7 @@ def clean_desktop(server=False):
                     or ("_AP form ") in f
                     or ("AP form " in f)
                     or ("ap form " in f)
+                    or ("ZX%20Block" in f)
                 ):
                     handle_archive(f, dir_ap_req_archive)
                 # if (

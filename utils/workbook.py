@@ -1,5 +1,6 @@
 import os
 import time
+from numpy import empty
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.formula.translate import Translator
@@ -23,7 +24,6 @@ def load_log():
         return wb
     except:
         output.add(f"{pr.cncl}LOG count not be loaded")
-        return None
 
 
 def save_log(log, server=True, name="TEST_output"):
@@ -115,4 +115,5 @@ def get_first_empty_row(worksheet, col: str) -> int:
     for row in worksheet.iter_rows():
         if row[i].value == None:
             empty_row: int = int(row[i].row)
+            return empty_row
     return empty_row

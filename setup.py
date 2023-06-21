@@ -1,45 +1,39 @@
-import dotenv
 import platform
 import os
-
-os.system("python -m pip install python-dotenv")
 
 
 sys_type = platform.system().lower()
 
-# FIND AND FOLAD DOT ENV
-dotenv_file = dotenv.find_dotenv()
-dotenv.load_dotenv(dotenv_file)
-
-
-os.system("python -m pip install --upgrade pip")
-os.system("pip install virtualenv")
-os.system("python -m venv env")
-os.system("mkdir logs")
 
 if sys_type == "windows":
-    os.system("type nul > logs\\log.txt")
-    os.system("env/Scripts/activate.bat")
-    os.system("env/Scripts/Activate.ps1")
-    os.system("echo call env/Scripts/activate.bat >> ap_proc.bat")
-    os.system("echo call env/Scripts/Activate.ps1 >> ap_proc.bat")
-    os.system("echo python ap_proc.py >> ap_proc.bat")
-    os.system("echo flask run >> ap_serv.bat")
+    os.system("python -m venv venv")
+    os.system("clear")
+    os.system(".\venv\Scripts\activate")
+    os.system("clear")
+    os.system("pip install -r requirements.txt")
+    os.system("clear")
+    os.system("echo .\venv\Scripts\activate >> ap_cli.bat")
+    os.system("echo python ap_proc.py >> ap_cli.bat")
+    os.system("clear")
+    os.system("echo .\venv\Scripts\activate >> ap_server.bat")
+    os.system("echo flask --debug run --host=0.0.0.0 >> ap_server.bat")
 else:
-    os.system("touch logs/log.txt")
-    os.system("source env/bin/activate")
+    os.system("python -m venv .env")
+    os.system("clear")
+    os.system("source ./.env/bin/activate")
+    os.system("clear")
+    os.system("pip install -r requirements.txt")
+    os.system("clear")
     ap_proc = "#!/bin/bash\nsource env/bin/activate\npython ap_proc.py"
-    f = open("ap-proc.sh", "w")
+    f = open("ap_cli.sh", "w")
     f.write(ap_proc)
     f.close()
-    ap_serv = "#!/bin/bash\nsource env/bin/activate\nflask run"
-    f = open("ap-serv.sh", "w")
+    ap_serv = "#!/bin/bash\nsource env/bin/activate\nflask --debug run --host=0.0.0.0"
+    f = open("ap_server.sh", "w")
     f.write(ap_serv)
     f.close()
-    os.system("chmod +x ./ap-serv.sh")
-
-os.system("pip install -r requirements.txt")
-# os.system("pip list")
+    os.system("chmod +x ./ap_server.sh")
+    os.system("chmod +x ./ap_cli.sh")
 
 
 # FIND DESKTOP FOLDER

@@ -46,8 +46,8 @@ class Log:
     def load(self):
         log = load_log()
         if log:
-            self.log = log
             self.loaded = True
+            self.workbook = log
             self.ws_active = log["Active Materials"]
             self.ws_info = log["info"]
             self.ws_mara = log["mara"]
@@ -62,8 +62,6 @@ class Log:
             self.ws_soerf = log["soerf"]
             self.ws_pce = log["pce"]
             self.ws_pce_arch = log["archived PCE"]
-
-            self.workbook = log
 
 
 log = Log()

@@ -6,7 +6,7 @@ Developed for RA-INT to support extension of Material Master items with current 
 
 `Windows` 7 and up
 
-`Python` 3.10 and up
+`Python` 3.9 and up
 
 'make' command for terminal
 
@@ -29,15 +29,30 @@ python setup.py
 Edit corresponding lines in your `.env` using any text editor:
 file located in `C:\RA-Apps\AP-Proc`
 
-```
-EDM_DRIVE='<your_end_drive_letter>:\Request Logs\Material Master Extension'
-EDM_APMM='<your_end_drive_letter>:\Request Logs\APMM'
+```bash
+USER_NAME=Jakub Zakrzewski
+API_URL=http://localhost:5000/
+DIR_HOME=C:\Users\JZakrzewski
+AP_LOG=${DIR_HOME}\Rockwell Automation, Inc\EDM - AP MM Service Request Process\AP MM Service Request Log.xlsm
+# AP_LOG=${DIR_HOME}'\OneDrive - Rockwell Automation, Inc\Desktop\AP MM Service Request Log-test.xlsm'
+ARC_LOG=${DIR_HOME}\Rockwell Automation, Inc\EDM - AP MM Service Request Process\Archived AP Material Master Service Requests.xlsx
+AP_SHAREPOINT=${DIR_HOME}\Rockwell Automation, Inc\EDM - AP MM Service Request Process
+AP_DB_DEV=${DIR_HOME}\Rockwell Automation, Inc\EDM - AP MM Service Request Process\apmm.db
+DIR_DESKTOP=${DIR_HOME}\OneDrive - Rockwell Automation, Inc\Desktop
+DIR_DOWNLOAD=${DIR_HOME}\Downloads
+DIR_APP=C:\RA-Apps\AP-Proc
+DIR_IN=${DIR_APP}\INPUTS
+DIR_OUT=${DIR_APP}\OUTPUTS
+DIR_LOG=${DIR_APP}\logs
+EDM_DRIVE=Z:\Request Logs\Material Master Extension
+EDM_APMM=Z:\Request Logs\APMM
+
 ```
 
 Edit corresponding lines in your `.rtd_config.py` using any text editor:
 file located in `C:\RA-Apps\AP-Proc\configs`
 
-```
+```python
 RTD_USR='your_user_name'
 RTD_PSW='your_password'
 RTD_STR='rtd db connection string'
@@ -46,12 +61,11 @@ RTD_STR='rtd db connection string'
 Edit corresponding lines in your `.sap.py` using any text editor:
 file located in `C:\RA-Apps\AP-Proc\configs`
 
-<!-- TODO: to be changed-->
-<!-- ``` -->
-<!-- RTD_USR='your_user_name' -->
-<!-- RTD_PSW='your_password' -->
-<!-- RTD_STR='rtd db connection string' -->
-<!-- ``` -->
+```python
+username = "jzakrzewski"
+password = "AlexEllaJudy2023!"
+path = "C:\Program Files (x86)\SAP\FrontEnd\SapGui\saplgpad.exe"
+```
 
 ## USAGE
 
@@ -150,11 +164,22 @@ It says it on the tin.
 
 ## BUGFIXES
 
-- [ ] archive PCE requests file name issue
 - [ ] am_status to handle PROD CERT by review date
-- [ ] status messages on SAP data script
-- [ ] improve excel DATE FORMATS
-- [ ] mif / sorf data bring incorrect date
+- [ ] first run of sqvi, gts hang up on save to Excel
+- [x] update setup and readme - 2023-06-21
+- [ ] [Rafael] improve excel DATE FORMATS
+- [x] fix env and file location not loading - 2023-06-21
+- [x] refactor sap data to class based system - 2023-06-21
+- [x] refactor log data to class based system - 2023-06-21
+- [x] refactor all code for readability - 2023-06-21
+- [x] status messages on SAP data script - 2023-06-21
+- [x] archive PCE requests file name issue - 2023-06-21
+- [x] mif / soerf ext data populate - wrong last row / crash - 2023-06-21
+- [x] fix win32 CoInitlized issus with Excel / Outlook - 2023-06-21
+
+## NEW FEATURES
+
+- [ ] New business rule for certain parts in 5008 for Ryne identified by Sales Text
 
 ## TODO 1.5
 
@@ -173,7 +198,7 @@ It says it on the tin.
   - [ ] find way to use templates and return data as same time in FLASK
   - [ ] requests to db
 - [ ] BE able to run on milwaukee machine / ip address for vpn network
-- [ ] email notification for PCE, CC, PRICE, INHTS, LOCAL requests
+- [x] email notification for PCE, CC, PRICE, INHTS, LOCAL requests
 
 ## TODO 0.5
 
@@ -182,7 +207,7 @@ It says it on the tin.
   - [x] fix date issues
 - [ ] Handle initial additions / CANCELLATIONS
   - [ ] amend existing request form
-  - [ ] new request form and dat source
+  - [ ] new request form and data source
 - [x] Get current requests
 - [x] Generate MIF/SOERF SQL Query
   - [x] using CLI Oracle CS for query running and data
