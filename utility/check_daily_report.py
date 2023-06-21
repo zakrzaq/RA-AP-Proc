@@ -2,15 +2,15 @@ def check_daily_report(server=False):
     import os
     import sys
 
-    from helpers.data_frames import handle_eod_report
+    from utils.data_frames import handle_eod_report
     from state.output import output
 
     fpath = os.path.join(os.path.dirname(__file__), "utility")
     sys.path.append(fpath)
 
     from datetime import date
-    from helpers.helpers import await_char
-    import helpers.prompts as pr
+    from utils.helpers import await_char
+    import utils.prompts as pr
 
     output.reset()
     report_found = False

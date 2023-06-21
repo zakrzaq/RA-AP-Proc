@@ -2,7 +2,7 @@ import oracledb
 
 from configs.rtd_config import username, password, RTD
 
-import helpers.prompts as pr
+import utils.prompts as pr
 from state.output import output
 
 

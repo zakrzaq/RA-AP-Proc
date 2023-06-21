@@ -2,9 +2,9 @@ def clean_desktop(server=False):
     import os
     import shutil
 
-    from helpers.helpers import end_script
+    from utils.helpers import end_script
     from state.output import output
-    import helpers.prompts as pr
+    import utils.prompts as pr
 
     output.reset()
     report_directory = os.environ["EDM_APMM"]

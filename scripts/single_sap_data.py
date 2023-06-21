@@ -3,8 +3,8 @@ def single_sap_data(table: str | None, server=False):
     import pandas as pd
     import os
 
-    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
-    import helpers.prompts as pr
+    from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
+    import utils.prompts as pr
     from state.output import output
     from sap import ih09, se16, gts, sqvi, text, open
 

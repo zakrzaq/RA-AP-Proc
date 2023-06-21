@@ -4,7 +4,7 @@ import subprocess
 import time
 from configs.sap import username, password, path
 from state.output import output
-import helpers.prompts as pr
+import utils.prompts as pr
 
 ahk = AHK(directives=[NoTrayIcon])
 ahk.set_detect_hidden_windows(True)

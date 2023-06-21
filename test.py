@@ -1,4 +1,5 @@
-from state.table import tbl_ausp
+from state.log import log
 
-ausp = tbl_ausp.data()
-print(ausp.head())
+print(log.loaded)
+log.load()
+log.save(server=False)

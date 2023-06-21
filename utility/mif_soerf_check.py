@@ -2,9 +2,9 @@ def mif_soerf_check(server=False):
     import os
     import pandas as pd
 
-    from helpers.helpers import end_script, use_dotenv
+    from utils.helpers import end_script, use_dotenv
     from state.output import output
-    import helpers.prompts as pr
+    import utils.prompts as pr
 
     use_dotenv()
     output.reset()

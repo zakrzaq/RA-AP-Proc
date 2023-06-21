@@ -1,6 +1,9 @@
-import os
+import os, sys
 from flask import Flask, render_template, redirect, request, Response
 from flask_cors import CORS, cross_origin
+
+from utils.startup import check_process_files
+from utils.helpers import use_logger
 
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
@@ -19,6 +22,14 @@ from scripts.single_sap_data import single_sap_data
 from sap.open import open_sap
 
 server = True
+
+use_logger()
+try:
+    check_process_files()
+except Exception as Argument:
+    print(Exception)
+    sys.exit(1)
+
 
 app = Flask(__name__)
 CORS(app)

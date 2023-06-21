@@ -3,11 +3,11 @@ def get_requests(server=False):
     import os
     from openpyxl.formula.translate import Translator
 
-    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
-    from helpers.log import save_log, load_log
-    from helpers.xlsm import get_first_empty_row
-    import helpers.prompts as pr
+    from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
+    from utils.workbook import get_first_empty_row
+    import utils.prompts as pr
     from state.output import output
+    from state.log import log
 
     use_dotenv()
     use_logger()
@@ -18,9 +18,9 @@ def get_requests(server=False):
     output.reset()
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-    log = load_log()
+    log.load()
     if log:
-        ws_active = log["Active Materials"]
+        ws_active = log.ws_active
         # IMPORT REQUESTS FORM DESKTOP
         output.add(f"{pr.file}Reading request files")
         directory = os.environ["DIR_IN"]
@@ -141,7 +141,7 @@ def get_requests(server=False):
             output.add(f"{pr.cncl}No request files found", ["code-line", "red"])
 
         if ready_to_save:
-            save_log(log)
+            log.save()
 
         # MAKE LIST OF MATERIALS IN AP LOG
         output.add(f"{pr.info}Saving material list")

@@ -1,7 +1,6 @@
 import pandas as pd
 
-from helpers.data_frames import get_single_sap, df_to_list
-from helpers.log import load_log
+from utils.data_frames import get_single_sap, df_to_list
 
 
 class Table:

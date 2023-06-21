@@ -1,17 +1,16 @@
 def proc_sap_data(server=False):
     import pandas as pd
-    import os
 
-    from helpers.helpers import (
+    from utils.helpers import (
         use_dotenv,
         ignore_warnings,
         use_logger,
         end_script,
     )
-    from helpers.log import load_log, save_log
-    from helpers.xlsm import populate_sap_data_sheet, extend_concats
-    import helpers.prompts as pr
+    from utils.workbook import populate_sap_data_sheet, extend_concats
+    import utils.prompts as pr
     from state.output import output
+    from state.log import log
     from state.table import (
         tbl_text,
         tbl_mara,
@@ -30,19 +29,17 @@ def proc_sap_data(server=False):
 
     output.reset()
 
-    log = load_log()
+    log.load()
     if log:
         # ASSING WORKSHEETS
-        ws_mara = log["mara"]
-        ws_marc = log["marc"]
-        ws_mvke = log["mvke"]
-        ws_ausp = log["ausp"]
-        ws_mlan = log["mlan"]
-        ws_price = log["ZZ_MATPRC_HIST"]
-        ws_gts = log["gts"]
-        ws_text = log["sales text"]
-        # ws_list = [ws_mara, ws_marc, ws_mvke, ws_ausp,
-        #            ws_mlan, ws_price, ws_gts, ws_text]
+        ws_mara = log.ws_mara
+        ws_marc = log.ws_marc
+        ws_mvke = log.ws_mvke
+        ws_ausp = log.ws_ausp
+        ws_mlan = log.ws_mlan
+        ws_price = log.ws_price
+        ws_gts = log.ws_gts
+        ws_text = log.ws_text
 
         # # clean out data
         output.add(f"{pr.info}Truncating data")
@@ -110,7 +107,7 @@ def proc_sap_data(server=False):
             extend_concats(ws_text)
 
             # save test log
-            save_log(log)
+            log.save()
 
         else:
             output.add(f"Missing {8 - inputs_not_empty} SAP data inputs")

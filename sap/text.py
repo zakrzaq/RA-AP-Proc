@@ -3,9 +3,9 @@ from ahk.directives import NoTrayIcon
 import time
 import os
 from sap.open import get_sap
-from helpers.helpers import use_dotenv
+from utils.helpers import use_dotenv
 from state.output import output
-import helpers.prompts as pr
+import utils.prompts as pr
 
 ahk = AHK(directives=[NoTrayIcon])
 # ahk.set_detect_hidden_windows(True)

@@ -3,13 +3,13 @@ def get_sap_data(server=False, mode="all"):
     import pandas as pd
     import os
 
-    from helpers.helpers import (
+    from utils.helpers import (
         use_dotenv,
         ignore_warnings,
         use_logger,
         end_script,
     )
-    import helpers.prompts as pr
+    import utils.prompts as pr
     from state.output import output
     from sap import ih09, se16, gts, sqvi, text, open
 

@@ -3,15 +3,15 @@ def reconcile_pce(server=False):
     import pandas as pd
     import time
 
-    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
-    from helpers.datetime import today_ymd, today_dmy
-    from helpers.log import save_log, load_log
-    from helpers.data_frames import get_active
-    from helpers.xlsm import (
+    from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
+    from utils.datetime import today_ymd, today_dmy
+    from utils.data_frames import get_active
+    from utils.workbook import (
         populate_sap_data_sheet,
     )
-    import helpers.prompts as pr
+    import utils.prompts as pr
     from state.output import output
+    from state.log import log
 
     use_dotenv()
     use_logger()
@@ -51,11 +51,11 @@ def reconcile_pce(server=False):
     output.add(f"{pr.done}Found {pce_feedback.shape[0]} materials to reconcile")
 
     # PCE FEEDBACK TO LOG
-    log = load_log()
+    log.load()
     if (pce_feedback.shape[0] > 0) and log:
         output.add(f"{pr.info}Processing PCE Reconciliation")
-        ws_pce = log["pce"]
-        ws_archived_pce = log["archived PCE"]
+        ws_pce = log.ws_pce
+        ws_archived_pce = log.ws_pce_arch
         last_row = ws_pce.max_row + 1
 
         # reconciled parts
@@ -94,7 +94,7 @@ def reconcile_pce(server=False):
 
         # TODO: fix date format to excel
         # SAVE
-        save_log(log)
+        log.save()
         # log.save(os.path.join(os.environ["DIR_OUT"], "TEST_new_PCE.xlsm"))
         # PCE FEEDBACK TO SAP
         output.add(f"{pr.info}Z62 updates in SAP")
