@@ -166,8 +166,8 @@ It says it on the tin.
 
 - [ ] am_status to handle PROD CERT by review date
 - [ ] first run of sqvi, gts hang up on save to Excel
-- [x] update setup and readme - 2023-06-21
 - [ ] [Rafael] improve excel DATE FORMATS
+- [x] update setup and readme - 2023-06-21
 - [x] fix env and file location not loading - 2023-06-21
 - [x] refactor sap data to class based system - 2023-06-21
 - [x] refactor log data to class based system - 2023-06-21
@@ -177,7 +177,7 @@ It says it on the tin.
 - [x] mif / soerf ext data populate - wrong last row / crash - 2023-06-21
 - [x] fix win32 CoInitlized issus with Excel / Outlook - 2023-06-21
 
-## NEW FEATURES
+## NEW FEATURES REQUESTS
 
 - [ ] New business rule for certain parts in 5008 for Ryne identified by Sales Text
 
