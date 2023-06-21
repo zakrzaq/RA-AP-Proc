@@ -3,7 +3,6 @@ from ahk.directives import NoTrayIcon
 import time
 import os
 
-from numpy import count_nonzero
 from sap.open import get_sap
 from utils.helpers import use_dotenv
 from utils.data_frames import get_single_sap
