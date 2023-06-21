@@ -1,6 +1,5 @@
 def pm_emails(server=False):
-    import os
-    import pandas as pd
+    import os, time, pandas as pd
     from datetime import date
 
     from utils.helpers import (
@@ -16,6 +15,7 @@ def pm_emails(server=False):
     from utils.submissions import send_email
     from data.email_notifications import ccc_email, inhts_email, local_email
 
+    start = time.time()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -178,4 +178,6 @@ def pm_emails(server=False):
                 email.set(local_email)
                 send_email(need_local_file)
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

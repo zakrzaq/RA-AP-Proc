@@ -1,5 +1,6 @@
 def mif_soerf(server=False):
-    import os
+    import os, time
+    start = time.time()
 
     from state.output import output
     from state.log import log
@@ -167,4 +168,6 @@ def mif_soerf(server=False):
                         index=False,
                     )
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

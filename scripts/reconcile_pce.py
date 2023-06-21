@@ -1,7 +1,6 @@
 def reconcile_pce(server=False):
-    import os
-    import pandas as pd
-    import time
+    import os, pandas as pd, time
+    start = time.time()
 
     from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
     from utils.datetime import today_ymd, today_dmy
@@ -131,4 +130,6 @@ def reconcile_pce(server=False):
             f"{pr.cncl}Unable to load the LOG to update PCE or no materials to reconcile"
         )
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

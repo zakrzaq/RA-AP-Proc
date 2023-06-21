@@ -1,3 +1,4 @@
+import time 
 from utils.helpers import (
     end_script,
     use_dotenv,
@@ -15,6 +16,7 @@ from state.log import log
 
 
 def am_status(server=False):
+    start = time.time()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -126,4 +128,6 @@ def am_status(server=False):
         # SAVE
         log.save()
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

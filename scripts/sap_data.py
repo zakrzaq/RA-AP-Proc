@@ -1,7 +1,6 @@
 def get_sap_data(server=False, mode="all"):
-    import time
-    import pandas as pd
-    import os
+    import time, pandas as pd, os
+    start = time.time()
 
     from utils.helpers import (
         use_dotenv,
@@ -44,4 +43,6 @@ def get_sap_data(server=False, mode="all"):
         se16.se16("MVKE")
         se16.se16("AUSP")
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

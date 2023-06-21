@@ -1,6 +1,7 @@
 def get_requests(server=False):
-    import pandas as pd
-    import os
+    import pandas as pd, os, time
+    start = time.time()
+
     from openpyxl.formula.translate import Translator
 
     from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
@@ -174,4 +175,6 @@ def get_requests(server=False):
         if ready_to_save:
             log.save()
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

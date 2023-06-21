@@ -1,4 +1,7 @@
 def pm_status(server=False):
+    import time
+    start = time.time()
+
     from utils.helpers import (
         end_script,
         ignore_warnings,
@@ -155,4 +158,6 @@ def pm_status(server=False):
         # SAVE
         log.save()
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

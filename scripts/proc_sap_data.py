@@ -1,5 +1,6 @@
 def proc_sap_data(server=False):
-    import pandas as pd
+    import pandas as pd, time
+    start = time.time()
 
     from utils.helpers import (
         use_dotenv,
@@ -112,4 +113,6 @@ def proc_sap_data(server=False):
         else:
             output.add(f"Missing {8 - inputs_not_empty} SAP data inputs")
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

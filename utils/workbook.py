@@ -1,6 +1,5 @@
 import os
 import time
-from numpy import empty
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.formula.translate import Translator

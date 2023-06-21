@@ -1,5 +1,5 @@
 def am_emails(server=False):
-    import os
+    import os, time
 
     from utils.helpers import (
         use_dotenv,
@@ -18,6 +18,8 @@ def am_emails(server=False):
 
     from data.email_notifications import pce_email, price_email
 
+    
+    start = time.time()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -123,4 +125,6 @@ def am_emails(server=False):
                 email.set(pce_email)
                 send_email(need_pce_file)
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)

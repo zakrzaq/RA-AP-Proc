@@ -1,7 +1,6 @@
 def single_sap_data(table: str | None, server=False):
-    import time
-    import pandas as pd
-    import os
+    import time, pandas as pd, os
+    start = time.time()
 
     from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
     import utils.prompts as pr
@@ -47,4 +46,6 @@ def single_sap_data(table: str | None, server=False):
                     f"{pr.cncl}Wrong table name provided: mara | marc | mvke | ausp | mlan | gts | price | text"
                 )
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
     return end_script(server)
