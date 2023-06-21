@@ -1,9 +1,4 @@
-import os
-import dotenv
-import warnings
-import logging
-import platform
-import pythoncom
+import os, dotenv, warnings, logging, platform, pythoncom
 
 import utils.prompts as pr
 
@@ -117,3 +112,15 @@ def get_dictionary_value(lst, key, value, return_value):
         if dictionary.get(key) == value:
             return dictionary[return_value]
     return ""
+
+def elpased_time(end: float, start: float) -> str:
+    time = end - start
+    if time > 0:
+        minutes = int(time / 60)
+        remainder = time % 60
+    else:
+        minutes = 0
+        remainder = 0
+
+    return f"{minutes}m {round(remainder, 2)}s" 
+

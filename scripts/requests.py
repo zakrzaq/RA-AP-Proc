@@ -4,7 +4,7 @@ def get_requests(server=False):
 
     from openpyxl.formula.translate import Translator
 
-    from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
+    from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script, elpased_time
     from utils.workbook import get_first_empty_row
     import utils.prompts as pr
     from state.output import output
@@ -176,5 +176,5 @@ def get_requests(server=False):
             log.save()
 
     end = time.time()
-    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
+    output.add(f"{pr.ok}Script completed: {elpased_time(end, start)}")
     return end_script(server)

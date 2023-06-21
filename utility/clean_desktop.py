@@ -1,8 +1,8 @@
 def clean_desktop(server=False):
-    import os
-    import shutil
+    import os, shutil, time
+    start = time.time()
 
-    from utils.helpers import end_script
+    from utils.helpers import end_script, elpased_time
     from state.output import output
     import utils.prompts as pr
 
@@ -85,4 +85,6 @@ def clean_desktop(server=False):
                 if "UPDATES TO Z62" in f:
                     handle_remove(f)
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {elpased_time(end, start)}")
     return end_script(server)
