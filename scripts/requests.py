@@ -9,7 +9,6 @@ from utils.helpers import (
     ignore_warnings,
     use_logger,
     end_script,
-    elpased_time,
 )
 from utils.workbook import get_first_empty_row
 import utils.prompts as pr

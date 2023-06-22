@@ -55,7 +55,7 @@ def reconcile_pce(server=False):
     output.add(f"{pr.done}Found {pce_feedback.shape[0]} materials to reconcile")
 
     # PCE FEEDBACK TO LOG
-    if (pce_feedback.shape[0] > 0):
+    if pce_feedback.shape[0] > 0:
         log.load()
         output.add(f"{pr.info}Processing PCE Reconciliation")
         ws_pce = log.ws_pce
