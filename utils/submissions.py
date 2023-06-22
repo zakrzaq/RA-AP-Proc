@@ -10,12 +10,9 @@ from state.email import email as email_state
 from state.output import output
 
 use_dotenv()
-use_coinit()
 
 
 def send_email(file=None):
-    use_coinit()
-
     email = email_state.get()
 
     outlook = win32.Dispatch("Outlook.application")
@@ -45,6 +42,8 @@ def send_extensions() -> None:
         Params:
         file: str, path to input XLSX files
         new_file: str, path to output XLS files"""
+
+        use_coinit()
 
         if ("AP_SOERF.xlsx" in file) or ("AP_MIF.xlsx" in file):
             xlApp = win32.Dispatch("Excel.Application")
