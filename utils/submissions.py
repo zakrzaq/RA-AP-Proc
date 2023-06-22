@@ -3,7 +3,6 @@ import time
 import win32com.client as win32
 from utils.helpers import use_dotenv, use_coinit
 from utils.datetime import mif_date
-from utils.helpers import use_coinit
 import utils.prompts as pr
 
 from state.email import email as email_state
@@ -13,6 +12,7 @@ use_dotenv()
 
 
 def send_email(file=None):
+    use_coinit()
     email = email_state.get()
 
     outlook = win32.Dispatch("Outlook.application")
