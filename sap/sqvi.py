@@ -84,6 +84,7 @@ def sqvi(table="PRICE", transaction="LIST_PRICE", copy_result=False):
             if copy_result:
                 df = get_single_sap(table)
                 df.to_clipboard(index=False)
+                output.add(f"{pr.file}{df.shape[0]} results copied to clipboard")
 
             output.add(f"{pr.ok}{table} data downloaded")
 
