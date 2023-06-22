@@ -1,4 +1,4 @@
-from utils.workbook import load_log, save_log
+from utils.workbook import load_log, save_log, get_first_empty_row
 
 sheet_list = [
     "Active Materials",
@@ -35,7 +35,7 @@ class Log:
         pass
 
     def insert_df(self, *args, **kwargs):
-        pass
+        return get_first_empty_row(*args, **kwargs)
 
     def get_last_row(self, *args, **kwargs):
         pass

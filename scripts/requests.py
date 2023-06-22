@@ -1,14 +1,22 @@
 import pandas as pd, os, time
+
 start = time.time()
 
 from openpyxl.formula.translate import Translator
 
-from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script, elpased_time
+from utils.helpers import (
+    use_dotenv,
+    ignore_warnings,
+    use_logger,
+    end_script,
+    elpased_time,
+)
 from utils.workbook import get_first_empty_row
 import utils.prompts as pr
 from state.output import output
 from state.log import log
 from state.time import timer
+
 
 def get_requests(server=False):
     timer.start()

@@ -6,6 +6,7 @@ from state.output import output
 from state.time import timer
 from sap import ih09, se16, gts, sqvi, text, open
 
+
 def single_sap_data(table: str | None, server=False):
     timer.start()
     use_dotenv()

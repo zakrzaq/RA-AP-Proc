@@ -1,5 +1,6 @@
 import time
 
+
 class Timer:
     def __init__(self):
         self.start_time = None
@@ -19,5 +20,6 @@ class Timer:
             minutes = int(elapsed_time // 60)
             seconds = int(elapsed_time % 60)
             return f"{minutes}m {seconds}s"
+
 
 timer = Timer()

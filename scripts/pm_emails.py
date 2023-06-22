@@ -15,6 +15,7 @@ from state.time import timer
 from utils.submissions import send_email
 from data.email_notifications import ccc_email, inhts_email, local_email
 
+
 def pm_emails(server=False):
     timer.start()
     use_dotenv()

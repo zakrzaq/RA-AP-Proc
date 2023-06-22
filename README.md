@@ -164,10 +164,13 @@ It says it on the tin.
 
 ## BUGFIXES
 
+- [ ] mif / soerf ext data populate - wrong last row / crash 
 - [ ] am_status to handle PROD CERT by review date
 - [ ] first run of sqvi, gts hang up on save to Excel
-- [x] single sap data: copy result to clipboard
+- [ ] (2023-06-22) if no data don't run ORG_SOURCE
+- [ ] (2023-06-22) requests formula extension only populates last row
 - [ ] [Rafael] improve excel DATE FORMATS
+- [x] single sap data: copy result to clipboard - 2023-06-22_1300
 - [x] spelling elapsed_time & fix Timer class to use in scripts - 2023-06-22 
 - [x] mif_soerf.py today_dmy UNBOUND - 2023-06-22
 - [x] update setup and readme - 2023-06-21
@@ -177,7 +180,6 @@ It says it on the tin.
 - [x] refactor all code for readability - 2023-06-21
 - [x] status messages on SAP data script - 2023-06-21
 - [x] archive PCE requests file name issue - 2023-06-21
-- [x] mif / soerf ext data populate - wrong last row / crash - 2023-06-21
 - [x] fix win32 CoInitlized issus with Excel / Outlook - 2023-06-21
 
 ## NEW FEATURES REQUESTS

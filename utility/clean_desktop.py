@@ -1,5 +1,6 @@
 def clean_desktop(server=False):
     import os, shutil, time
+
     start = time.time()
 
     from utils.helpers import end_script, elpased_time

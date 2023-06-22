@@ -12,8 +12,9 @@ from state.output import output
 from state.log import log
 from state.time import timer
 
+
 def pm_status(server=False):
-    timer.start() 
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()

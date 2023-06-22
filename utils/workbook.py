@@ -1,5 +1,6 @@
 import os
 import time
+from openpyxl.worksheet.worksheet import Worksheet
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.formula.translate import Translator
@@ -101,7 +102,7 @@ def extend_values(sheet, start_row=100, col_letter="A"):
         sheet[f"{col_letter}{i}"].value = last_row_value
 
 
-def get_first_empty_row(worksheet, col: str) -> int:
+def get_first_empty_row(worksheet: Worksheet, col: str):
     match col.lower():
         case "a":
             i = 0
@@ -110,9 +111,12 @@ def get_first_empty_row(worksheet, col: str) -> int:
         case _:
             i = 2
 
-    empty_row: int = 0
-    for row in worksheet.iter_rows():
-        if row[i].value == None:
-            empty_row: int = int(row[i].row)
-            return empty_row
-    return empty_row
+    if worksheet.max_row == 1048576:
+        empty_row: int = 0
+        for row in worksheet.iter_rows():
+            if row[i].value == None:
+                empty_row: int = int(row[i].row)
+                return empty_row
+        return empty_row
+    else:
+        worksheet.max_row

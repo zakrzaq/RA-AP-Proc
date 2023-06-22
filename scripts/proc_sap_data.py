@@ -23,6 +23,7 @@ from state.table import (
     tables,
 )
 
+
 def proc_sap_data(server=False):
     timer.start()
     use_dotenv()

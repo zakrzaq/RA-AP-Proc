@@ -11,6 +11,7 @@ from state.output import output
 from state.log import log
 from state.time import timer
 
+
 def reconcile_pce(server=False):
     timer.start()
     use_dotenv()

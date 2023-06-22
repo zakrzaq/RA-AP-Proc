@@ -113,6 +113,7 @@ def get_dictionary_value(lst, key, value, return_value):
             return dictionary[return_value]
     return ""
 
+
 def elpased_time(end: float, start: float) -> str:
     time = end - start
     if time > 0:
@@ -122,5 +123,4 @@ def elpased_time(end: float, start: float) -> str:
         minutes = 0
         remainder = 0
 
-    return f"{minutes}m {round(remainder, 2)}s" 
-
+    return f"{minutes}m {round(remainder, 2)}s"

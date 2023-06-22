@@ -22,13 +22,14 @@ from utils.datetime import today_dmy
 import utils.prompts as pr
 from utils.submissions import send_extensions
 
+
 def mif_soerf(server=False):
     timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
 
-    today_dmy = today_dmy()
+    today = today_dmy()
     output.reset()
 
     selected_active_view = get_selected_active()
@@ -111,13 +112,12 @@ def mif_soerf(server=False):
 
             if not df_log_mif.empty and log != None:
                 output.add(f"{pr.info}Processing mif data to log")
-                ws_mif = log.ws_mif
-                mif_last_row = get_first_empty_row(ws_mif, "A")
+                mif_last_row = get_first_empty_row(log.ws_mif, "A")
                 if mif_last_row:
-                    ws_mif[f"D{mif_last_row}"] = today_dmy
-                    populate_sap_data_sheet(df_log_mif, ws_mif, 1, mif_last_row)
-                    extend_concats(ws_mif, mif_last_row - 1, "C")
-                    extend_values(ws_mif, mif_last_row, "D")
+                    log.ws_mif[f"D{mif_last_row}"] = today
+                    populate_sap_data_sheet(df_log_mif, log.ws_mif, 1, mif_last_row)
+                    extend_concats(log.ws_mif, mif_last_row - 1, "C")
+                    extend_values(log.ws_mif, mif_last_row, "D")
                 else:
                     output.add(f"{pr.cncl}Could not populate mifs to Log")
             else:
@@ -125,13 +125,14 @@ def mif_soerf(server=False):
 
             if not df_log_soerf.empty and log != None:
                 output.add(f"{pr.info}Processing soerf data to log")
-                ws_soerf = log.ws_soerf
-                soerf_last_row = get_first_empty_row(ws_soerf, "A")
+                soerf_last_row = get_first_empty_row(log.ws_soerf, "A")
                 if soerf_last_row != None:
-                    ws_soerf[f"E{soerf_last_row}"] = today_dmy
-                    populate_sap_data_sheet(df_log_soerf, ws_soerf, 1, soerf_last_row)
-                    extend_concats(ws_soerf, soerf_last_row - 1, "D")
-                    extend_values(ws_soerf, soerf_last_row, "E")
+                    log.ws_soerf[f"E{soerf_last_row}"] = today
+                    populate_sap_data_sheet(
+                        df_log_soerf, log.ws_soerf, 1, soerf_last_row
+                    )
+                    extend_concats(log.ws_soerf, soerf_last_row - 1, "D")
+                    extend_values(log.ws_soerf, soerf_last_row, "E")
                     output.add(f"{pr.done}Complete")
                 else:
                     output.add(f"{pr.cncl}Could not populate soerfs to Log")
@@ -169,7 +170,7 @@ def mif_soerf(server=False):
                         os.path.join(os.environ["DIR_OUT"], "TEST_LOG_SOERF.xlsx"),
                         index=False,
                     )
-    
+
     timer.stop()
     output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)
