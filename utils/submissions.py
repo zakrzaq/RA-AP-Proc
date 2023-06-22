@@ -34,7 +34,7 @@ def send_email(file=None):
 
 
 def send_extensions() -> None:
-    """Save OUTPUTS mif/soerf and saves to correct dirs in EDM drive""" 
+    """Save OUTPUTS mif/soerf and saves to correct dirs in EDM drive"""
     use_coinit()
 
     def extension_xlsx_to_xls(file: str, new_file: str) -> None:
