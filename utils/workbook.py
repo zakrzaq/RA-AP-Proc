@@ -111,12 +111,12 @@ def get_first_empty_row(worksheet: Worksheet, col: str):
         case _:
             i = 2
 
-    if worksheet.max_row == 1048576:
+    if worksheet.max_row < 1048576:
+        return worksheet.max_row
+    else:
         empty_row: int = 0
         for row in worksheet.iter_rows():
             if row[i].value == None:
                 empty_row: int = int(row[i].row)
                 return empty_row
         return empty_row
-    else:
-        worksheet.max_row
