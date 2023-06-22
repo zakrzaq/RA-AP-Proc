@@ -33,12 +33,15 @@ def reconcile_pce(server=False):
         mifs["date"] = mifs["date"].map(lambda x: str(x)[:-9])
         mifs_today = mifs[mifs["date"] == today]
         mifs_list = mifs_today["MATERIAL"]
-        mifs_list.to_clipboard(sep=",", index=False, header=None)
-        os.system(f"{f_sap}")
-        time.sleep(7)
-        output.add(f"{pr.info}Running ORG Source AHK")
-        os.system(f"{f_org_source}")
-        output.add(f"{pr.done}Finished ORG Source")
+        if len(mifs_list.tolist()) > 0:
+            mifs_list.to_clipboard(sep=",", index=False, header=None)
+            os.system(f"{f_sap}")
+            time.sleep(7)
+            output.add(f"{pr.info}Running ORG Source AHK")
+            os.system(f"{f_org_source}")
+            output.add(f"{pr.done}Finished ORG Source")
+        else:
+            output.add(f"{pr.cncl}No mifs to process ORG Source for today")
 
     # FIND PCE REQUEST
     output.add(f"{pr.info}PCE Reconciliation")

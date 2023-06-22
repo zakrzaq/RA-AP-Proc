@@ -164,10 +164,7 @@ It says it on the tin.
 
 ## BUGFIXES
 
-- [ ] mif / soerf ext data populate - wrong last row / crash 
-- [ ] am_status to handle PROD CERT by review date
-- [ ] first run of sqvi, gts hang up on save to Excel
-- [ ] (2023-06-22) if no data don't run ORG_SOURCE
+- [x] mif / soerf ext data populate - wrong last row / crash - 2023-06-22 
 - [ ] (2023-06-22) requests formula extension only populates last row
 - [ ] [Rafael] improve excel DATE FORMATS
 - [x] single sap data: copy result to clipboard - 2023-06-22_1300

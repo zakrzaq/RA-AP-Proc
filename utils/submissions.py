@@ -34,7 +34,8 @@ def send_email(file=None):
 
 
 def send_extensions() -> None:
-    """Save OUTPUTS mif/soerf and saves to correct dirs in EDM drive"""
+    """Save OUTPUTS mif/soerf and saves to correct dirs in EDM drive""" 
+    use_coinit()
 
     def extension_xlsx_to_xls(file: str, new_file: str) -> None:
         """Saves mif/soerf XLSX from OUTPUT to XLS format to be used in MM extension
@@ -42,8 +43,6 @@ def send_extensions() -> None:
         Params:
         file: str, path to input XLSX files
         new_file: str, path to output XLS files"""
-
-        use_coinit()
 
         if ("AP_SOERF.xlsx" in file) or ("AP_MIF.xlsx" in file):
             xlApp = win32.Dispatch("Excel.Application")
@@ -54,7 +53,7 @@ def send_extensions() -> None:
             output.add(f"{pr.prmt}{new_file}")
             time.sleep(2)  # give Excel time to quit, otherwise files may be locked
             # os.unlink(file)
-            xlApp.Quit()
+            # xlApp.Quit()
 
     user = os.environ["USER_NAME"]
     mif_in = os.path.join(os.environ["DIR_OUT"], "AP_MIF.xlsx")
