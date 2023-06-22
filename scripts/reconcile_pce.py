@@ -1,17 +1,18 @@
+import os, pandas as pd, time
+
+from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
+from utils.datetime import today_ymd, today_dmy
+from utils.data_frames import get_active
+from utils.workbook import (
+    populate_sap_data_sheet,
+)
+import utils.prompts as pr
+from state.output import output
+from state.log import log
+from state.time import timer
+
 def reconcile_pce(server=False):
-    import os, pandas as pd, time
-    start = time.time()
-
-    from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script
-    from utils.datetime import today_ymd, today_dmy
-    from utils.data_frames import get_active
-    from utils.workbook import (
-        populate_sap_data_sheet,
-    )
-    import utils.prompts as pr
-    from state.output import output
-    from state.log import log
-
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -130,6 +131,6 @@ def reconcile_pce(server=False):
             f"{pr.cncl}Unable to load the LOG to update PCE or no materials to reconcile"
         )
 
-    end = time.time()
-    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

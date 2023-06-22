@@ -1,27 +1,29 @@
+import os
+
+from state.output import output
+from state.log import log
+from state.time import timer
+
+from utils.helpers import (
+    use_dotenv,
+    ignore_warnings,
+    end_script,
+    use_logger,
+)
+from utils.data_frames import get_selected_active
+from api.rtd.rtd_mif_soerf import rtd_mif_soerf
+from utils.workbook import (
+    populate_sap_data_sheet,
+    extend_concats,
+    extend_values,
+    get_first_empty_row,
+)
+from utils.datetime import today_dmy
+import utils.prompts as pr
+from utils.submissions import send_extensions
+
 def mif_soerf(server=False):
-    import os, time
-    start = time.time()
-
-    from state.output import output
-    from state.log import log
-    from utils.helpers import (
-        use_dotenv,
-        ignore_warnings,
-        end_script,
-        use_logger,
-    )
-    from utils.data_frames import get_selected_active
-    from api.rtd.rtd_mif_soerf import rtd_mif_soerf
-    from utils.workbook import (
-        populate_sap_data_sheet,
-        extend_concats,
-        extend_values,
-        get_first_empty_row,
-    )
-    from utils.datetime import today_dmy
-    import utils.prompts as pr
-    from utils.submissions import send_extensions
-
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -167,7 +169,7 @@ def mif_soerf(server=False):
                         os.path.join(os.environ["DIR_OUT"], "TEST_LOG_SOERF.xlsx"),
                         index=False,
                     )
-
-    end = time.time()
-    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
+    
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

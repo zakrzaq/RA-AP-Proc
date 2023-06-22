@@ -1,21 +1,22 @@
+import os, pandas as pd
+from datetime import date
+
+from utils.helpers import (
+    ignore_warnings,
+    end_script,
+    use_dotenv,
+    use_logger,
+)
+from utils.data_frames import get_active
+import utils.prompts as pr
+from state.output import output
+from state.email import email
+from state.time import timer
+from utils.submissions import send_email
+from data.email_notifications import ccc_email, inhts_email, local_email
+
 def pm_emails(server=False):
-    import os, time, pandas as pd
-    from datetime import date
-
-    from utils.helpers import (
-        ignore_warnings,
-        end_script,
-        use_dotenv,
-        use_logger,
-    )
-    from utils.data_frames import get_active
-    import utils.prompts as pr
-    from state.output import output
-    from state.email import email
-    from utils.submissions import send_email
-    from data.email_notifications import ccc_email, inhts_email, local_email
-
-    start = time.time()
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -178,6 +179,6 @@ def pm_emails(server=False):
                 email.set(local_email)
                 send_email(need_local_file)
 
-    end = time.time()
-    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

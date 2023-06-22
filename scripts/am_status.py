@@ -1,4 +1,3 @@
-import time 
 from utils.helpers import (
     end_script,
     use_dotenv,
@@ -13,10 +12,11 @@ from utils.workbook import populate_sheet_series
 
 from state.output import output
 from state.log import log
+from state.time import timer
 
 
 def am_status(server=False):
-    start = time.time()
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -128,6 +128,6 @@ def am_status(server=False):
         # SAVE
         log.save()
 
-    end = time.time()
-    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

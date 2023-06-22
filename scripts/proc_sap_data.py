@@ -1,29 +1,30 @@
+import pandas as pd
+
+from utils.helpers import (
+    use_dotenv,
+    ignore_warnings,
+    use_logger,
+    end_script,
+)
+from utils.workbook import populate_sap_data_sheet, extend_concats
+import utils.prompts as pr
+from state.output import output
+from state.log import log
+from state.time import timer
+from state.table import (
+    tbl_text,
+    tbl_mara,
+    tbl_marc,
+    tbl_mvke,
+    tbl_ausp,
+    tbl_mlan,
+    tbl_price,
+    tbl_gts,
+    tables,
+)
+
 def proc_sap_data(server=False):
-    import pandas as pd, time
-    start = time.time()
-
-    from utils.helpers import (
-        use_dotenv,
-        ignore_warnings,
-        use_logger,
-        end_script,
-    )
-    from utils.workbook import populate_sap_data_sheet, extend_concats
-    import utils.prompts as pr
-    from state.output import output
-    from state.log import log
-    from state.table import (
-        tbl_text,
-        tbl_mara,
-        tbl_marc,
-        tbl_mvke,
-        tbl_ausp,
-        tbl_mlan,
-        tbl_price,
-        tbl_gts,
-        tables,
-    )
-
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -113,6 +114,6 @@ def proc_sap_data(server=False):
         else:
             output.add(f"Missing {8 - inputs_not_empty} SAP data inputs")
 
-    end = time.time()
-    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

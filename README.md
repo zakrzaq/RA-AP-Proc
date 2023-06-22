@@ -166,8 +166,9 @@ It says it on the tin.
 
 - [ ] am_status to handle PROD CERT by review date
 - [ ] first run of sqvi, gts hang up on save to Excel
-- [ ] spelling elapsed_time & fix Timer class to use in scripts
 - [ ] [Rafael] improve excel DATE FORMATS
+- [x] spelling elapsed_time & fix Timer class to use in scripts - 2023-06-22 
+- [x] mif_soerf.py today_dmy UNBOUND - 2023-06-22
 - [x] update setup and readme - 2023-06-21
 - [x] fix env and file location not loading - 2023-06-21
 - [x] refactor sap data to class based system - 2023-06-21

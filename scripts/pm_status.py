@@ -1,20 +1,19 @@
+from utils.helpers import (
+    end_script,
+    ignore_warnings,
+    use_dotenv,
+    use_logger,
+    format_pce_price_dates,
+)
+from utils.workbook import populate_sheet_series
+from utils.data_frames import get_selected_active
+import utils.prompts as pr
+from state.output import output
+from state.log import log
+from state.time import timer
+
 def pm_status(server=False):
-    import time
-    start = time.time()
-
-    from utils.helpers import (
-        end_script,
-        ignore_warnings,
-        use_dotenv,
-        use_logger,
-        format_pce_price_dates,
-    )
-    from utils.workbook import populate_sheet_series
-    from utils.data_frames import get_selected_active
-    import utils.prompts as pr
-    from state.output import output
-    from state.log import log
-
+    timer.start() 
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -158,6 +157,6 @@ def pm_status(server=False):
         # SAVE
         log.save()
 
-    end = time.time()
-    output.add(f"{pr.ok}Script completed: {round(end - start, 2)}")
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

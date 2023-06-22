@@ -1,23 +1,23 @@
 import time
 
-from utils.helpers import elapsed_time
-import utils.prompts as pr
-
 class Timer:
     def __init__(self):
-        self.start = 0.001
-        self.end = 0.01
+        self.start_time = None
+        self.end_time = None
 
-    def __repr__(self) -> str:
-        return elapsed_time(self.end. self.start)
+    def start(self):
+        self.start_time = time.time()
 
-    def start(self) -> None:
-        self.start = time.time()
+    def stop(self):
+        self.end_time = time.time()
 
-    def stop(self) -> None:
-        self.end = time.time()
-
-    def result(self) -> str:
-        return f"{pr.ok}Script completed: {elapsed_time(self.end, self.start)}"
+    def get_elapsed_time(self):
+        if self.start_time is None or self.end_time is None:
+            return ""
+        else:
+            elapsed_time = self.end_time - self.start_time
+            minutes = int(elapsed_time // 60)
+            seconds = int(elapsed_time % 60)
+            return f"{minutes}m {seconds}s"
 
 timer = Timer()

@@ -1,15 +1,17 @@
+import pandas as pd, os, time
+start = time.time()
+
+from openpyxl.formula.translate import Translator
+
+from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script, elpased_time
+from utils.workbook import get_first_empty_row
+import utils.prompts as pr
+from state.output import output
+from state.log import log
+from state.time import timer
+
 def get_requests(server=False):
-    import pandas as pd, os, time
-    start = time.time()
-
-    from openpyxl.formula.translate import Translator
-
-    from utils.helpers import use_dotenv, ignore_warnings, use_logger, end_script, elpased_time
-    from utils.workbook import get_first_empty_row
-    import utils.prompts as pr
-    from state.output import output
-    from state.log import log
-
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -175,6 +177,6 @@ def get_requests(server=False):
         if ready_to_save:
             log.save()
 
-    end = time.time()
-    output.add(f"{pr.ok}Script completed: {elpased_time(end, start)}")
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)
