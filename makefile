@@ -16,3 +16,8 @@ run-server:
 
 format:
 	python -m black ./
+
+reqs:
+	pipreqs . --force
+
+
