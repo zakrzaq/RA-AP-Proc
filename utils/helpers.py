@@ -51,7 +51,6 @@ def end_script(server):
 
 
 def format_pce_price_dates(x: str) -> str:
-    # print(x)
     if str(x) == "comp":
         return str(x)
     elif str(x) == "nan":

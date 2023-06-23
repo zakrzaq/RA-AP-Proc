@@ -28,7 +28,6 @@ class Log:
 
     def save(self, *args, **kwargs):
         """Saves AP log file to Sharepoint"""
-        print("kw", kwargs)
         save_log(self.workbook, *args, **kwargs) if self.loaded else None
 
     def insert_series(self, *args, **kwargs):

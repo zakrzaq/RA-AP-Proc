@@ -27,7 +27,6 @@ def load_log():
 
 
 def save_log(log, server=True, name="TEST_output"):
-    print(server)
 
     def save():
         start = time.time()
@@ -95,7 +94,6 @@ def extend_concats(sheet, start_row=100, col_letter="A"):
 def extend_values(sheet, start_row=100, col_letter="A"):
     last_row = sheet.max_row
     last_row_value = sheet[f"{col_letter}{last_row}"].value
-    print(last_row_value)
     i = start_row
     while i < last_row:
         i += 1
