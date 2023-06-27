@@ -1,9 +1,8 @@
-import os
 import pandas as pd
 from api.apmm.apmm_connector import con_apmm, close_apmm
-from helpers.data_frames import get_active
-
-sql_dir = os.path.join(os.getcwd(), "api", "apmm", "sql")
+from utils.data_frames import get_active
+from utils.helpers import get_dictionary_value
+from data.files import apmm_dev_sql
 
 
 def create_log():
@@ -15,7 +14,9 @@ def create_log():
         sel2 = log.iloc[:, 51:58]
         sel = pd.concat([sel1, sel2])
 
-        with open(os.path.join(sql_dir, "create_log.sql")) as f:
+        with open(
+            get_dictionary_value(apmm_dev_sql, "name", "create_log", "path")
+        ) as f:
             con.executescript(f.read())
 
         sel.to_sql("log", con, if_exists="replace", index=False)
@@ -28,10 +29,14 @@ def create_log_view():
     con = con_apmm()[0]
 
     if con:
-        with open(os.path.join(sql_dir, "drop_log_view.sql")) as f:
+        with open(
+            get_dictionary_value(apmm_dev_sql, "name", "drop_log_view", "path")
+        ) as f:
             con.executescript(f.read())
 
-        with open(os.path.join(sql_dir, "create_log_view.sql")) as f:
+        with open(
+            get_dictionary_value(apmm_dev_sql, "name", "create_log_view", "path")
+        ) as f:
             con.execute(f.read())
 
     close_apmm(con)

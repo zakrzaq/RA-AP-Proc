@@ -18,5 +18,6 @@ def get_json_data(query):
             for index, value in enumerate(r):
                 row[col_names[index]] = value
             result.append(row)
+        close_apmm(con)
 
         return json.dumps(result, indent=4)

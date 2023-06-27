@@ -1,10 +1,11 @@
 def clean_desktop(server=False):
-    import os
-    import shutil
+    import os, shutil, time
 
-    from helpers.helpers import end_script
+    start = time.time()
+
+    from utils.helpers import end_script, elpased_time
     from state.output import output
-    import helpers.prompts as pr
+    import utils.prompts as pr
 
     output.reset()
     report_directory = os.environ["EDM_APMM"]
@@ -68,6 +69,7 @@ def clean_desktop(server=False):
                     or ("_AP form ") in f
                     or ("AP form " in f)
                     or ("ap form " in f)
+                    or ("ZX%20Block" in f)
                 ):
                     handle_archive(f, dir_ap_req_archive)
                 # if (
@@ -84,4 +86,6 @@ def clean_desktop(server=False):
                 if "UPDATES TO Z62" in f:
                     handle_remove(f)
 
+    end = time.time()
+    output.add(f"{pr.ok}Script completed: {elpased_time(end, start)}")
     return end_script(server)

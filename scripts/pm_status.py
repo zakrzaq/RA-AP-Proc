@@ -1,25 +1,28 @@
-def pm_status(server=False):
-    from helpers.helpers import (
-        end_script,
-        ignore_warnings,
-        use_dotenv,
-        use_logger,
-        format_pce_price_dates,
-    )
-    from helpers.log import save_log, load_log
-    from helpers.xlsm import populate_sheet_series
-    from helpers.data_frames import get_selected_active
-    import helpers.prompts as pr
-    from state.output import output
+from utils.helpers import (
+    end_script,
+    ignore_warnings,
+    use_dotenv,
+    use_logger,
+    format_pce_price_dates,
+)
+from utils.workbook import populate_sheet_series
+from utils.data_frames import get_selected_active
+import utils.prompts as pr
+from state.output import output
+from state.log import log
+from state.time import timer
 
+
+def pm_status(server=False):
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
 
-    log = load_log()
+    log.load()
     selected_active_view = get_selected_active()
     if log and not selected_active_view.empty:
-        ws_active = log["Active Materials"]
+        ws_active = log.ws_active
         output.reset()
 
         # VERIFY PRICED
@@ -153,6 +156,8 @@ def pm_status(server=False):
         populate_sheet_series(price_date_output, ws_active, 48, 2)
 
         # SAVE
-        save_log(log)
+        log.save()
 
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

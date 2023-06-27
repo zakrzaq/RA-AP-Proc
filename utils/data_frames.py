@@ -1,15 +1,22 @@
 import os
 import pandas as pd
 
-from helpers.helpers import use_dotenv
-import helpers.prompts as pr
+from utils.helpers import use_dotenv
+import utils.prompts as pr
 from state.output import output
 
 use_dotenv()
 
 
-def df_to_list(df):
-    print(df)
+def df_to_list(df: pd.DataFrame) -> list:
+    """Converts DF to python list of lists.
+
+    Args:
+    df: DataFrame
+
+    Returns:
+    []
+    """
     out = []
     for i, r in df.iterrows():
         row = []
@@ -180,6 +187,21 @@ def handle_eod_report(file):
     return output
 
 
-def get_single_sap(table: str):
+def get_single_sap(table: str) -> pd.DataFrame:
+    """Loads SAP table Excel data from file in INPUTS dir.
+
+    Args:
+    table (str): <mara | marc | mvke | ausp | mlan | price | gts | sales_text>
+
+    Returns:
+    Pandas DataFrame | None"""
+
+    table = table.lower()
     filename = table + ".xls" if table == "sales_text" else table + ".xlsx"
-    return pd.read_excel(os.path.join(os.environ["DIR_IN"], filename))
+    if table == "sales_text":
+        df = pd.read_csv(
+            os.path.join(os.environ["DIR_IN"], filename), sep="\t", encoding="utf-16"
+        )
+    else:
+        df = pd.read_excel(os.path.join(os.environ["DIR_IN"], filename))
+    return df if not df.empty else pd.DataFrame()

@@ -1,21 +1,25 @@
 def am_emails(server=False):
     import os
 
-    from helpers.helpers import (
+    from utils.helpers import (
         use_dotenv,
         ignore_warnings,
         end_script,
         use_logger,
         format_request_date,
     )
-    from helpers.datetime import today_ymd
-    from helpers.data_frames import get_active
-    import helpers.prompts as pr
+    from utils.datetime import today_ymd
+    from utils.data_frames import get_active
+    from utils.submissions import send_email
+    import utils.prompts as pr
+
     from state.output import output
     from state.email import email
-    from helpers.emails import send_email
+    from state.time import timer
+
     from data.email_notifications import pce_email, price_email
 
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -58,14 +62,6 @@ def am_emails(server=False):
             output.add(f"{pr.cncl}NO PRICE REQUESTS")
         else:
             need_price["Date Added"] = need_price["Date Added"].map(format_request_date)
-            # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
-            # need_price[["Date Added", "pricing request"]] = need_price[
-            #     ["Date Added", "pricing request"]
-            # ].apply(pd.to_datetime)
-            # need_price["Date Added"] = need_price["Date Added"].dt.strftime("%m/%d/%Y")
-            # need_price["pricing request"] = need_price["pricing request"].dt.strftime(
-            #     "%m/%d/%Y"
-            # )
 
             output.add(f"{pr.info}Needing price: {len(need_price)}")
             # PRICE REQUEST FILE
@@ -74,6 +70,11 @@ def am_emails(server=False):
                 f"AP pricing needed with active demand {today_file}.xlsx",
             )
             need_price.to_excel(need_price_list_file, index=False)
+
+            # SEND EMAIL
+            if os.path.isfile(need_price_list_file):
+                email.set(price_email)
+                send_email(need_price_list_file)
 
         # PCE REQUEST
         active_wt_pce_req = active.loc[
@@ -111,14 +112,6 @@ def am_emails(server=False):
             need_pce.drop_duplicates(
                 subset=["SAP MATNR\n(from request form)", "target sorg"], keep="last"
             )
-            # NOTE: OLD DATE FORMATTING | TO CLEAN UP LATER
-            # need_pce[['Date Added', 'Date of PCE review', "PCE cert rev req'd"]] = need_pce[[
-            #     'Date Added', 'Date of PCE review', "PCE cert rev req'd"]].apply(pd.to_datetime)
-            # need_pce['Date Added'] = need_pce['Date Added'].dt.strftime('%m/%d/%Y')
-            # need_pce['Date of PCE review'] = need_pce['Date of PCE review'].dt.strftime(
-            #     '%m/%d/%Y')
-            # need_pce["PCE cert rev req'd"] = need_pce["PCE cert rev req'd"].dt.strftime(
-            #     '%m/%d/%Y')
 
             output.add(f"{pr.info}PCE requests: {len(active_wt_pce_req)}")
             # PCE REQUEST FILE - AM
@@ -127,11 +120,11 @@ def am_emails(server=False):
             )
             need_pce.to_excel(need_pce_file, index=False)
 
-            # SEND EMAILS
-            email.set(pce_email)
-            send_email(need_pce_file)
+            # SEND EMAIL
+            if os.path.isfile(need_pce_file):
+                email.set(pce_email)
+                send_email(need_pce_file)
 
-            email.set(price_email)
-            send_email(need_price_list_file)
-
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

@@ -1,118 +1,96 @@
-# import os
-# import pandas as pd
-
-# from helpers.helpers import use_dotenv
-# from api.apmm.apmm_connector import con_apmm, close_apmm
-
-# use_dotenv()
-
-# files = {
-#     "data": os.path.join(os.environ["DIR_OUT"], "TEST_sap_load.xlsx"),
-#     "ap_log": os.environ["AP_LOG"],
-# }
-
-# table = "log"
-# sheet = "log"
-
-# df = pd.DataFrame()
-# df = pd.read_excel(files["data"])
-# # df = pd.read_excel(files["ap_log"], sheet)
-
-# if not df.empty:
-#     print(list(df.columns))
-#     print(df.dtypes)
-
-# match table:
-#     case "mif":
-#         columns = ["matnr", "dwerk", "concat", "date"]
-#         df.columns = columns
-#         df = df.drop(columns=["concat"])
-#         df["matnr"] = df["matnr"].astype("str")
-#         df["dwerk"] = df["dwerk"].map(lambda x: str(x)[:-2])
-#         df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
-#     case "soerf":
-#         columns = ["matnr", "cat_no", "vkorg", "concat", "date"]
-#         df.columns = columns
-#         df = df.drop(columns=["concat"])
-#         df["matnr"] = df["matnr"].astype("str")
-#         df["cat_no"] = df["cat_no"].astype("str")
-#         df["vkorg"] = df["vkorg"].map(lambda x: str(x)[:-2])
-#         df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
-#     case "pce":
-#         columns = [
-#             "concat",
-#             "matnr",
-#             "klart",
-#             "certification",
-#             "assesment",
-#             "date",
-#             "assesor",
-#         ]
-#         df.columns = columns
-#         df = df.drop(columns=["concat", "assesor"])
-#         df["matnr"] = df["matnr"].astype("str")
-#         df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
-#     case "pce_archive":
-#         columns = [
-#             "concat",
-#             "matnr",
-#             "klart",
-#             "certification",
-#             "assesment",
-#             "date",
-#             "assesor",
-#         ]
-#         df.columns = columns
-#         df = df.drop(columns=["concat", "assesor"])
-#         df["matnr"] = df["matnr"].astype("str")
-#         df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
-#     case _:
-#         print("no table matched")
-
-# con, cur = con_apmm()
-# if con and not df.empty:
-#     df.to_sql(table, con=con, index=False)
-
-
-# from api.queries import get_json_data
-
-# print(get_json_data("select_all"))
-
-import pandas as pd
+from ahk import AHK
+from ahk.directives import NoTrayIcon
+import time
 import os
-from openpyxl.formula.translate import Translator
 
-from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
-from helpers.log import save_log, load_log
-import helpers.prompts as pr
+from sap.open import get_sap
+from utils.helpers import use_dotenv
+from utils.data_frames import get_single_sap
 from state.output import output
+import utils.prompts as pr
 
-use_dotenv()
-use_logger()
-ignore_warnings()
+ahk = AHK(directives=[NoTrayIcon])
+ahk.set_detect_hidden_windows(True)
+ahk.set_title_match_mode(("RegEx", "Slow"))
 
-# VARIABLES
-ready_to_save = False
-output.reset()
 
-# OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-log = load_log()
-if log:
-    ws_active = log["Active Materials"]
+def sqvi(table="PRICE", transaction="LIST_PRICE", copy_result=False):
+    use_dotenv()
+    out_file = os.path.join(os.environ["DIR_IN"], f"{table}.XLSX")
 
-active_matnr_list_file = os.path.join(os.environ["DIR_OUT"], "AP materials.txt")
-active_matnr_list = ""
-with open(active_matnr_list_file, "w") as file:
-    for row in ws_active:
-        if row[4].value != None:
-            if type(row[4].value) is int:
-                numeric_matnr = (18 - len(str(row[4].value))) * "0" + str(row[4].value)
-                active_matnr_list += numeric_matnr + "\n"
-            elif "SAP MATNR" in row[4].value:
-                continue
-            else:
-                active_matnr_list += row[4].value + "\n"
-    file.write(active_matnr_list)
-    file.close()
-    material_count = active_matnr_list.count("\n")
-    output.add(f"{pr.file}Material list saved with {material_count} materials")
+    try:
+        sap = get_sap()
+        time.sleep(3)
+        if sap:
+            output.add(f"{pr.info}Downloading {table} from SAP")
+            if os.path.exists(out_file):
+                os.remove(out_file)
+            sap.activate()
+            ahk.send_input("/osqvi {Enter}")
+            ahk.win_wait_active("QuickViewer: Initial Screen")
+            time.sleep(2)
+            ahk.send_input(f"{transaction}")
+            ahk.send_input("{F8}")
+            ahk.win_wait_active("AP_LIST_PRICE")
+            time.sleep(1)
+            # select variant
+            ahk.send("+{F5}")
+            ahk.win_wait_active("ABAP: Variant Directory of Program")
+            time.sleep(1)
+            ahk.send("{down}")
+            time.sleep(1)
+            ahk.send("{up}")
+            time.sleep(1)
+            ahk.send("{F2}")
+            time.sleep(1)
+            # paste parts
+            ahk.send("{Tab}")
+            ahk.send("{Tab}")
+            ahk.send("{Enter}")
+            ahk.win_wait_active(f"Multiple Selection for Material Number")
+            time.sleep(1)
+            ahk.send("+{F12}")
+            time.sleep(3)
+            ahk.send("{F8}")
+            time.sleep(3)
+            # execute
+            ahk.send("{F8}")
+            ahk.win_wait_active("AP_LIST_PRICE")
+            time.sleep(5)
+            # save
+            # ahk.send("+{F10}")
+            # time.sleep(1)
+            # ahk.send("{up}")
+            # time.sleep(1)
+            # ahk.send("{Enter}")
+            # time.sleep(1)
+            # ahk.send("{Enter}")
+            # ahk.win_wait_active("Save As")
+            # time.sleep(2)
+            # ahk.send("+{tab} {tab}")
+            # time.sleep(2)
+            # ahk.send(f"{out_file}")
+            # ahk.send("{Enter}")
+            # time.sleep(2)
+            # # close excel results
+            # excel = ahk.win_wait_active(f"{table}.XLSX - Excel")
+            # if ahk.win_exists(f"{table}.XLSX - Excel"):
+            #     ahk.send("^w")
+            #     excel.minimize()
+            # # close sap results
+            # sap_results = ahk.win_wait_active("AP_LIST_PRICE")
+            # if sap_results.exist:
+            #     sap_results.close()
+            #
+            # if copy_result:
+            #     df = get_single_sap(table)
+            #     df.to_clipboard(index=False)
+            #     output.add(f"{pr.file}{df.shape[0]} results copied to clipboard")
+            #
+            # output.add(f"{pr.ok}{table} data downloaded")
+
+    except TimeoutError:
+        output.add(f"{pr.cncl}failed to launch SAP!")
+
+
+sqvi()

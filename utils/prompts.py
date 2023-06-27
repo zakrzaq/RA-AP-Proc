@@ -1,0 +1,8 @@
+info = "[📖 INFO]: "
+done = "[💣 DONE]: "
+prmt = "[🚧 PROMPT]: "
+file = "[📦 FILE]: "
+ok = "[🌟 OK]: "
+cncl = "[🚨 CANCEL]: "
+conn = "[🌎 CONN]: "
+email = "[📧 EMAIL]: "

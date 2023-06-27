@@ -16,7 +16,11 @@ from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
 from scripts.single_sap_data import single_sap_data
 
-from helpers.helpers import use_logger, clear
+from utils.helpers import use_logger, clear
+from utils.startup import check_process_files
+
+use_logger()
+check_process_files()
 
 if sys.argv[1] in ["test"]:
     server = False
@@ -25,7 +29,6 @@ if sys.argv[1] in ["prod", "server"]:
 else:
     server = False
 
-use_logger()
 
 table_names = ["mara", "marc", "mvke", "ausp", "mlan", "price", "gts", "sales_text"]
 

@@ -3,10 +3,10 @@ from ahk.directives import NoTrayIcon
 import time
 import os
 from sap.open import get_sap
-from helpers.helpers import use_dotenv
-from helpers.data_frames import get_single_sap
+from utils.helpers import use_dotenv
+from utils.data_frames import get_single_sap
 from state.output import output
-import helpers.prompts as pr
+import utils.prompts as pr
 
 ahk = AHK(directives=[NoTrayIcon])
 # ahk.set_detect_hidden_windows(True)
@@ -86,6 +86,7 @@ def se16(table="MVKE", copy_result=False):
             if copy_result:
                 df = get_single_sap(table)
                 df.to_clipboard(index=False)
+                output.add(f"{pr.file}{df.shape[0]} results copied to clipboard")
 
             output.add(f"{pr.ok}{table} data downloaded")
 

@@ -1,19 +1,22 @@
-from helpers.log import load_log, save_log
-from helpers.xlsm import populate_sheet_series
-from helpers.helpers import (
+from utils.helpers import (
     end_script,
     use_dotenv,
     ignore_warnings,
     use_logger,
     format_pce_price_dates,
 )
-from helpers.datetime import today_ymd
-from helpers.data_frames import get_selected_active
-import helpers.prompts as pr
+from utils.datetime import today_ymd
+from utils.data_frames import get_selected_active
+import utils.prompts as pr
+from utils.workbook import populate_sheet_series
+
 from state.output import output
+from state.log import log
+from state.time import timer
 
 
 def am_status(server=False):
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -22,11 +25,11 @@ def am_status(server=False):
     today = today_ymd()[-5:]
 
     # LOAD LOG
-    log = load_log()
-    ws_active = log["Active Materials"]
+    log.load()
     selected_active_view = get_selected_active()
 
     if log and not selected_active_view.empty:
+        ws_active = log.ws_active
         # MATNRs PRICE NEEDED
         need_price = (
             (selected_active_view["target sorg price"].isna())
@@ -123,6 +126,8 @@ def am_status(server=False):
         populate_sheet_series(price_date_output, ws_active, 48, 2)
 
         # SAVE
-        save_log(log)
+        log.save()
 
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

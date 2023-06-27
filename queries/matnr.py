@@ -1,7 +1,7 @@
 import os
-from helpers.data_frames import get_selected_active, get_selected_archive
+from utils.data_frames import get_selected_active, get_selected_archive
 import pandas as pd
-from helpers.helpers import use_dotenv
+from utils.helpers import use_dotenv
 
 use_dotenv()
 active = get_selected_active()
@@ -14,7 +14,7 @@ target_sorgs = []
 f = open("test.txt", "w")
 for line in archive.columns:
     line = f'"{line}"'
-f.write("; ".join(archive.columns))
+f.write("; ".join(archive.columns))  # type: ignore
 f.close()
 
 if len(target_sorgs) < 1:

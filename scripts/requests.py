@@ -1,13 +1,24 @@
+import pandas as pd, os, time
+
+start = time.time()
+
+from openpyxl.formula.translate import Translator
+
+from utils.helpers import (
+    use_dotenv,
+    ignore_warnings,
+    use_logger,
+    end_script,
+)
+from utils.workbook import get_first_empty_row, legacy_last_row
+import utils.prompts as pr
+from state.output import output
+from state.log import log
+from state.time import timer
+
+
 def get_requests(server=False):
-    import pandas as pd
-    import os
-    from openpyxl.formula.translate import Translator
-
-    from helpers.helpers import use_dotenv, ignore_warnings, use_logger, end_script
-    from helpers.log import save_log, load_log
-    import helpers.prompts as pr
-    from state.output import output
-
+    timer.start()
     use_dotenv()
     use_logger()
     ignore_warnings()
@@ -17,18 +28,21 @@ def get_requests(server=False):
     output.reset()
 
     # OPEN LOG FILE NAD GENERATE SHEETS VARIABLES
-    log = load_log()
+    log.load()
     if log:
-        ws_active = log["Active Materials"]
+        ws_active = log.ws_active
         # IMPORT REQUESTS FORM DESKTOP
         output.add(f"{pr.file}Reading request files")
         directory = os.environ["DIR_IN"]
         requests = pd.DataFrame()
         for filename in os.listdir(directory):
             if filename.endswith(".xlsm"):
-                if "AP_Material_Master_Service_Request_Form" in filename:
+                if (
+                    "AP_Material_Master_Service_Request_Form" in filename
+                    or "ZX%20Block" in filename
+                ):
                     file = os.path.join(directory, filename)
-                    output.add(f"{pr.file}filename")
+                    output.add(f"{pr.file}{filename}")
                     df = pd.read_excel(file, 2)
                     df = df.iloc[1:, :]
                     requests = pd.concat([requests, df])
@@ -48,25 +62,21 @@ def get_requests(server=False):
 
             # POPULATE REQUEST TO LOG
             output.add(f"{pr.info}Transferring to LOG")
-            for cell in ws_active["B"]:
-                if cell.value is None:
-                    ws_active_firstrow = cell.row
-                    break
             # TODO: set date format to excel column
 
             requests = requests.fillna("")
             requests_output = []
             for index, row in requests.iterrows():
-                requests_output.append(row.values.tolist())
+                requests_output.append(list(row.values))
 
-            for rowy, row in enumerate(requests_output, start=ws_active_firstrow):
+            start_row = legacy_last_row(ws_active, "B")
+            for rowy, row in enumerate(
+                requests_output, start=start_row if start_row else 1000
+            ):
                 for colx, value in enumerate(row, start=1):
                     ws_active.cell(column=colx, row=rowy, value=value)
 
-            for cell in ws_active["B"]:
-                if cell.value is None:
-                    ws_active_lastrow = cell.row
-                    break
+            last_row = legacy_last_row(ws_active, "B")
 
             # EXTEND FORMULAS By Col / Rows
             output.add(f"{pr.info}LOG data formatting")
@@ -112,40 +122,38 @@ def get_requests(server=False):
                 "BD",
                 "BE",
             ]
-            ws_active_lastrow -= 1
-            for x in column_list:
-                i = ws_active_firstrow - 1
-                while i < ws_active_lastrow:
+            if last_row:
+                last_row -= 1
+                for x in column_list:
+                    i = start_row - 1
+                    while i < last_row:
+                        i += 1
+                        formula = ws_active[f"{x}2"].value
+                        ws_active[f"{x}{i}"] = Translator(
+                            formula, origin=f"{x}2"
+                        ).translate_formula(f"{x}{i}")
+
+                # FORMAT REQUESTS DATES
+                output.add(f"{pr.info}Formatting request dates")
+                for r in range(2, start_row - 1):
+                    ws_active[f"A{r}"].number_format = "mm/dd/yy;@"
+
+                # CREATE SORT
+                output.add(f"{pr.info}Creating sort order")
+                sort_count = last_row + 1
+                i = 2
+                while i < sort_count:
+                    if i == 1:
+                        continue
+                    ws_active[f"BF{i}"].value = i - 1
                     i += 1
-                    formula = ws_active[f"{x}2"].value
-                    ws_active[f"{x}{i}"] = Translator(
-                        formula, origin=f"{x}2"
-                    ).translate_formula(f"{x}{i}")
-
-            # FORMAT REQUESTS DATES
-            output.add(f"{pr.info}Formatting request dates")
-            for r in range(2, ws_active_lastrow):
-                ws_active[f"A{r}"].number_format = "mm/dd/yy;@"
-
-            # CREATE SORT
-            output.add(f"{pr.info}Creating sort order")
-            sort_count = ws_active_lastrow + 1
-            i = 2
-            while i < sort_count:
-                if i == 1:
-                    continue
-                ws_active[f"BF{i}"].value = i - 1
-                i += 1
 
             ready_to_save = True
 
         else:
             output.add(f"{pr.cncl}No request files found", ["code-line", "red"])
 
-        if ready_to_save:
-            save_log(log)
-
-        # MAKE LIST OF MATERIALS IN AP LOG
+        # MAKE LIST OF MATERIxALS IN AP LOG
         output.add(f"{pr.info}Saving material list")
         active_matnr_list_file = os.path.join(os.environ["DIR_OUT"], "AP materials.txt")
 
@@ -157,20 +165,25 @@ def get_requests(server=False):
 
         active_matnr_list = ""
         with open(active_matnr_list_file, "w") as file:
-            for row in ws_active:
+            for row in ws_active.iter_rows():
                 if row[4].value != None:
                     if type(row[4].value) is int:
                         numeric_matnr = (18 - len(str(row[4].value))) * "0" + str(
                             row[4].value
                         )
                         active_matnr_list += numeric_matnr + "\n"
-                    elif "SAP MATNR" in row[4].value:
+                    elif "SAP MATNR" in str(row[4].value):
                         continue
                     else:
-                        active_matnr_list += row[4].value + "\n"
+                        active_matnr_list += str(row[4].value) + "\n"
             file.write(active_matnr_list)
             file.close()
             material_count = active_matnr_list.count("\n")
             output.add(f"{pr.file}Material list saved with {material_count} materials")
 
+        if ready_to_save:
+            log.save()
+
+    timer.stop()
+    output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
     return end_script(server)

@@ -2,13 +2,13 @@ import oracledb
 
 from configs.rtd_config import username, password, RTD
 
-import helpers.prompts as pr
+import utils.prompts as pr
 from state.output import output
 
 
 def connect_rtd():
     try:
-        con = oracledb.connect(
+        con = oracledb.connect(  # type: ignore
             user=username,
             password=password,
             dsn=RTD,
@@ -22,7 +22,7 @@ def connect_rtd():
     except oracledb.DatabaseError as e:
         output.add(f"{pr.conn}RTD disconnected")
         output.add(f"{pr.conn}{e}")
-        return None
+        return None, None
 
 
 def close_rtd(con, cur):

@@ -13,3 +13,11 @@ run-cli:
 
 run-server:
 	flask --debug run --host=0.0.0.0
+
+format:
+	python -m black ./
+
+reqs:
+	pipreqs . --force
+
+
