@@ -14,9 +14,9 @@ def single_sap_data(table: str | None, server=False):
     ignore_warnings()
     output.reset()
 
-    f_materials_list = os.path.join(os.environ["DIR_OUT"], "AP materials.txt")
 
     # READ LIST OF MATERIALS
+    f_materials_list = os.path.join(os.environ["DIR_OUT"], "AP materials.txt")
     output.add(f"{pr.info}Loading current material list")
     material_list = pd.read_csv(f_materials_list, header=None)
     output.add(f"{pr.info}Material in list today: {len(material_list)}")

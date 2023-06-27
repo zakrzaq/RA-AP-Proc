@@ -32,7 +32,9 @@ def open_sap():
             ahk.send_input("{Tab}")
             ahk.type(password)
             ahk.send_input("{Enter}")
+            win = ahk.win_wait_active(title="SAP Easy Access")
             output.add(f"{pr.conn}SAP instance running")
+            return win
     except TimeoutError:
         output.add(f"{pr.cncl}failed to launch SAP!")
 
@@ -42,4 +44,4 @@ def get_sap():
     if win:
         return win
     else:
-        open_sap()
+        return open_sap()
