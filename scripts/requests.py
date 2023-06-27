@@ -10,7 +10,7 @@ from utils.helpers import (
     use_logger,
     end_script,
 )
-from utils.workbook import get_first_empty_row
+from utils.workbook import get_first_empty_row, legacy_last_row
 import utils.prompts as pr
 from state.output import output
 from state.log import log
@@ -69,14 +69,14 @@ def get_requests(server=False):
             for index, row in requests.iterrows():
                 requests_output.append(list(row.values))
 
-            start_row = get_first_empty_row(ws_active, "B")
+            start_row = legacy_last_row(ws_active, "B")
             for rowy, row in enumerate(
                 requests_output, start=start_row if start_row else 1000
             ):
                 for colx, value in enumerate(row, start=1):
                     ws_active.cell(column=colx, row=rowy, value=value)
 
-            start_row = get_first_empty_row(ws_active, "B")
+            last_row = legacy_last_row(ws_active, "B") 
 
             # EXTEND FORMULAS By Col / Rows
             output.add(f"{pr.info}LOG data formatting")
@@ -122,10 +122,10 @@ def get_requests(server=False):
                 "BD",
                 "BE",
             ]
-            if start_row:
-                last_row = start_row - 1
+            if last_row:
+                last_row -= 1
                 for x in column_list:
-                    i = last_row - 1
+                    i = start_row - 1
                     while i < last_row:
                         i += 1
                         formula = ws_active[f"{x}2"].value

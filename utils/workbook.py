@@ -118,3 +118,19 @@ def get_first_empty_row(worksheet: Worksheet, col: str):
                 empty_row: int = int(row[i].row)
                 return empty_row
         return empty_row
+
+def legacy_last_row(worksheet: Worksheet, col: str):
+    match col.lower():
+        case "a":
+            i = 0
+        case "b":
+            i = 1
+        case _:
+            i = 2
+
+    empty_row: int = 0
+    for row in worksheet.iter_rows():
+        if row[i].value == None:
+            empty_row: int = int(row[i].row)
+            return empty_row
+    return empty_row
