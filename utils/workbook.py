@@ -27,7 +27,6 @@ def load_log():
 
 
 def save_log(log, server=True, name="TEST_output"):
-
     def save():
         start = time.time()
         output.add(f"{pr.file}LOG is being saved")
@@ -118,6 +117,7 @@ def get_first_empty_row(worksheet: Worksheet, col: str):
                 empty_row: int = int(row[i].row)
                 return empty_row
         return empty_row
+
 
 def legacy_last_row(worksheet: Worksheet, col: str):
     match col.lower():

@@ -76,7 +76,7 @@ def get_requests(server=False):
                 for colx, value in enumerate(row, start=1):
                     ws_active.cell(column=colx, row=rowy, value=value)
 
-            last_row = legacy_last_row(ws_active, "B") 
+            last_row = legacy_last_row(ws_active, "B")
 
             # EXTEND FORMULAS By Col / Rows
             output.add(f"{pr.info}LOG data formatting")
