@@ -20,7 +20,7 @@ from utility.mif_soerf_check import mif_soerf_check
 server = True
 
 
-client_routes = Blueprint("routes", __name__)
+client_routes = Blueprint("client", __name__)
 
 # MIDDLEWARE
 

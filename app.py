@@ -1,8 +1,9 @@
 import sys
-from flask import Flask, Response
-from flask_cors import CORS, cross_origin
+from flask import Flask
+from flask_cors import CORS
 
 from routes.client import client_routes
+from routes.api import api_routes
 
 from utils.startup import check_process_files
 from utils.helpers import use_logger
@@ -19,16 +20,8 @@ except Exception as Argument:
 app = Flask(__name__)
 CORS(app)
 
+# Routes
 
 app.register_blueprint(client_routes)
+app.register_blueprint(api_routes)
 
-
-# API ROUTES
-from api.queries import get_json_data
-
-
-@app.route("/api/all")
-@cross_origin()
-def api_all():
-    response = Response(get_json_data("select_all"))
-    return response
