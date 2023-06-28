@@ -150,6 +150,7 @@ def r_open_sap():
     return response
 
 
+# TODO: need to figure out how to handle the request
 @client_routes.route("/open_log", methods=["GET", "POST"])
 def r_open_log():
     os.system(r"C:\RA-Apps\AP-Proc\sap\log.ahk")
@@ -160,6 +161,6 @@ def r_open_log():
 @client_routes.route("/single_sap", methods=["GET", "POST"])
 def single_sap(script="Single Table SAP data"):
     table = request.args.get("table")
-    output = single_sap_data(table, server)
+    output = single_sap_data(table, server, request.method)
     response = handle_request(script, output)
     return response
