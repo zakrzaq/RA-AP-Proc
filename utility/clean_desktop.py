@@ -1,4 +1,4 @@
-def clean_desktop(server=False):
+def clean_desktop(server=False, method=None):
     import os, shutil, time
 
     start = time.time()
@@ -88,4 +88,4 @@ def clean_desktop(server=False):
 
     end = time.time()
     output.add(f"{pr.ok}Script completed: {elpased_time(end, start)}")
-    return end_script(server)
+    return end_script(server, method=method)

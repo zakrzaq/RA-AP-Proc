@@ -23,7 +23,6 @@ CORS(app)
 app.register_blueprint(client_routes)
 
 
-
 # API ROUTES
 from api.queries import get_json_data
 

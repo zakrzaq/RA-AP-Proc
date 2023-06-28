@@ -1,4 +1,4 @@
-def mif_soerf_check(server=False):
+def mif_soerf_check(server=False, method='GET'):
     import os
     import pandas as pd
 
@@ -62,4 +62,4 @@ def mif_soerf_check(server=False):
         )
     output.add(f"{pr.info}SOERFs Requests in the submission folder: {soerf_count} \n")
 
-    return end_script(server)
+    return end_script(server, method)
