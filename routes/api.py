@@ -21,7 +21,5 @@ def api_action_log():
     action_log_path = os.path.join(os.environ["DIR_LOG"], "action_log.txt")
     check_file(action_log_path, create=True)
     with open(action_log_path, "r") as file:
-        content = file.readlines()
-    for c in content:
-        c.replace("\n", "")
+        content = file.read().splitlines()
     return content
