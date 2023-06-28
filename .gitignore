@@ -32,6 +32,7 @@ tx.sap
 test*.ahk
 test*.py
 **/log.txt
+logs/**
 
 
 # Node Specific
