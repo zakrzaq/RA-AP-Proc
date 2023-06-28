@@ -24,7 +24,7 @@ class Output:
         action_log_path = os.path.join(os.environ["DIR_LOG"], "action_log.txt")
         if not os.path.isfile(action_log_path):
             open(action_log_path, mode="a").close()
-        with open(action_log_path, "r") as file:
+        with open(action_log_path, "r", encoding="utf-8") as file:
             content = file.read()
         time_str = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         all_messages = "\n".join(self.messages) if self.messages else ""
