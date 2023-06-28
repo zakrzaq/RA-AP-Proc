@@ -1,4 +1,4 @@
-def am_emails(server=False, method='GET'):
+def am_emails(server=False, method="GET"):
     import os
 
     from utils.helpers import (

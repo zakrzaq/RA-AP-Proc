@@ -5,6 +5,7 @@ from api.queries import get_json_data
 
 api_routes = Blueprint("api", __name__)
 
+
 @api_routes.route("/api/all", methods=["GET"])
 @cross_origin()
 def api_all():

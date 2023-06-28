@@ -41,6 +41,6 @@ def check_daily_report(server=False, method=None):
         output.add(f"{pr.file}Materials list file removed")
 
     if server:
-        return output.get() if method == 'POST' else output.get_markup()
+        return output.get() if method == "POST" else output.get_markup()
     else:
         await_char()

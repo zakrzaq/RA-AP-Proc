@@ -12,6 +12,7 @@ from scripts.proc_sap_data import proc_sap_data
 from scripts.sap_data import get_sap_data
 from scripts.single_sap_data import single_sap_data
 from sap.open import open_sap
+from state import output
 
 from utility.check_daily_report import check_daily_report
 from utility.clean_desktop import clean_desktop
@@ -140,13 +141,16 @@ def r_pm_emails(script="Generate PM CCC, Localization & GTS Requests"):
 # SYS ROUTES
 
 
-@client_routes.route("/open_sap")
+@client_routes.route("/open_sap", methods=["GET", "POST"])
 def r_open_sap():
     open_sap()
-    return render_template("index.html")
+    script = "Open SAP"
+    output = ["SAP opened"]
+    response = handle_request(script, output)
+    return response
 
 
-@client_routes.route("/open_log")
+@client_routes.route("/open_log", methods=["GET", "POST"])
 def r_open_log():
     os.system(r"C:\RA-Apps\AP-Proc\sap\log.ahk")
     return redirect("/")

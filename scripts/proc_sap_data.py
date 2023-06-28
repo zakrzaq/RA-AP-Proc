@@ -24,7 +24,7 @@ from state.table import (
 )
 
 
-def proc_sap_data(server=False, method='GET'):
+def proc_sap_data(server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()

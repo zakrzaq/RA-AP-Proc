@@ -23,7 +23,7 @@ import utils.prompts as pr
 from utils.submissions import send_extensions
 
 
-def mif_soerf(server=False, method='GET'):
+def mif_soerf(server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()

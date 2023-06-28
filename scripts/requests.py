@@ -17,7 +17,7 @@ from state.log import log
 from state.time import timer
 
 
-def get_requests(server=False, method='GET'):
+def get_requests(server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()

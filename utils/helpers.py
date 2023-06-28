@@ -48,7 +48,7 @@ def end_script(server, method=None):
     if not server:
         await_char()
     else:
-        return output.get() if method == 'POST' else output.get_markup()
+        return output.get() if method == "POST" else output.get_markup()
 
 
 def format_pce_price_dates(x: str) -> str:

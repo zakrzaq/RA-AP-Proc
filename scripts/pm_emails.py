@@ -16,7 +16,7 @@ from utils.submissions import send_email
 from data.email_notifications import ccc_email, inhts_email, local_email
 
 
-def pm_emails(server=False, method='GET'):
+def pm_emails(server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()

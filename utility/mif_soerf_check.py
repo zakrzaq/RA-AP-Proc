@@ -1,4 +1,4 @@
-def mif_soerf_check(server=False, method='GET'):
+def mif_soerf_check(server=False, method="GET"):
     import os
     import pandas as pd
 

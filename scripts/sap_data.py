@@ -14,7 +14,7 @@ from state.time import timer
 from sap import ih09, se16, gts, sqvi, text, open
 
 
-def get_sap_data(server=False, method='GET', mode="all"):
+def get_sap_data(server=False, method="GET", mode="all"):
     timer.start()
     use_dotenv()
     use_logger()

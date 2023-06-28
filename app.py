@@ -24,4 +24,3 @@ CORS(app)
 
 app.register_blueprint(client_routes)
 app.register_blueprint(api_routes)
-
