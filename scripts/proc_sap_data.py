@@ -24,7 +24,7 @@ from state.table import (
 )
 
 
-def proc_sap_data(server=False):
+def proc_sap_data(server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()
@@ -117,4 +117,4 @@ def proc_sap_data(server=False):
 
     timer.stop()
     output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
-    return end_script(server)
+    return end_script(server, method)

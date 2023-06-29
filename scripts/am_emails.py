@@ -1,4 +1,4 @@
-def am_emails(server=False):
+def am_emails(server=False, method="GET"):
     import os
 
     from utils.helpers import (
@@ -127,4 +127,4 @@ def am_emails(server=False):
 
     timer.stop()
     output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
-    return end_script(server)
+    return end_script(server, method)

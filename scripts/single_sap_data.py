@@ -7,7 +7,7 @@ from state.time import timer
 from sap import ih09, se16, gts, sqvi, text, open
 
 
-def single_sap_data(table: str | None, server=False):
+def single_sap_data(table: str | None, server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()
@@ -49,4 +49,4 @@ def single_sap_data(table: str | None, server=False):
 
     timer.stop()
     output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
-    return end_script(server)
+    return end_script(server, method)

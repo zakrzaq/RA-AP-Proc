@@ -13,7 +13,7 @@ from state.log import log
 from state.time import timer
 
 
-def pm_status(server=False):
+def pm_status(server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()
@@ -160,4 +160,4 @@ def pm_status(server=False):
 
     timer.stop()
     output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
-    return end_script(server)
+    return end_script(server, method)

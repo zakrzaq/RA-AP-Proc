@@ -16,7 +16,7 @@ from utils.submissions import send_email
 from data.email_notifications import ccc_email, inhts_email, local_email
 
 
-def pm_emails(server=False):
+def pm_emails(server=False, method="GET"):
     timer.start()
     use_dotenv()
     use_logger()
@@ -182,4 +182,4 @@ def pm_emails(server=False):
 
     timer.stop()
     output.add(f"{pr.ok}Script completed: {timer.get_elapsed_time()}")
-    return end_script(server)
+    return end_script(server, method)

@@ -44,10 +44,11 @@ def use_logger():
     logging.basicConfig(filename=os.path.join("logs", "log.txt"), level=logging.DEBUG)
 
 
-def end_script(server):
+def end_script(server, method=None):
     if not server:
         await_char()
-    return output.get_markup()
+    else:
+        return output.get() if method == "POST" else output.get_markup()
 
 
 def format_pce_price_dates(x: str) -> str:
